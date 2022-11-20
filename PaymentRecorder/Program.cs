@@ -1,17 +1,14 @@
-var builder = WebApplication.CreateBuilder(args);
+using PaymentRecorder.Extensions;
 
-// Add services to the container.
+namespace PaymentRecorder
+{
+    public static class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var host = WebHostFactory.BuildWithStartup();
 
-builder.Services.AddControllers();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+            await (await host.MigrateAndSeedDbAsync()).RunAsync();
+        }
+    }
+}

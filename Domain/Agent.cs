@@ -10,4 +10,7 @@ public class Agent : BaseEntity
     public LegalAgentType Type { get; set; }
 
     public long FiscalCode { get; set; }
+
+    public ICollection<Account> Accounts { get; set; }
+    
 }

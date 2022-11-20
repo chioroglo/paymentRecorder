@@ -8,13 +8,13 @@ public class Order : BaseEntity
 
     public decimal Amount { get; set; }
 
-    public string CurrencyCode { get; set; }
+    public CurrencyCode CurrencyCode { get; set; }
 
     public string Destination { get; set; }
 
-    public Account RecipientAccount { get; set; }
+    public Account IssuerAccount { get; set; }
 
-    public long RecipientAccountId { get; set; }
+    public long IssuerAccountId { get; set; }
 
     public Account BeneficiaryAccount { get; set; }
 
@@ -22,8 +22,12 @@ public class Order : BaseEntity
 
     public DateTime EmissionDate { get; set; }
 
-    public DateTime ReceiptDate { get; set; }
+    public DateTime IssueDate { get; set; }
 
     public DateTime? ExecutionDate { get; set; }
+    
+    public string Timezone { get; set; }
+
+    public Transaction Transaction { get; set; }
 
 }
