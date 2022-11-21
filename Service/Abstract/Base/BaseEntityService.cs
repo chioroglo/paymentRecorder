@@ -34,7 +34,7 @@ public abstract class BaseEntityService<TEntity> : IBaseEntityService<TEntity> w
         var query = _db.IncludeProperties(includeProperties);
 
         return await query.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
-               throw new EntityValidationException(EntityWasNotFoundBecause<TEntity>($"of ID:{id} does not exist"));
+               throw new EntityValidationException(EntityWasNotFoundBecause<TEntity>($" ID:{id} does not exist"));
     }
     
     public abstract Task<TEntity> Add(TEntity entity, CancellationToken cancellationToken);

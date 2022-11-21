@@ -40,9 +40,11 @@ public class Startup
             app.UseSwaggerUI();
         }
 
+
         app.UseHttpsRedirection();
 
         app.UseRouting();
+        app.UseExceptionHandling();
 
         app.UseEndpoints(endpoints =>
         {
