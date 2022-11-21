@@ -1,5 +1,6 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore;
+using PaymentRecorder.Extensions;
 
 namespace PaymentRecorder;
 
@@ -21,6 +22,7 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.InitializeServices();
 
         services.AddDbContext<EfDbContext>(options =>
         {
