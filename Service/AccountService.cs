@@ -25,7 +25,7 @@ public class AccountService : BaseEntityService<Account>, IAccountService
     }
 
 
-    public override async Task RemoveAsync(long id, CancellationToken cancellationToken)
+    public override async Task RemoveAsync(long id,Guid version, CancellationToken cancellationToken)
     {
         var entity = await _db.Accounts.FirstOrDefaultAsync(e => e.Id == id,cancellationToken) ?? 
                      throw new EntityValidationException(EntityWasNotFoundBecause<Account>($"of ID:{id} does not exist"));

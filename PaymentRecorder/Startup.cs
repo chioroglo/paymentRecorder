@@ -48,9 +48,10 @@ public class Startup
 
         app.UseRouting();
 
+        app.UseCustomExceptionHandling();
+        app.UseVersionHeaderChecker();
         app.UseDbTransactionPerRequest();
-        app.UseExceptionHandling();
-
+        
 
         app.UseEndpoints(endpoints =>
         {

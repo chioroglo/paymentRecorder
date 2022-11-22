@@ -9,6 +9,4 @@ public class AgentDto
     public LegalAgentType Type { get; set; }
 
     public long FiscalCode { get; set; }
-    
-    public string Version { get; set; }
 }

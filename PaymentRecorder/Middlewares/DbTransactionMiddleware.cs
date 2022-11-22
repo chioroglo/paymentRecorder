@@ -1,4 +1,5 @@
 ﻿using Data;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
 namespace PaymentRecorder.Middlewares
@@ -22,12 +23,12 @@ namespace PaymentRecorder.Middlewares
                 return;
             }
 
-            await using (var transaction = await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead))
+            await using (var transaction = await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead,httpContext.RequestAborted))
             {
                 await _next(httpContext);
-
-                await db.SaveChangesAsync();
-                await transaction.CommitAsync();
+                
+                await db.SaveChangesAsync(httpContext.RequestAborted);
+                await transaction.CommitAsync(httpContext.RequestAborted);
             }
         }
     }

@@ -26,7 +26,8 @@ public class ExceptionHandlingMiddleware
         {
             switch (e)
             {
-                case EntityValidationException:
+                case FormatException:
+                case EntityValidationException: 
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     break;

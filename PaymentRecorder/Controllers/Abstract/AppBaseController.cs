@@ -8,7 +8,7 @@ namespace PaymentRecorder.Controllers.Abstract
     public abstract class AppBaseController : ControllerBase
     {
         protected readonly IMapper Mapper;
-        protected readonly UriBuilder UriBuilder;
+        //protected readonly UriBuilder UriBuilder;
 
         protected AppBaseController(IMapper mapper)
         {

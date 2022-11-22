@@ -24,6 +24,8 @@ namespace PaymentRecorder.Controllers
         {
             var entity = await _agentService.GetByIdAsync(id,cancellationToken);
 
+
+            Response.Headers.ETag = entity.Version.ToString();
             return Ok(Mapper.Map<AgentModel>(entity));
         }
         
@@ -35,27 +37,29 @@ namespace PaymentRecorder.Controllers
 
             var createdEntity = await _agentService.Add(dto,cancellationToken);
 
-            UriBuilder.Path = $"{createdEntity.Id}";
-            return CreatedAtAction("",Mapper.Map<AgentModel>(createdEntity));
+            Response.Headers.ETag = createdEntity.Version.ToString();
+            return Ok(Mapper.Map<AgentModel>(createdEntity));
         }
-
+        
         [HttpPut("{id:long}")]
-        public async Task<ActionResult<AgentModel>> EditExistingAgentById([FromBody] AgentDto agent,long id, CancellationToken cancellationToken)
+        public async Task<ActionResult<AgentModel>> EditExistingAgentById([FromBody] AgentDto agent, [FromRoute] long id, CancellationToken cancellationToken)
         {
             var dto = Mapper.Map<Agent>(agent);
-
+            dto.Version = Guid.Parse(HttpContext.Request.Headers.IfMatch);
             dto.Id = id;
             
 
             var updatedEntity = await _agentService.UpdateAsync(dto,cancellationToken);
 
+
+            Response.Headers.ETag = updatedEntity.Version.ToString();
             return StatusCode((int)HttpStatusCode.OK, Mapper.Map<AgentModel>(updatedEntity));
         }
 
         [HttpDelete("{id:long}")]
-        public async Task<ActionResult> DeleteAgentById(long id, CancellationToken cancellationToken)
+        public async Task<ActionResult> DeleteAgentById([FromQuery] string version,[FromRoute]long id, CancellationToken cancellationToken)
         {
-            await _agentService.RemoveAsync(id, cancellationToken);
+            await _agentService.RemoveAsync(id, Guid.Parse(version), cancellationToken);
 
             return StatusCode((int)HttpStatusCode.NoContent);
         }

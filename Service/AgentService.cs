@@ -25,13 +25,18 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
         return entity;
     }
 
-    public override async Task RemoveAsync(long id, CancellationToken cancellationToken)
+
+    public override async Task RemoveAsync(long id, Guid version, CancellationToken cancellationToken)
     {
-        var entity = await _db.Agents.FirstOrDefaultAsync(e => e.Id == id,cancellationToken) ??
+        var entity = await _db.Agents.FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                      throw new EntityValidationException(EntityWasNotFoundBecause<Agent>($"of ID:{id} does not exist"));
 
+
         _db.Remove(entity);
+
+        //await _db.SaveChangesAsync(cancellationToken);
     }
+
 
     public override async Task<Agent> UpdateAsync(Agent entity, CancellationToken cancellationToken)
     {
@@ -49,7 +54,7 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
         entityInDatabase.Type = entity.Type;
         entityInDatabase.Version = Guid.NewGuid();
         
-
+        
         _db.Entry(entityInDatabase).State = EntityState.Modified;
         
         await _db.SaveChangesAsync(cancellationToken);
