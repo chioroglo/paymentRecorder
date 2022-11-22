@@ -29,6 +29,8 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
     {
         var entity = await _db.Agents.FirstOrDefaultAsync(e => e.Id == id,cancellationToken) ??
                      throw new EntityValidationException(EntityWasNotFoundBecause<Agent>($"of ID:{id} does not exist"));
+
+        _db.Remove(entity);
     }
 
     public override async Task<Agent> UpdateAsync(Agent entity, CancellationToken cancellationToken)

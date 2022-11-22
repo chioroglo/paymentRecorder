@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace PaymentRecorder.Controllers.Abstract
 {
@@ -6,6 +7,11 @@ namespace PaymentRecorder.Controllers.Abstract
     [ApiController]
     public abstract class AppBaseController : ControllerBase
     {
+        protected readonly IMapper Mapper;
 
+        protected AppBaseController(IMapper mapper)
+        {
+            Mapper = mapper;
+        }
     }
 }

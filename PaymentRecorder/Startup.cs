@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Common.MappingProfiles;
+using Data;
 using Microsoft.EntityFrameworkCore;
 using PaymentRecorder.Extensions;
 
@@ -28,6 +29,8 @@ public class Startup
         {
             options.UseSqlServer(connectionString);
         },ServiceLifetime.Transient);
+
+        services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
 
     }
 
