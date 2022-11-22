@@ -9,6 +9,7 @@ using Service.Abstract;
 
 namespace PaymentRecorder.Controllers
 {
+    
     [Route("/agents/")]
     public class AgentController : AppBaseController
     {
@@ -19,6 +20,8 @@ namespace PaymentRecorder.Controllers
             _agentService = agentService;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id:long}")]
         public async Task<ActionResult<AgentModel>> GetByIdAsync(long id, CancellationToken cancellationToken)
         {
@@ -28,19 +31,23 @@ namespace PaymentRecorder.Controllers
             Response.Headers.ETag = entity.Version.ToString();
             return Ok(Mapper.Map<AgentModel>(entity));
         }
-        
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult<AgentModel>> AddNewAgent([FromBody] AgentDto agent, CancellationToken cancellationToken)
         {
             var dto = Mapper.Map<Agent>(agent);
-                
 
             var createdEntity = await _agentService.Add(dto,cancellationToken);
 
             Response.Headers.ETag = createdEntity.Version.ToString();
             return Ok(Mapper.Map<AgentModel>(createdEntity));
         }
-        
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id:long}")]
         public async Task<ActionResult<AgentModel>> EditExistingAgentById([FromBody] AgentDto agent, [FromRoute] long id, CancellationToken cancellationToken)
         {
@@ -56,10 +63,13 @@ namespace PaymentRecorder.Controllers
             return StatusCode((int)HttpStatusCode.OK, Mapper.Map<AgentModel>(updatedEntity));
         }
 
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpDelete("{id:long}")]
-        public async Task<ActionResult> DeleteAgentById([FromQuery] string version,[FromRoute]long id, CancellationToken cancellationToken)
+        public async Task<ActionResult> DeleteAgentById([FromRoute]long id, CancellationToken cancellationToken)
         {
-            await _agentService.RemoveAsync(id, Guid.Parse(version), cancellationToken);
+            await _agentService.RemoveAsync(id, Guid.Parse(HttpContext.Request.Headers.IfMatch), cancellationToken);
 
             return StatusCode((int)HttpStatusCode.NoContent);
         }
