@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Common.Exceptions;
 using Common.Models.Error;
+using Microsoft.EntityFrameworkCore;
 
 namespace PaymentRecorder.Middlewares;
 
@@ -9,7 +10,7 @@ public class ExceptionHandlingMiddleware
 
     private readonly RequestDelegate _next;
     
-    public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+    public ExceptionHandlingMiddleware(RequestDelegate next)
     {
         _next = next;
     }
@@ -30,6 +31,11 @@ public class ExceptionHandlingMiddleware
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     break;
                 }
+                case DbUpdateConcurrencyException:
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.Conflict;
+                    break;
+                }
                 case OperationCanceledException:
                 {
                     return;
@@ -42,7 +48,7 @@ public class ExceptionHandlingMiddleware
             }
 
             await CreateExceptionResponseAsync(context, e);
-        }
+        };
     }
 
     private Task CreateExceptionResponseAsync(HttpContext context, Exception exception)

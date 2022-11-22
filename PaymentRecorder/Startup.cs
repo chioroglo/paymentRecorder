@@ -47,7 +47,10 @@ public class Startup
         app.UseHttpsRedirection();
 
         app.UseRouting();
+
+        app.UseDbTransactionPerRequest();
         app.UseExceptionHandling();
+
 
         app.UseEndpoints(endpoints =>
         {

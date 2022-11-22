@@ -8,4 +8,9 @@ public static class MiddlewaresInitializers
     {
         return app.UseMiddleware<ExceptionHandlingMiddleware>();
     }
+
+    public static IApplicationBuilder UseDbTransactionPerRequest(this IApplicationBuilder app)
+    {
+        return app.UseMiddleware<DbTransactionMiddleware>();
+    }
 }

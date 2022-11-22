@@ -10,7 +10,12 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
     {
         builder.ToTable(nameof(Transaction));
 
-        builder.HasKey(e => e.Id);
-        
+
+        builder.Property(e => e.Version)
+            .IsConcurrencyToken()
+            .HasDefaultValueSql(EntityConfigurationConstants.SqlServerNewGuidCommand);
+
+
+        builder.Property(e => e.Version).IsConcurrencyToken();
     }
 }

@@ -13,6 +13,12 @@ public class BankConfiguration : IEntityTypeConfiguration<Bank>
 
         builder.HasKey(e => e.Id);
 
+
+        builder.Property(e => e.Version)
+            .IsConcurrencyToken()
+            .HasDefaultValueSql(EntityConfigurationConstants.SqlServerNewGuidCommand);
+
+
         builder.Property(e => e.Code).
             HasMaxLength(BankValidationConstraints.BankCodeLengthFixed).
             IsFixedLength();

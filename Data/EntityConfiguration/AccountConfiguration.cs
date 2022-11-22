@@ -2,6 +2,7 @@
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
 namespace Data.EntityConfiguration;
 
@@ -12,6 +13,10 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.ToTable(nameof(Account));
 
         builder.HasKey(e => e.Id);
+
+        builder.Property(e => e.Version)
+            .IsConcurrencyToken()
+            .HasDefaultValueSql(EntityConfigurationConstants.SqlServerNewGuidCommand);
 
         builder.HasMany(e => e.IncomingOrders)
             .WithOne(e => e.BeneficiaryAccount)

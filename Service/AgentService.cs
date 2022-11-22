@@ -38,13 +38,22 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
         var entityInDatabase = await _db.Agents.FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken) ??
                                throw new EntityValidationException(EntityWasNotFoundBecause<Agent>($"of ID:{entity.Id} does not exist"));
 
+
+        if (entityInDatabase.Version != entity.Version)
+        {
+            throw new DbUpdateConcurrencyException("concurrency conflict, please update your entity");
+        }
+
         entityInDatabase.Name = entity.Name;
         entityInDatabase.FiscalCode = entity.FiscalCode;
         entityInDatabase.Type = entity.Type;
+        entityInDatabase.Version = Guid.NewGuid();
+        
 
         _db.Entry(entityInDatabase).State = EntityState.Modified;
-
+        
         await _db.SaveChangesAsync(cancellationToken);
+
 
         return entityInDatabase;
     }

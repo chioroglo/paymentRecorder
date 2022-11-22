@@ -13,6 +13,11 @@ public class AgentConfiguration : IEntityTypeConfiguration<Agent>
 
         builder.HasKey(e => e.Id);
 
+
+        builder.Property(e => e.Version)
+            .IsConcurrencyToken()
+            .HasDefaultValueSql(EntityConfigurationConstants.SqlServerNewGuidCommand);
+
         builder.Property(e => e.Name)
             .HasMaxLength(CommonValidationConstraints.NameMaxLength);
 

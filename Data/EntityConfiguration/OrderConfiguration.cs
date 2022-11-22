@@ -13,6 +13,10 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder.HasKey(e => e.Id);
 
+        builder.Property(e => e.Version)
+            .IsConcurrencyToken()
+            .HasDefaultValueSql(EntityConfigurationConstants.SqlServerNewGuidCommand);
+
         builder.Property(e => e.CurrencyCode);
 
         builder.Property(e => e.Destination)
