@@ -13,6 +13,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder.HasKey(e => e.Id);
 
+        builder.HasIndex(e => e.Number)
+            .IsUnique();
+
         builder.Property(e => e.Version)
             .IsConcurrencyToken()
             .HasDefaultValueSql(EntityConfigurationConstants.SqlServerNewGuidCommand);

@@ -34,6 +34,18 @@ namespace PaymentRecorder.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet("get-by-fiscal-code/{fiscalCode:long}")]
+        public async Task<ActionResult<AgentModel>> GetByFiscalCodeAsync(long fiscalCode, CancellationToken cancellationToken)
+        {
+            var entity = await _agentService.GetByFiscalCodeWithAccountsAsync(fiscalCode,cancellationToken);
+
+            Response.Headers.ETag = entity.Version.ToString();
+
+            return Ok(Mapper.Map<AgentModel>(entity));
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult<AgentModel>> AddNewAgent([FromBody] AgentDto agent, CancellationToken cancellationToken)
         {

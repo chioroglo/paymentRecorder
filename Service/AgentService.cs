@@ -1,7 +1,9 @@
 ﻿using Common.Exceptions;
 using Data;
+using Data.Extensions;
 using Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Service.Abstract;
 using Service.Abstract.Base;
 using static Common.Exceptions.ExceptionMessages.ValidationExceptionMessages;
@@ -10,10 +12,19 @@ namespace Service;
 
 public class AgentService : BaseEntityService<Agent>, IAgentService
 {
+    private IIncludableQueryable<Agent, ICollection<Account>> _agentsWithAccounts;
 
     public AgentService(EfDbContext db) : base(db)
     {
+        _agentsWithAccounts = _db.Agents.Include(e => e.Accounts);
+    }
 
+    public async Task<Agent> GetByFiscalCodeWithAccountsAsync(long fiscalCode, CancellationToken cancellationToken)
+    {
+        var entityInDatabase = await _agentsWithAccounts.Include(e => e.Accounts).FirstOrDefaultAsync(e => e.FiscalCode == fiscalCode, cancellationToken) ??
+                               throw new EntityValidationException(EntityWasNotFoundBecause<Agent>($"with FiscalCode: {fiscalCode} does not exist"));
+
+        return entityInDatabase;
     }
 
     public override async Task<Agent> Add(Agent entity, CancellationToken cancellationToken)
@@ -34,7 +45,7 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
 
         _db.Remove(entity);
 
-        //await _db.SaveChangesAsync(cancellationToken);
+        await _db.SaveChangesAsync(cancellationToken);
     }
 
 

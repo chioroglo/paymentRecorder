@@ -5,5 +5,5 @@ namespace Service.Abstract;
 
 public interface IAgentService : IBaseEntityService<Agent>
 {
-    
+    Task<Agent> GetByFiscalCodeWithAccountsAsync(long fiscalCode, CancellationToken cancellationToken);
 }

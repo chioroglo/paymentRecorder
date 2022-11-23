@@ -13,6 +13,8 @@ public class AgentConfiguration : IEntityTypeConfiguration<Agent>
 
         builder.HasKey(e => e.Id);
 
+        builder.HasIndex(e => e.FiscalCode)
+            .IsUnique();
 
         builder.Property(e => e.Version)
             .IsConcurrencyToken()

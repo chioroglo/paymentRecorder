@@ -14,6 +14,9 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         builder.HasKey(e => e.Id);
 
+        builder.HasIndex(e => e.AccountCode)
+            .IsUnique();
+
         builder.Property(e => e.Version)
             .IsConcurrencyToken()
             .HasDefaultValueSql(EntityConfigurationConstants.SqlServerNewGuidCommand);

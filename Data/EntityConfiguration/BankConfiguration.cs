@@ -13,6 +13,8 @@ public class BankConfiguration : IEntityTypeConfiguration<Bank>
 
         builder.HasKey(e => e.Id);
 
+        builder.HasIndex(e => e.Code)
+            .IsUnique();
 
         builder.Property(e => e.Version)
             .IsConcurrencyToken()
