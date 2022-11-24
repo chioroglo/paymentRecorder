@@ -27,6 +27,11 @@ public class BankService : BaseEntityService<Bank>, IBankService
 
     public override async Task<Bank> Add(Bank entity, CancellationToken cancellationToken)
     {
+        if ((await _db.Banks.FirstOrDefaultAsync(e => e.Code == entity.Code,cancellationToken) == null))
+        {
+            throw new EntityValidationException(EntityCannotBeCreatedBecause<Bank>($"has code, that is already assigned to another {nameof(Bank)} in database"));
+        }
+
         await _db.AddAsync(entity, cancellationToken);
 
         await _db.SaveChangesAsync(cancellationToken);
@@ -36,9 +41,19 @@ public class BankService : BaseEntityService<Bank>, IBankService
 
     public override async Task RemoveAsync(long id, Guid version, CancellationToken cancellationToken)
     {
-        var entity = await _db.Banks.FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
+
+        var entity = await _db.Banks.Include(e => e.Accounts).FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                      throw new EntityValidationException(EntityWasNotFoundBecause<Bank>($"of ID:{id} does not exist"));
 
+        if (entity.Version != version)
+        {
+            throw new DbUpdateConcurrencyException("Concurrency conflict, please update your entity!");
+        }
+
+        if (entity.Accounts.Count > 0)
+        {
+            throw new EntityValidationException(EntityCannotBeDeletedBecause<Bank>($"of name {entity.Name} has associated bank accounts"));
+        }
 
         _db.Remove(entity);
 

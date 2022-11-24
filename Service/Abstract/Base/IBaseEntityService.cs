@@ -7,6 +7,8 @@ public interface IBaseEntityService<TEntity> where TEntity : BaseEntity
 {
     Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
 
+    Task<IEnumerable<TEntity>> GetAllWithIncludeAsync(CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
+
     Task<TEntity> GetByIdAsync(long id, CancellationToken cancellationToken);
 
     Task<TEntity> GetByIdWithIncludeAsync(long id, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);

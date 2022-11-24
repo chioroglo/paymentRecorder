@@ -28,6 +28,11 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
 
     public override async Task<Agent> Add(Agent entity, CancellationToken cancellationToken)
     {
+        if (await (_db.Agents.FirstOrDefaultAsync(e => e.FiscalCode == entity.FiscalCode, cancellationToken)) == null)
+        {
+            throw new EntityValidationException(EntityCannotBeCreatedBecause<Agent>($"has fiscal code, that is already assigned to another {nameof(Agent)}"));
+        }
+
         await _db.AddAsync(entity,cancellationToken);
 
         await _db.SaveChangesAsync(cancellationToken);
@@ -38,8 +43,13 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
 
     public override async Task RemoveAsync(long id, Guid version, CancellationToken cancellationToken)
     {
-        var entity = await _db.Agents.FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
+        var entity = await _db.Agents.Include(e => e.Accounts).FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                      throw new EntityValidationException(EntityWasNotFoundBecause<Agent>($"of ID:{id} does not exist"));
+
+        if (entity.Accounts.Count > 0)
+        {
+            throw new EntityValidationException(EntityCannotBeDeletedBecause<Bank>($"of name {entity.Name} has associated bank accounts"));
+        }
 
 
         _db.Remove(entity);

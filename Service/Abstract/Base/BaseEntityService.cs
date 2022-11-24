@@ -22,6 +22,13 @@ public abstract class BaseEntityService<TEntity> : IBaseEntityService<TEntity> w
         return await _db.Set<TEntity>().AsNoTracking().ToListAsync(cancellationToken);
     }
 
+    public async Task<IEnumerable<TEntity>> GetAllWithIncludeAsync(CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties)
+    {
+        var query = _db.IncludeProperties(includeProperties);
+
+        return await _db.Set<TEntity>().AsNoTracking().ToListAsync(cancellationToken);
+    }
+
     public async Task<TEntity> GetByIdAsync(long id, CancellationToken cancellationToken)
     {
         return await _db.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??

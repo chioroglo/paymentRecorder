@@ -11,4 +11,6 @@ public static class ValidationExceptionMessages
     public static string EntityCannotBeCreatedBecause<TEntity>(string reason) where TEntity : BaseEntity => $"{typeof(TEntity).Name} can not be created, because {reason}";
 
     public static string EntityCannotBeModifiedBecause<TEntity>(string reason) where TEntity : BaseEntity => $"{typeof(TEntity).Name} can not be modified, because {reason}";
+
+    public static string EntityCannotBeDeletedBecause<TEntity>(string reason) where TEntity : BaseEntity => $"{typeof(TEntity).Name} can not be deleted,because {reason}";
 }
