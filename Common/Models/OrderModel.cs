@@ -11,6 +11,8 @@ public class OrderModel : BaseModel
 
     public CurrencyCode CurrencyCode { get; set; }
 
+    public string CurrencyName { get; set; }
+
     public string Destination { get; set; }
 
     public AccountModel IssuerAccount { get; set; }

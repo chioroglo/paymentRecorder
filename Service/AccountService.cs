@@ -10,6 +10,7 @@ namespace Service;
 
 public class AccountService : BaseEntityService<Account>, IAccountService
 {
+
     public AccountService(EfDbContext db) : base(db)
     {
 
@@ -17,6 +18,15 @@ public class AccountService : BaseEntityService<Account>, IAccountService
 
     public override async Task<Account> Add(Account entity, CancellationToken cancellationToken)
     {
+
+        _ = await _db.Banks.FirstOrDefaultAsync(e => e.Id == entity.BankId, cancellationToken) ??
+                   throw new EntityValidationException(
+                       EntityCannotBeCreatedBecause<Bank>($"of ID:{entity.BankId} does not exist"));
+
+        _ = await _db.Agents.FirstOrDefaultAsync(e => e.Id == entity.AgentId, cancellationToken) ??
+                    throw new EntityValidationException(
+                        EntityCannotBeCreatedBecause<Agent>($"of ID:{entity.AgentId} does not exist"));
+
         await _db.Accounts.AddAsync(entity, cancellationToken);
 
         await _db.SaveChangesAsync(true,cancellationToken);
@@ -36,10 +46,27 @@ public class AccountService : BaseEntityService<Account>, IAccountService
 
     public override async Task<Account> UpdateAsync(Account entity, CancellationToken cancellationToken)
     {
-        //var entityInDatabase = await _db.Accounts.FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken) ?? 
-        //                       throw new EntityValidationException(EntityWasNotFoundBecause<Account>($"of ID:{entity.Id} does not exist"));
-        
+        var entityInDatabase = await _db.Accounts.FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken) ?? 
+                               throw new EntityValidationException(EntityCannotBeModifiedBecause<Account>($"of ID:{entity.Id} does not exist"));
 
-        throw new NotImplementedException();
+
+        _ = await _db.Banks.FirstOrDefaultAsync(e => e.Id == entity.BankId, cancellationToken) ??
+            throw new EntityValidationException(
+                EntityCannotBeModifiedBecause<Bank>($"of ID:{entity.BankId} does not exist"));
+
+        _ = await _db.Agents.FirstOrDefaultAsync(e => e.Id == entity.AgentId, cancellationToken) ??
+            throw new EntityValidationException(
+                EntityCannotBeModifiedBecause<Agent>($"of ID:{entity.AgentId} does not exist"));
+
+        entityInDatabase.AccountCode = entity.AccountCode;
+        entityInDatabase.AgentId = entity.AgentId;
+        entityInDatabase.BankId = entity.BankId;
+        entityInDatabase.Version = Guid.NewGuid();
+
+        _db.Entry(entityInDatabase).State = EntityState.Modified;
+
+        await _db.SaveChangesAsync(true, cancellationToken);
+
+        return entityInDatabase;
     }
 }

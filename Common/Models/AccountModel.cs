@@ -6,7 +6,7 @@ public class AccountModel : BaseModel
 {
     public string AccountCode { get; set; }
 
-    public string AgentName { get; set; }
+    public string OwnerName { get; set; }
 
     public long AgentFiscalCode { get; set; }
 

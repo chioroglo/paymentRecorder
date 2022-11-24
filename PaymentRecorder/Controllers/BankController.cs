@@ -4,7 +4,6 @@ using Common.Models;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using PaymentRecorder.Controllers.Abstract;
-using Service;
 using Service.Abstract;
 using System.Net;
 

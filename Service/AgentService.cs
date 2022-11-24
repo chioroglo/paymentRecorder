@@ -11,7 +11,7 @@ namespace Service;
 
 public class AgentService : BaseEntityService<Agent>, IAgentService
 {
-    private IIncludableQueryable<Agent, ICollection<Account>> _agentsWithAccounts;
+    private readonly IIncludableQueryable<Agent, ICollection<Account>> _agentsWithAccounts;
 
     public AgentService(EfDbContext db) : base(db)
     {
