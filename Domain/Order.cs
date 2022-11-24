@@ -1,4 +1,5 @@
 ﻿using Domain.Abstract;
+using Domain.Enum;
 
 namespace Domain;
 

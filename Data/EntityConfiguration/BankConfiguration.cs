@@ -1,4 +1,4 @@
-﻿using Data.ValidationConstraints;
+﻿using Common.ValidationConstraints;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -18,7 +18,7 @@ public class BankConfiguration : IEntityTypeConfiguration<Bank>
 
         builder.Property(e => e.Version)
             .IsConcurrencyToken()
-            .HasDefaultValueSql(EntityConfigurationConstants.SqlServerNewGuidCommand);
+            .HasDefaultValueSql(UtilSqlCommands.SqlServerNewGuidCommand);
 
 
         builder.Property(e => e.Code).
@@ -30,6 +30,6 @@ public class BankConfiguration : IEntityTypeConfiguration<Bank>
 
         builder.HasMany(e => e.Accounts)
             .WithOne(e => e.Bank)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

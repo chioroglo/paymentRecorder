@@ -1,4 +1,4 @@
-﻿namespace Data.ValidationConstraints;
+﻿namespace Common.ValidationConstraints;
 
 public static class AccountValidationConstraints
 {

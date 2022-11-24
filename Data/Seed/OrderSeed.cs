@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Seed;

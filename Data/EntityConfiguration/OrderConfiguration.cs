@@ -1,7 +1,8 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static Data.ValidationConstraints.OrderValidationConstraints;
+using static Common.ValidationConstraints.OrderValidationConstraints;
+
 
 namespace Data.EntityConfiguration;
 
@@ -18,7 +19,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder.Property(e => e.Version)
             .IsConcurrencyToken()
-            .HasDefaultValueSql(EntityConfigurationConstants.SqlServerNewGuidCommand);
+            .HasDefaultValueSql(UtilSqlCommands.SqlServerNewGuidCommand);
 
         builder.Property(e => e.CurrencyCode);
 
@@ -30,6 +31,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder.HasOne(e => e.Transaction)
             .WithOne(e => e.Order)
-            .HasForeignKey<Transaction>(e => e.OrderId);
+            .HasForeignKey<Transaction>(e => e.OrderId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

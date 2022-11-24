@@ -1,6 +1,5 @@
 ﻿using Common.Exceptions;
 using Data;
-using Data.Extensions;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -57,7 +56,7 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
 
         if (entityInDatabase.Version != entity.Version)
         {
-            throw new DbUpdateConcurrencyException("concurrency conflict, please update your entity");
+            throw new DbUpdateConcurrencyException("Concurrency conflict, please update your entity");
         }
 
         entityInDatabase.Name = entity.Name;

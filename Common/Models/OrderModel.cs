@@ -1,4 +1,5 @@
 ﻿using Common.Models.Base;
+using Domain.Enum;
 
 namespace Common.Models;
 

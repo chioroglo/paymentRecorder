@@ -1,4 +1,4 @@
-﻿using Data.ValidationConstraints;
+﻿using Common.ValidationConstraints;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -16,16 +16,20 @@ public class AgentConfiguration : IEntityTypeConfiguration<Agent>
         builder.HasIndex(e => e.FiscalCode)
             .IsUnique();
 
+        builder.Property(e => e.FiscalCode)
+            .HasMaxLength(AccountValidationConstraints.CodeLengthFixed)
+            .IsFixedLength();
+
         builder.Property(e => e.Version)
             .IsConcurrencyToken()
-            .HasDefaultValueSql(EntityConfigurationConstants.SqlServerNewGuidCommand);
+            .HasDefaultValueSql(UtilSqlCommands.SqlServerNewGuidCommand);
 
         builder.Property(e => e.Name)
             .HasMaxLength(CommonValidationConstraints.NameMaxLength);
 
         builder.HasMany(e => e.Accounts)
             .WithOne(e => e.Agent)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
     }
 }

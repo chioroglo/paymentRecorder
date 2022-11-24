@@ -7,7 +7,7 @@ namespace Common.MappingProfiles;
 
 public class AgentProfile : Profile
 {
-    public AgentProfile() : base()
+    public AgentProfile()
     {
         CreateMap<AgentDto, Agent>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))

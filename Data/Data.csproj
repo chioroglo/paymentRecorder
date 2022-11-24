@@ -21,11 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EntityConfiguration\" />
     <Folder Include="Extensions\" />
     <Folder Include="Seed\" />
   </ItemGroup>

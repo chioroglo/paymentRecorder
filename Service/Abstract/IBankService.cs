@@ -5,5 +5,5 @@ namespace Service.Abstract;
 
 public interface IBankService : IBaseEntityService<Bank>
 {
-    
+    Task<Bank> GetByCodeAsync(string bankCode, CancellationToken cancellationToken);
 }
