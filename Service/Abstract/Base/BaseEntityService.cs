@@ -49,5 +49,4 @@ public abstract class BaseEntityService<TEntity> : IBaseEntityService<TEntity> w
     public abstract Task RemoveAsync(long id,Guid version, CancellationToken cancellationToken);
 
     public abstract Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken);
-    
 }

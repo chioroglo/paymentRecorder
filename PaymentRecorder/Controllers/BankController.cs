@@ -48,8 +48,7 @@ namespace PaymentRecorder.Controllers
         public async Task<ActionResult<BankModel>> AddNewBank([FromBody] BankDto request, CancellationToken cancellationToken)
         {
             var dto = Mapper.Map<Bank>(request);
-
-            dto.Version = Guid.Parse(HttpContext.Request.Headers.IfMatch);
+            
 
             var entity = await _bankService.Add(dto, cancellationToken);
 

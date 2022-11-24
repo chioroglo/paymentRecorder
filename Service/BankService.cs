@@ -4,8 +4,9 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using Service.Abstract;
 using Service.Abstract.Base;
-
+using Service.Extensions;
 using static Common.Exceptions.ExceptionMessages.ValidationExceptionMessages;
+using static Service.Extensions.EntityValidationExtensions;
 
 namespace Service;
 
@@ -27,10 +28,7 @@ public class BankService : BaseEntityService<Bank>, IBankService
 
     public override async Task<Bank> Add(Bank entity, CancellationToken cancellationToken)
     {
-        if ((await _db.Banks.FirstOrDefaultAsync(e => e.Code == entity.Code,cancellationToken) == null))
-        {
-            throw new EntityValidationException(EntityCannotBeCreatedBecause<Bank>($"has code, that is already assigned to another {nameof(Bank)} in database"));
-        }
+        await ValidateForExistingBankCodeAsync(entity,cancellationToken);
 
         await _db.AddAsync(entity, cancellationToken);
 
@@ -45,10 +43,8 @@ public class BankService : BaseEntityService<Bank>, IBankService
         var entity = await _db.Banks.Include(e => e.Accounts).FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                      throw new EntityValidationException(EntityWasNotFoundBecause<Bank>($"of ID:{id} does not exist"));
 
-        if (entity.Version != version)
-        {
-            throw new DbUpdateConcurrencyException("Concurrency conflict, please update your entity!");
-        }
+        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entity.Version, version);
+
 
         if (entity.Accounts.Count > 0)
         {
@@ -65,11 +61,9 @@ public class BankService : BaseEntityService<Bank>, IBankService
         var entityInDatabase = await _db.Banks.FirstOrDefaultAsync(e => entity.Id == e.Id, cancellationToken) ??
                      throw new EntityValidationException(EntityWasNotFoundBecause<Bank>($"of ID:{entity.Id} does not exist"));
 
+        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entityInDatabase.Version,entity.Version);
 
-        if (entityInDatabase.Version != entity.Version)
-        {
-            throw new DbUpdateConcurrencyException("Concurrency conflict, please update your entity!");
-        }
+        await ValidateForExistingBankCodeAsync(entity, cancellationToken);
 
         entityInDatabase.Name = entity.Name;
         entityInDatabase.Code = entity.Code;
@@ -81,5 +75,12 @@ public class BankService : BaseEntityService<Bank>, IBankService
 
         return entityInDatabase;
     }
-    
+
+    private async Task ValidateForExistingBankCodeAsync(Bank entity, CancellationToken cancellationToken)
+    {
+        if (await _db.Banks.FirstOrDefaultAsync(e => e.Code == entity.Code && e.Id != entity.Id, cancellationToken) != null)
+        {
+            throw new EntityValidationException(EntityCannotBeCreatedBecause<Bank>($"has code, that is already assigned to another {nameof(Bank)} in database"));
+        }
+    }
 }

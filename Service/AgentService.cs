@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Service.Abstract;
 using Service.Abstract.Base;
+using Service.Extensions;
 using static Common.Exceptions.ExceptionMessages.ValidationExceptionMessages;
+using static Service.Extensions.EntityValidationExtensions;
 
 namespace Service;
 
@@ -28,7 +30,7 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
 
     public override async Task<Agent> Add(Agent entity, CancellationToken cancellationToken)
     {
-        if (await (_db.Agents.FirstOrDefaultAsync(e => e.FiscalCode == entity.FiscalCode, cancellationToken)) == null)
+        if (await (_db.Agents.FirstOrDefaultAsync(e => e.FiscalCode == entity.FiscalCode, cancellationToken)) != null)
         {
             throw new EntityValidationException(EntityCannotBeCreatedBecause<Agent>($"has fiscal code, that is already assigned to another {nameof(Agent)}"));
         }
@@ -45,13 +47,14 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
     {
         var entity = await _db.Agents.Include(e => e.Accounts).FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                      throw new EntityValidationException(EntityWasNotFoundBecause<Agent>($"of ID:{id} does not exist"));
+        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entity.Version, version);
 
         if (entity.Accounts.Count > 0)
         {
             throw new EntityValidationException(EntityCannotBeDeletedBecause<Bank>($"of name {entity.Name} has associated bank accounts"));
         }
 
-
+        
         _db.Remove(entity);
 
         await _db.SaveChangesAsync(cancellationToken);
@@ -62,12 +65,7 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
     {
         var entityInDatabase = await _db.Agents.FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken) ??
                                throw new EntityValidationException(EntityWasNotFoundBecause<Agent>($"of ID:{entity.Id} does not exist"));
-
-
-        if (entityInDatabase.Version != entity.Version)
-        {
-            throw new DbUpdateConcurrencyException("Concurrency conflict, please update your entity");
-        }
+        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entityInDatabase.Version,entity.Version);
 
         entityInDatabase.Name = entity.Name;
         entityInDatabase.FiscalCode = entity.FiscalCode;
