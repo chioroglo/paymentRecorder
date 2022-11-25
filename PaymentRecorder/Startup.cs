@@ -1,5 +1,7 @@
 ﻿using Common.MappingProfiles;
 using Data;
+using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PaymentRecorder.Extensions;
 
@@ -20,6 +22,8 @@ public class Startup
         string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
 
+        services.Configure<JWTConfiguration>(Configuration.GetSection("JWT"));
+
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -28,8 +32,13 @@ public class Startup
         services.AddDbContext<EfDbContext>(options =>
         {
             options.UseSqlServer(connectionString);
-        },ServiceLifetime.Transient);
+        }, ServiceLifetime.Transient);
 
+
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<EfDbContext>();
+
+        
         services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
 
     }

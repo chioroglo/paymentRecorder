@@ -1,17 +1,18 @@
 ﻿using System.Reflection;
 using Data.EntityConfiguration;
 using Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data;
 
-public class EfDbContext : DbContext
+public sealed class EfDbContext : IdentityDbContext<ApplicationUser>
 {
 
     // TODO add indexes in entity configuration
     public EfDbContext(DbContextOptions<EfDbContext> options) : base(options)
     {
-        
+        Database.Migrate();
     }
 
     public DbSet<Agent> Agents { get; set; }

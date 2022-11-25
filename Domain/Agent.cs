@@ -7,7 +7,7 @@ public class Agent : BaseEntity
 {
     public string Name { get; set; }
 
-    public LegalAgentType Type { get; set; }
+    public LegalAgentType TypeId { get; set; }
 
     public long FiscalCode { get; set; }
 

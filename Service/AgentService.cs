@@ -69,7 +69,7 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
 
         entityInDatabase.Name = entity.Name;
         entityInDatabase.FiscalCode = entity.FiscalCode;
-        entityInDatabase.Type = entity.Type;
+        entityInDatabase.TypeId = entity.TypeId;
         entityInDatabase.Version = Guid.NewGuid();
         
         

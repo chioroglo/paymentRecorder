@@ -13,5 +13,6 @@ public class SeedFacade
         await AccountSeed.Seed(dbContext);
         await OrderSeed.Seed(dbContext);
         await TransactionSeed.Seed(dbContext);
+        await IdentitySeed.Seed(dbContext);
     }
 }

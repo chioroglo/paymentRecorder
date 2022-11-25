@@ -15,19 +15,19 @@ public class AgentSeed
                 new Agent
                 {
                     Name = @"Alexandr Chioroglo",
-                    Type = LegalAgentType.Physical,
+                    TypeId = LegalAgentType.Physical,
                     FiscalCode = 2003500019060
                 },
                 new Agent
                 {
                     Name = @"Test SRL",
-                    Type = LegalAgentType.Juridical,
+                    TypeId = LegalAgentType.Juridical,
                     FiscalCode = 1400450042010
                 },
                 new Agent
                 {
                     Name = @"Philip Morris Sales & Marketing SRL",
-                    Type = LegalAgentType.Juridical,
+                    TypeId = LegalAgentType.Juridical,
                     FiscalCode = 1016600001027
                 }
             };
