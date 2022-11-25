@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Service.Abstract;
 using Service.Abstract.Base;
 using static Common.Exceptions.ExceptionMessages.ValidationExceptionMessages;
+using static Service.Extensions.EntityValidationExtensions;
 
 namespace Service;
 
@@ -29,7 +30,7 @@ public class AccountService : BaseEntityService<Account>, IAccountService
 
         await _db.Accounts.AddAsync(entity, cancellationToken);
 
-        await _db.SaveChangesAsync(true,cancellationToken);
+        await _db.SaveChangesAsync(cancellationToken);
 
         return entity;
     }
@@ -40,6 +41,8 @@ public class AccountService : BaseEntityService<Account>, IAccountService
         var entity = await _db.Accounts.FirstOrDefaultAsync(e => e.Id == id,cancellationToken) ?? 
                      throw new EntityValidationException(EntityWasNotFoundBecause<Account>($"of ID:{id} does not exist"));
 
+        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entity.Version,version);
+
         _db.Remove(entity);
         await _db.SaveChangesAsync(cancellationToken);
     }
@@ -49,6 +52,7 @@ public class AccountService : BaseEntityService<Account>, IAccountService
         var entityInDatabase = await _db.Accounts.FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken) ?? 
                                throw new EntityValidationException(EntityCannotBeModifiedBecause<Account>($"of ID:{entity.Id} does not exist"));
 
+        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entityInDatabase.Version,entity.Version);
 
         _ = await _db.Banks.FirstOrDefaultAsync(e => e.Id == entity.BankId, cancellationToken) ??
             throw new EntityValidationException(
@@ -65,7 +69,7 @@ public class AccountService : BaseEntityService<Account>, IAccountService
 
         _db.Entry(entityInDatabase).State = EntityState.Modified;
 
-        await _db.SaveChangesAsync(true, cancellationToken);
+        await _db.SaveChangesAsync(cancellationToken);
 
         return entityInDatabase;
     }

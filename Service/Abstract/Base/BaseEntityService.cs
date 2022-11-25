@@ -26,7 +26,7 @@ public abstract class BaseEntityService<TEntity> : IBaseEntityService<TEntity> w
     {
         var query = _db.IncludeProperties(includeProperties);
 
-        return await _db.Set<TEntity>().AsNoTracking().ToListAsync(cancellationToken);
+        return await query.AsNoTracking().ToListAsync(cancellationToken);
     }
 
     public async Task<TEntity> GetByIdAsync(long id, CancellationToken cancellationToken)
@@ -38,7 +38,7 @@ public abstract class BaseEntityService<TEntity> : IBaseEntityService<TEntity> w
     public async Task<TEntity> GetByIdWithIncludeAsync(long id, CancellationToken cancellationToken,
         params Expression<Func<TEntity, object>>[] includeProperties)
     {
-        var query = _db.IncludeProperties(includeProperties);
+        var query = _db.IncludeProperties<TEntity>(includeProperties);
 
         return await query.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                throw new EntityValidationException(EntityWasNotFoundBecause<TEntity>($" ID:{id} does not exist"));

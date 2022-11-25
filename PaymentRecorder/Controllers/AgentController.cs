@@ -10,7 +10,7 @@ using Service.Abstract;
 namespace PaymentRecorder.Controllers
 {
     
-    [Route("/agents/")]
+    [Route($"/api/{nameof(Agent)}")]
     public class AgentController : AppBaseController
     {
         private readonly IAgentService _agentService;

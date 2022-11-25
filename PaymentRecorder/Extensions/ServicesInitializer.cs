@@ -9,5 +9,6 @@ public static class ServicesInitializer
     {
         services.AddTransient<IAgentService, AgentService>();
         services.AddTransient<IBankService, BankService>();
+        services.AddTransient<IAccountService, AccountService>();
     }
 }

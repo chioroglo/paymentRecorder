@@ -9,7 +9,7 @@ using System.Net;
 
 namespace PaymentRecorder.Controllers
 {
-    [Route("/banks")]
+    [Route($"/api/{nameof(Bank)}")]
     public class BankController : AppBaseController
     {
         private readonly IBankService _bankService;
@@ -75,12 +75,13 @@ namespace PaymentRecorder.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:long}")]
         public async Task<ActionResult> DeleteBankById([FromRoute] long id, CancellationToken cancellationToken)
         {
             await _bankService.RemoveAsync(id, Guid.Parse(HttpContext.Request.Headers.IfMatch), cancellationToken);
 
-            return StatusCode((int)HttpStatusCode.NoContent);
+            return StatusCode(StatusCodes.Status204NoContent);
         }
     }
 }
