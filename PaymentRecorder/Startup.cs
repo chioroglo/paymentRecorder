@@ -1,6 +1,8 @@
-﻿using Common.MappingProfiles;
+﻿using Common.Jwt;
+using Common.MappingProfiles;
 using Data;
 using Domain;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PaymentRecorder.Extensions;
@@ -22,7 +24,7 @@ public class Startup
         string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
 
-        services.Configure<JWTConfiguration>(Configuration.GetSection("JWT"));
+        services.Configure<JWTConfigurationFromAppsettingsJson>(Configuration.GetSection("JWT"));
 
         services.AddControllers();
         services.AddEndpointsApiExplorer();
@@ -37,6 +39,12 @@ public class Startup
 
         services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<EfDbContext>();
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).ConfigureJwtBearer(Configuration);
 
         
         services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
@@ -60,6 +68,10 @@ public class Startup
         app.UseCustomExceptionHandling();
         app.UseDbTransactionPerRequest();
         app.UseVersionHeaderChecker();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
 
         app.UseEndpoints(endpoints =>
         {

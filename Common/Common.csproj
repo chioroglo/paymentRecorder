@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
@@ -26,8 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Dto\Auth\" />
     <Folder Include="Models\Error\" />
     <Folder Include="Models\Base\" />
+    <Folder Include="Models\Auth\" />
   </ItemGroup>
 
 </Project>

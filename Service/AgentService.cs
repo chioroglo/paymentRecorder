@@ -7,7 +7,7 @@ using Service.Abstract;
 using Service.Abstract.Base;
 using Service.Extensions;
 using static Common.Exceptions.ExceptionMessages.ValidationExceptionMessages;
-using static Service.Extensions.EntityValidationExtensions;
+using static Service.Extensions.EntityValidationUtils;
 
 namespace Service;
 

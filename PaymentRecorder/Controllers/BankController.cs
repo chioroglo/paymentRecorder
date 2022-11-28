@@ -3,9 +3,9 @@ using Common.Dto;
 using Common.Models;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
-using PaymentRecorder.Controllers.Abstract;
 using Service.Abstract;
 using System.Net;
+using PaymentRecorder.Controllers.Base;
 
 namespace PaymentRecorder.Controllers
 {
