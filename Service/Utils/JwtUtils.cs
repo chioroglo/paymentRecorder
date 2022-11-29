@@ -35,7 +35,11 @@ public class JwtUtils
 
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
-        var token = new JwtSecurityToken(issuer: configuration.Issuer, audience: configuration.Audience, claims: claims, expires: DateTime.UtcNow.AddDays(configuration.DurationInDays));
+        var token = new JwtSecurityToken(
+            issuer: configuration.Issuer,
+            audience: configuration.Audience, 
+            claims: claims, 
+            expires: DateTime.UtcNow.AddDays(configuration.DurationInDays));
 
         return token;
     }

@@ -3,8 +3,6 @@ using Common.Dto;
 using Common.Extensions;
 using Common.Models;
 using Domain;
-using Domain.Enum;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Common.MappingProfiles;
 

@@ -1,6 +1,5 @@
 ﻿using Common.Dto.Auth;
 using Common.Models.Auth;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
@@ -17,10 +16,14 @@ namespace PaymentRecorder.Controllers.Auth
             _authService = authService;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("register")]
-        public async Task<ActionResult<AuthenticationModel>> RegisterAsync(RegistrationDto dto)
+        public async Task<ActionResult<AuthenticationModel>> RegisterAsync([FromBody] RegistrationDto dto)
         {
-            throw new NotImplementedException();
+            var result = await _authService.RegisterAsync(dto);
+
+            return Ok(result);
         }
     }
 }

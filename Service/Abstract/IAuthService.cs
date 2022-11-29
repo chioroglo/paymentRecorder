@@ -6,4 +6,6 @@ namespace Service.Abstract;
 public interface IAuthService
 {
     Task<AuthenticationModel> RegisterAsync(RegistrationDto dto);
+
+    Task<AuthenticationModel> GetTokenAsync(LoginDto dto);
 }

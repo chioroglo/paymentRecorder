@@ -22,14 +22,18 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         string connectionString = Configuration.GetConnectionString("DefaultConnection");
+        
 
-
-        services.Configure<JWTConfigurationFromAppsettingsJson>(Configuration.GetSection("JWT"));
-
+        
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.InitializeServices();
+
+        services.Configure<JWTConfigurationFromAppsettingsJson>(Configuration.GetSection("JWT"));
+        services.ConfigureIdentity();
+        services.ConfigureFluentValidation();
+
 
         services.AddDbContext<EfDbContext>(options =>
         {
@@ -45,7 +49,7 @@ public class Startup
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }).ConfigureJwtBearer(Configuration);
-
+        
         
         services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
 
@@ -59,7 +63,6 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
 
         app.UseHttpsRedirection();
 

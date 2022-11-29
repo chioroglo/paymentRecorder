@@ -1,4 +1,6 @@
-﻿namespace Common.Models.Auth;
+﻿using Domain.Enum;
+
+namespace Common.Models.Auth;
 
 public class AuthenticationModel
 {
@@ -6,7 +8,7 @@ public class AuthenticationModel
 
     public string Email { get; set; }
 
-    public IEnumerable<string> Roles { get; set; }
+    public IEnumerable<UserRole> Roles { get; set; }
 
     public string Token { get; set; }
 

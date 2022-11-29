@@ -45,15 +45,15 @@ namespace PaymentRecorder.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<ActionResult<BankModel>> AddNewBank([FromBody] BankDto request, CancellationToken cancellationToken)
+        public async Task<ActionResult<BankModel>> AddNewBank([FromBody] BankDto request,
+            CancellationToken cancellationToken)
         {
             var dto = Mapper.Map<Bank>(request);
-            
+
 
             var entity = await _bankService.Add(dto, cancellationToken);
 
             return Mapper.Map<BankModel>(entity);
-
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]

@@ -1,14 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using Azure.Identity;
+﻿using System.IdentityModel.Tokens.Jwt;
 using Common.Dto.Auth;
 using Common.Exceptions;
-using Common.Exceptions.ExceptionMessages;
+using Common.Extensions;
 using Common.Jwt;
 using Common.Models.Auth;
 using Domain;
+using Domain.Enum;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Options;
 using Service.Abstract;
 using Service.Extensions;
@@ -28,7 +26,7 @@ public class AuthService : IAuthService
         _jwt = jwt.Value;
     }
 
-    public async Task<AuthenticationModel> RegisterAsync(RegistrationDto dto,CancellationToken cancellationToken)
+    public async Task<AuthenticationModel> RegisterAsync(RegistrationDto dto)
     {
         if (await _userManager.FindByEmailAsync(dto.Email) != null)
         {
@@ -40,6 +38,7 @@ public class AuthService : IAuthService
             throw new IdentityException(RegistrationFailedBecause($"username {dto.Username} is occupied"));
         }
 
+        // TODO create mapping profile
         var user = new ApplicationUser()
         {
             UserName = dto.Username,
@@ -56,22 +55,29 @@ public class AuthService : IAuthService
 
             foreach (var error in result.Errors)
             {
-                errors += $" {error.Description},";
+                errors += $"{error.Description}, ";
             }
 
             throw new IdentityException(RegistrationFailedBecause(errors));
         }
 
-        await _userManager.AddToRoleAsync(user, "User");
+        await _userManager.AddToRoleAsync(user, UserRole.Accountant.GetEnumDescription());
 
         var token = await JwtUtils.CreateJwtTokenConformAppsettings(_userManager,user,_jwt);
+        
 
         return new AuthenticationModel
         {
+            Username = user.UserName,
             Email = user.Email,
             ExpiresOn = token.ValidTo,
-            Roles = new List<string>() { "User" },
+            Roles = new List<UserRole> { UserRole.Accountant },
             Token = new JwtSecurityTokenHandler().WriteToken(token)
         };
+    }
+
+    public Task<AuthenticationModel> GetTokenAsync(LoginDto dto)
+    {
+        throw new NotImplementedException();
     }
 }
