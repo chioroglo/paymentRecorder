@@ -39,6 +39,7 @@ public class JwtUtils
             issuer: configuration.Issuer,
             audience: configuration.Audience, 
             claims: claims, 
+            signingCredentials: signingCredentials,
             expires: DateTime.UtcNow.AddDays(configuration.DurationInDays));
 
         return token;

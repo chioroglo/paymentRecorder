@@ -49,7 +49,8 @@ public class Startup
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }).ConfigureJwtBearer(Configuration);
-        
+
+        services.AddAuthorization();
         
         services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
 

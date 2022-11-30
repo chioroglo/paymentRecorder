@@ -37,8 +37,7 @@ public class AuthService : IAuthService
         {
             throw new IdentityException(RegistrationFailedBecause($"username {dto.Username} is occupied"));
         }
-
-        // TODO create mapping profile
+        
         var user = new ApplicationUser()
         {
             UserName = dto.Username,
@@ -71,13 +70,31 @@ public class AuthService : IAuthService
             Username = user.UserName,
             Email = user.Email,
             ExpiresOn = token.ValidTo,
-            Roles = new List<UserRole> { UserRole.Accountant },
+            Roles = new List<string> { UserRole.Accountant.GetEnumDescription() },
             Token = new JwtSecurityTokenHandler().WriteToken(token)
         };
     }
 
-    public Task<AuthenticationModel> GetTokenAsync(LoginDto dto)
+    public async Task<AuthenticationModel> LoginAsync(LoginDto dto)
     {
-        throw new NotImplementedException();
+
+        var user = await _userManager.FindByNameAsync(dto.EmailOrUsername) ?? await _userManager.FindByEmailAsync(dto.EmailOrUsername);
+
+        if (user == null || !await _userManager.CheckPasswordAsync(user,dto.Password))
+        {
+            throw new IdentityException(AuthenticationFailedMessage());
+        }
+
+        var token = await JwtUtils.CreateJwtTokenConformAppsettings(_userManager, user, _jwt);
+        var roles = await _userManager.GetRolesAsync(user);
+
+        return new AuthenticationModel
+        {
+            Username = user.UserName,
+            Email = user.Email,
+            Roles = roles,
+            Token = new JwtSecurityTokenHandler().WriteToken(token),
+            ExpiresOn = token.ValidTo
+        };
     }
 }

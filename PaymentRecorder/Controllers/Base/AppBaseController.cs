@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PaymentRecorder.Controllers.Base
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(Roles = "Accountant,System Administrator,Manager")]
     [ApiController]
     [ProducesErrorResponseType(typeof(ErrorDetails))]
     public abstract class AppBaseController : ControllerBase

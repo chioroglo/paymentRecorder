@@ -25,5 +25,15 @@ namespace PaymentRecorder.Controllers.Auth
 
             return Ok(result);
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost("login")]
+        public async Task<ActionResult<AuthenticationModel>> LoginAsync([FromBody] LoginDto dto)
+        {
+            var result = await _authService.LoginAsync(dto);
+
+            return Ok(result);
+        }
     }
 }
