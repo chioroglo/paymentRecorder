@@ -28,7 +28,7 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
         return entityInDatabase;
     }
 
-    public override async Task<Agent> Add(Agent entity, CancellationToken cancellationToken)
+    public async Task<Agent> Add(Agent entity, CancellationToken cancellationToken)
     {
         if (await (_db.Agents.FirstOrDefaultAsync(e => e.FiscalCode == entity.FiscalCode, cancellationToken)) != null)
         {
@@ -43,7 +43,7 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
     }
 
 
-    public override async Task RemoveAsync(long id, Guid version, CancellationToken cancellationToken)
+    public async Task RemoveAsync(long id, Guid version, CancellationToken cancellationToken)
     {
         var entity = await _db.Agents.Include(e => e.Accounts).FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                      throw new EntityValidationException(EntityWasNotFoundBecause<Agent>($"of ID:{id} does not exist"));
@@ -61,7 +61,7 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
     }
 
 
-    public override async Task<Agent> UpdateAsync(Agent entity, CancellationToken cancellationToken)
+    public async Task<Agent> UpdateAsync(Agent entity, CancellationToken cancellationToken)
     {
         var entityInDatabase = await _db.Agents.FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken) ??
                                throw new EntityValidationException(EntityWasNotFoundBecause<Agent>($"of ID:{entity.Id} does not exist"));

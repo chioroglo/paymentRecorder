@@ -13,9 +13,5 @@ public interface IBaseEntityService<TEntity> where TEntity : BaseEntity
 
     Task<TEntity> GetByIdWithIncludeAsync(long id, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
 
-    Task<TEntity> Add(TEntity entity, CancellationToken cancellationToken);
-
-    Task RemoveAsync(long id,Guid version, CancellationToken cancellationToken);
-
-    Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken);
+    Task<IEnumerable<TEntity>> GetWhereWithIncludeAsync(Expression<Func<TEntity,bool>> predicate,CancellationToken cancellationToken,params Expression<Func<TEntity, object>>[] includeProperties);
 }

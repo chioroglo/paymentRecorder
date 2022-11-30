@@ -33,6 +33,7 @@ public abstract class BaseEntityService<TEntity> : IBaseEntityService<TEntity> w
     {
         return await _db.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                throw new EntityValidationException(EntityWasNotFoundBecause<TEntity>($"of ID:{id} does not exist"));
+
     }
 
     public async Task<TEntity> GetByIdWithIncludeAsync(long id, CancellationToken cancellationToken,
@@ -43,10 +44,12 @@ public abstract class BaseEntityService<TEntity> : IBaseEntityService<TEntity> w
         return await query.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                throw new EntityValidationException(EntityWasNotFoundBecause<TEntity>($" ID:{id} does not exist"));
     }
-    
-    public abstract Task<TEntity> Add(TEntity entity, CancellationToken cancellationToken);
 
-    public abstract Task RemoveAsync(long id,Guid version, CancellationToken cancellationToken);
+    public async Task<IEnumerable<TEntity>> GetWhereWithIncludeAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken,
+        params Expression<Func<TEntity, object>>[] includeProperties)
+    {
+        var query = _db.IncludeProperties(includeProperties);
 
-    public abstract Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken);
+        return await query.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+    }
 }

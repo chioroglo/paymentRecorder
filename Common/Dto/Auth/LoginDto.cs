@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.Validators;
 
 namespace Common.Dto.Auth;
 
@@ -15,8 +14,6 @@ public class LoginDtoValidator : AbstractValidator<LoginDto>
 {
     public LoginDtoValidator()
     {
-        RuleFor(dto => dto.EmailOrUsername);
-
         RuleFor(dto => dto.Password)
             .MinimumLength(ValidationConstraints.ApplicationUserValidationConstraints.PasswordMinLength);
     }

@@ -3,6 +3,7 @@ using Domain.Enum;
 
 namespace Common.Models;
 
+// TODO refactor model to like it is on the screenshot of bill
 public class OrderModel : BaseModel
 {
     public long Number { get; set; }

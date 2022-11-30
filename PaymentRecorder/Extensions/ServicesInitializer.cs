@@ -11,5 +11,6 @@ public static class ServicesInitializer
         services.AddTransient<IBankService, BankService>();
         services.AddTransient<IAccountService, AccountService>();
         services.AddTransient<IAuthService, AuthService>();
+        services.AddTransient<IOrderService, OrderService>();
     }
 }

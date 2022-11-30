@@ -25,7 +25,7 @@ public class BankService : BaseEntityService<Bank>, IBankService
         return entity;
     }
 
-    public override async Task<Bank> Add(Bank entity, CancellationToken cancellationToken)
+    public async Task<Bank> Add(Bank entity, CancellationToken cancellationToken)
     {
         await ValidateForExistingBankCodeAsync(entity,cancellationToken);
 
@@ -36,7 +36,7 @@ public class BankService : BaseEntityService<Bank>, IBankService
         return entity;
     }
 
-    public override async Task RemoveAsync(long id, Guid version, CancellationToken cancellationToken)
+    public async Task RemoveAsync(long id, Guid version, CancellationToken cancellationToken)
     {
 
         var entity = await _db.Banks.Include(e => e.Accounts).FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
@@ -55,7 +55,7 @@ public class BankService : BaseEntityService<Bank>, IBankService
         await _db.SaveChangesAsync(cancellationToken);
     }
 
-    public override async Task<Bank> UpdateAsync(Bank entity, CancellationToken cancellationToken)
+    public async Task<Bank> UpdateAsync(Bank entity, CancellationToken cancellationToken)
     {
         var entityInDatabase = await _db.Banks.FirstOrDefaultAsync(e => entity.Id == e.Id, cancellationToken) ??
                      throw new EntityValidationException(EntityWasNotFoundBecause<Bank>($"of ID:{entity.Id} does not exist"));
