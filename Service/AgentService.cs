@@ -5,9 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Service.Abstract;
 using Service.Abstract.Base;
-using Service.Extensions;
 using static Common.Exceptions.ExceptionMessages.ValidationExceptionMessages;
-using static Service.Extensions.EntityValidationUtils;
+using static Service.Utils.EntityValidationUtils;
 
 namespace Service;
 
@@ -47,6 +46,7 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
     {
         var entity = await _db.Agents.Include(e => e.Accounts).FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                      throw new EntityValidationException(EntityWasNotFoundBecause<Agent>($"of ID:{id} does not exist"));
+        
         ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entity.Version, version);
 
         if (entity.Accounts.Count > 0)

@@ -1,4 +1,4 @@
-﻿namespace Common.ValidationConstraints;
+﻿namespace Common.Validation.ValidationConstraints;
 
 public static class AgentValidationConstraints
 {

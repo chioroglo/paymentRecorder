@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static Common.ValidationConstraints.AccountValidationConstraints;
+using static Common.Validation.ValidationConstraints.AccountValidationConstraints;
 
 namespace Common.Dto;
 

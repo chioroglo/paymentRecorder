@@ -10,8 +10,6 @@ public class OrderProfile : Profile
     public OrderProfile()
     {
         CreateMap<Order, OrderModel>()
-            .ForMember(dest => dest.BeneficiaryAccount, opt => opt.MapFrom(src => src.BeneficiaryAccount))
-            .ForMember(dest => dest.IssuerAccount, opt => opt.MapFrom(src => src.IssuerAccount))
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Number, opt => opt.MapFrom(dest => dest.Number))
             .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.Amount))
@@ -24,6 +22,18 @@ public class OrderProfile : Profile
             .ForMember(dest => dest.Timezone, opt => opt.MapFrom(src => src.Timezone))
             .ForMember(dest => dest.TransactionState,
                 opt => opt.MapFrom(src => src.Transaction.TransactionState.GetEnumDescription()))
-            .ForMember(dest => dest.TransactionType, opt => opt.MapFrom(src => src.Transaction.TransactionType));
+            .ForMember(dest => dest.TransactionType, opt => opt.MapFrom(src => src.Transaction.TransactionType))
+            
+            .ForMember(opt => opt.IssuerAccountCode, opt => opt.MapFrom(src => src.IssuerAccount.AccountCode))
+            .ForMember(opt => opt.IssuerAgentName, opt => opt.MapFrom(src => src.IssuerAccount.Agent.Name))
+            .ForMember(opt => opt.IssuerBankCode, opt => opt.MapFrom(src => src.IssuerAccount.Bank.Code))
+            .ForMember(opt => opt.IssuerBankName, opt => opt.MapFrom(src => src.IssuerAccount.Bank.Name))
+            .ForMember(opt => opt.IssuerFiscalCode, opt => opt.MapFrom(src => src.IssuerAccount.Agent.FiscalCode))
+            
+            .ForMember(opt => opt.BeneficiaryAccountCode, opt => opt.MapFrom(src => src.BeneficiaryAccount.AccountCode))
+            .ForMember(opt => opt.BeneficiaryAgentName, opt => opt.MapFrom(src => src.BeneficiaryAccount.Agent.Name))
+            .ForMember(opt => opt.BeneficiaryBankCode, opt => opt.MapFrom(src => src.BeneficiaryAccount.Bank.Code))
+            .ForMember(opt => opt.BeneficiaryBankName, opt => opt.MapFrom(src => src.BeneficiaryAccount.Agent.FiscalCode))
+            .ForMember(opt => opt.BeneficiaryFiscalCode, opt => opt.MapFrom(src => src.BeneficiaryAccount.Agent.FiscalCode));
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Service.Extensions;
+namespace Service.Utils;
 
 public static class EntityValidationUtils
 {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using FluentValidation;
-using static Common.ValidationConstraints.ApplicationUserValidationConstraints;
-using static Common.ValidationConstraints.CommonValidationConstraints;
+using static Common.Validation.ValidationConstraints.ApplicationUserValidationConstraints;
+using static Common.Validation.ValidationConstraints.CommonValidationConstraints;
 
 namespace Common.Dto.Auth;
 

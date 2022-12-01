@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Common.Validation.ValidationConstraints;
+using Microsoft.AspNetCore.Identity;
 
 namespace PaymentRecorder.Extensions
 {
@@ -12,7 +13,7 @@ namespace PaymentRecorder.Extensions
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequiredLength = Common.ValidationConstraints.ApplicationUserValidationConstraints.PasswordMinLength;
+                options.Password.RequiredLength = ApplicationUserValidationConstraints.PasswordMinLength;
                 options.Password.RequiredUniqueChars = 1;
 
                 options.User.RequireUniqueEmail = true;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Dto;
 using Common.Models;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +23,15 @@ namespace PaymentRecorder.Controllers
         {
             var order =  await _orderService.GetByNumber(orderNumber, cancellationToken);
 
-            Response.Headers.IfMatch = order.Version.ToString();
+            Response.Headers.ETag = order.Version.ToString();
             return Mapper.Map<OrderModel>(order);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<OrderModel>> AddOrder([FromBody] OrderDto orderDto,
+            CancellationToken cancellationToken)
+        {
+            return Mapper.Map<OrderModel>(await _orderService.Add(orderDto, cancellationToken));
         }
     }
 }

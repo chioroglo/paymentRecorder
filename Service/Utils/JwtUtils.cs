@@ -2,11 +2,10 @@
 using System.Security.Claims;
 using System.Text;
 using Common.Jwt;
-using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Service.Extensions;
+namespace Service.Utils;
 
 public class JwtUtils
 {

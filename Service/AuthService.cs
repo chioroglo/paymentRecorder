@@ -9,7 +9,7 @@ using Domain.Enum;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Service.Abstract;
-using Service.Extensions;
+using Service.Utils;
 using static Common.Exceptions.ExceptionMessages.IdentityExceptionMessages;
 
 

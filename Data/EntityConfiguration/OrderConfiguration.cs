@@ -1,7 +1,7 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static Common.ValidationConstraints.OrderValidationConstraints;
+using static Common.Validation.ValidationConstraints.OrderValidationConstraints;
 
 
 namespace Data.EntityConfiguration;

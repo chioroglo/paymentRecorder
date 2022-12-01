@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Domain.Enum;
-using static Common.ValidationConstraints.CommonValidationConstraints;
+using static Common.Validation.ValidationConstraints.CommonValidationConstraints;
 
 namespace Common.Dto;
 
