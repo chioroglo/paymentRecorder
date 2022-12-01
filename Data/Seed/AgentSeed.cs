@@ -10,7 +10,7 @@ public class AgentSeed
     {
         if (!await dbContext.Agents.AnyAsync())
         {
-            Agent[] agents = new Agent[]
+            var agents = new Agent[]
             {
                 new Agent
                 {

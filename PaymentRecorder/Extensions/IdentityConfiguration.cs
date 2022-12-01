@@ -17,7 +17,6 @@ namespace PaymentRecorder.Extensions
                 options.Password.RequiredUniqueChars = 1;
 
                 options.User.RequireUniqueEmail = true;
-                
             });
         }
     }

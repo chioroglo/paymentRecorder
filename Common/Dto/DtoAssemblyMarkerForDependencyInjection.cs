@@ -1,3 +1,5 @@
 ﻿namespace Common.Dto;
 
-public struct DtoAssemblyMarkerForDependencyInjection { }
+public struct DtoAssemblyMarkerForDependencyInjection
+{
+}

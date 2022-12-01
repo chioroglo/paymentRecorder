@@ -9,7 +9,7 @@ public class BankSeed
     {
         if (!await dbContext.Banks.AnyAsync())
         {
-            Bank[] banks = new Bank[]
+            var banks = new Bank[]
             {
                 new Bank
                 {

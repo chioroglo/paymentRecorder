@@ -13,19 +13,20 @@ namespace PaymentRecorder.Middlewares
         }
 
 
-        public async Task InvokeAsync(HttpContext httpContext,EfDbContext db)
+        public async Task InvokeAsync(HttpContext httpContext, EfDbContext db)
         {
-
             if (httpContext.Request.Method == HttpMethod.Get.Method)
             {
                 await _next(httpContext);
                 return;
             }
 
-            await using (var transaction = await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.ReadCommitted,httpContext.RequestAborted))
+            await using (var transaction =
+                         await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.ReadCommitted,
+                             httpContext.RequestAborted))
             {
                 await _next(httpContext);
-                
+
                 await db.SaveChangesAsync(httpContext.RequestAborted);
                 await transaction.CommitAsync(httpContext.RequestAborted);
             }

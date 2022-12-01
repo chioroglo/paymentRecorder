@@ -1,3 +1,5 @@
 ﻿namespace Common.MappingProfiles;
 
-public struct MappingAssemblyMarker { }
+public struct MappingAssemblyMarker
+{
+}

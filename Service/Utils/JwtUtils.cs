@@ -9,7 +9,8 @@ namespace Service.Utils;
 
 public class JwtUtils
 {
-    public static async Task<JwtSecurityToken> CreateJwtTokenConformAppsettings<TUser>(UserManager<TUser> userManager,TUser user, JWTConfigurationFromAppsettingsJson configuration) where TUser : IdentityUser
+    public static async Task<JwtSecurityToken> CreateJwtTokenConformAppsettings<TUser>(UserManager<TUser> userManager,
+        TUser user, JWTConfigurationFromAppsettingsJson configuration) where TUser : IdentityUser
     {
         var userClaims = await userManager.GetClaimsAsync(user);
         var roles = await userManager.GetRolesAsync(user);
@@ -17,16 +18,16 @@ public class JwtUtils
 
         foreach (var role in roles)
         {
-            roleClaims.Add(new Claim("roles",role));
+            roleClaims.Add(new Claim("roles", role));
         }
 
         var claims = new Claim[]
-        {
-            new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
-            new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Email,user.Email),
-            new Claim(JwtTokenClaimNames.UserId,user.Id)
-        }
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtTokenClaimNames.UserId, user.Id)
+            }
             .Union(userClaims)
             .Union(roleClaims);
 
@@ -35,9 +36,9 @@ public class JwtUtils
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: configuration.Issuer,
-            audience: configuration.Audience, 
-            claims: claims, 
+            configuration.Issuer,
+            configuration.Audience,
+            claims,
             signingCredentials: signingCredentials,
             expires: DateTime.UtcNow.AddDays(configuration.DurationInDays));
 

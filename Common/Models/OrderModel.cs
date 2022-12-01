@@ -6,7 +6,6 @@ namespace Common.Models;
 
 public class OrderModel : BaseModel
 {
-
     public long Number { get; set; }
 
     public DateTime EmissionDate { get; set; }
@@ -20,9 +19,9 @@ public class OrderModel : BaseModel
     public string IssuerAccountCode { get; set; }
 
     public string IssuerFiscalCode { get; set; }
-    
+
     public string IssuerAgentName { get; set; }
-    
+
     public string IssuerBankName { get; set; }
 
     public string IssuerBankCode { get; set; }

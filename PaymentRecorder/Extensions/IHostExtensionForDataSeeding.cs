@@ -14,14 +14,12 @@ namespace PaymentRecorder.Extensions
                     try
                     {
                         await SeedFacade.SeedData(context);
-                        
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
                         throw;
                     }
-                    
                 }
             }
 

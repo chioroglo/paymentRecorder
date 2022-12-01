@@ -11,7 +11,7 @@ public class IdentitySeed
     {
         if (!await db.Roles.AnyAsync())
         {
-            IdentityRole[] identityRoles = new IdentityRole[]
+            var identityRoles = new IdentityRole[]
             {
                 new IdentityRole()
                 {
@@ -26,8 +26,7 @@ public class IdentitySeed
                     Name = "Manager",
                     NormalizedName = "Manager".ToUpper(),
                     ConcurrencyStamp = Guid.NewGuid().ToString()
-                }
-                ,
+                },
                 new IdentityRole()
                 {
                     Id = Guid.NewGuid().ToString(),

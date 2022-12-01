@@ -6,7 +6,8 @@ namespace PaymentRecorder.Extensions;
 
 public static class BearerConfiguration
 {
-    public static AuthenticationBuilder ConfigureJwtBearer(this AuthenticationBuilder builder,IConfiguration configuration)
+    public static AuthenticationBuilder ConfigureJwtBearer(this AuthenticationBuilder builder,
+        IConfiguration configuration)
     {
         return builder.AddJwtBearer(options =>
         {

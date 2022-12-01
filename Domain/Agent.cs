@@ -12,5 +12,4 @@ public class Agent : BaseEntity
     public long FiscalCode { get; set; }
 
     public ICollection<Account> Accounts { get; set; }
-    
 }

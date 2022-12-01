@@ -10,14 +10,16 @@ public class TransactionSeed
     {
         if (!await dbContext.Transactions.AnyAsync())
         {
-            Transaction[] transactions = new Transaction[]
+            var transactions = new Transaction[]
             {
                 new Transaction
                 {
                     Order = await dbContext.Orders.FirstAsync(e =>
                         e.Destination == "Wholesale purchase of Parliament Silver Blue from US from port HQ Virginia"),
                     OrderId = (await dbContext.Orders.FirstAsync(e =>
-                        e.Destination == "Wholesale purchase of Parliament Silver Blue from US from port HQ Virginia")).Id,
+                            e.Destination ==
+                            "Wholesale purchase of Parliament Silver Blue from US from port HQ Virginia"))
+                        .Id,
                     TransactionType = TransactionType.Regular,
                     TransactionState = TransactionState.Completed
                 },

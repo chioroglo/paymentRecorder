@@ -6,6 +6,5 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-
     }
 }

@@ -17,5 +17,4 @@ public class Account : BaseEntity
     public ICollection<Order> IncomingOrders { get; set; }
 
     public ICollection<Order> OutcomingOrders { get; set; }
-
 }

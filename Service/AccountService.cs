@@ -11,22 +11,19 @@ namespace Service;
 
 public class AccountService : BaseEntityService<Account>, IAccountService
 {
-
     public AccountService(EfDbContext db) : base(db)
     {
-
     }
 
     public async Task<Account> Add(Account entity, CancellationToken cancellationToken)
     {
-
         _ = await _db.Banks.FirstOrDefaultAsync(e => e.Id == entity.BankId, cancellationToken) ??
-                   throw new EntityValidationException(
-                       EntityCannotBeCreatedBecause<Bank>($"of ID:{entity.BankId} does not exist"));
+            throw new EntityValidationException(
+                EntityCannotBeCreatedBecause<Bank>($"of ID:{entity.BankId} does not exist"));
 
         _ = await _db.Agents.FirstOrDefaultAsync(e => e.Id == entity.AgentId, cancellationToken) ??
-                    throw new EntityValidationException(
-                        EntityCannotBeCreatedBecause<Agent>($"of ID:{entity.AgentId} does not exist"));
+            throw new EntityValidationException(
+                EntityCannotBeCreatedBecause<Agent>($"of ID:{entity.AgentId} does not exist"));
 
         await _db.Accounts.AddAsync(entity, cancellationToken);
 
@@ -36,12 +33,13 @@ public class AccountService : BaseEntityService<Account>, IAccountService
     }
 
 
-    public async Task RemoveAsync(long id,Guid version, CancellationToken cancellationToken)
+    public async Task RemoveAsync(long id, Guid version, CancellationToken cancellationToken)
     {
-        var entity = await _db.Accounts.FirstOrDefaultAsync(e => e.Id == id,cancellationToken) ?? 
-                     throw new EntityValidationException(EntityWasNotFoundBecause<Account>($"of ID:{id} does not exist"));
+        var entity = await _db.Accounts.FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
+                     throw new EntityValidationException(
+                         EntityWasNotFoundBecause<Account>($"of ID:{id} does not exist"));
 
-        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entity.Version,version);
+        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entity.Version, version);
 
         _db.Remove(entity);
         await _db.SaveChangesAsync(cancellationToken);
@@ -49,10 +47,11 @@ public class AccountService : BaseEntityService<Account>, IAccountService
 
     public async Task<Account> UpdateAsync(Account entity, CancellationToken cancellationToken)
     {
-        var entityInDatabase = await _db.Accounts.FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken) ?? 
-                               throw new EntityValidationException(EntityCannotBeModifiedBecause<Account>($"of ID:{entity.Id} does not exist"));
+        var entityInDatabase = await _db.Accounts.FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken) ??
+                               throw new EntityValidationException(
+                                   EntityCannotBeModifiedBecause<Account>($"of ID:{entity.Id} does not exist"));
 
-        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entityInDatabase.Version,entity.Version);
+        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entityInDatabase.Version, entity.Version);
 
         _ = await _db.Banks.FirstOrDefaultAsync(e => e.Id == entity.BankId, cancellationToken) ??
             throw new EntityValidationException(

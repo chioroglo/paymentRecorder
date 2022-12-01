@@ -6,7 +6,6 @@ namespace Domain.Abstract
     {
         public long Id { get; set; }
 
-        [ConcurrencyCheck]
-        public Guid Version { get; set; }
+        [ConcurrencyCheck] public Guid Version { get; set; }
     }
 }

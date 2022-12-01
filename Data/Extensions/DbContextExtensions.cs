@@ -6,8 +6,8 @@ namespace Data.Extensions;
 
 public static class DbContextExtensions
 {
-
-    public static IQueryable<TEntity> IncludeProperties<TEntity>(this DbContext dbContext, params Expression<Func<TEntity, object>>[] includeProperties) where TEntity : BaseEntity
+    public static IQueryable<TEntity> IncludeProperties<TEntity>(this DbContext dbContext,
+        params Expression<Func<TEntity, object>>[] includeProperties) where TEntity : BaseEntity
     {
         IQueryable<TEntity> entities = dbContext.Set<TEntity>();
 

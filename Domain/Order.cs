@@ -26,9 +26,8 @@ public class Order : BaseEntity
     public DateTime IssueDate { get; set; }
 
     public DateTime? ExecutionDate { get; set; }
-    
+
     public string Timezone { get; set; }
 
     public Transaction Transaction { get; set; }
-
 }

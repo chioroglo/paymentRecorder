@@ -13,7 +13,7 @@ public class AccountModel : BaseModel
     public string BankName { get; set; }
 
     public string BankCode { get; set; }
-    
+
     public long AmountOfOutcomingOrders { get; set; }
 
     public long AmountOfIncomingOrders { get; set; }

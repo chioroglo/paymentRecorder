@@ -7,9 +7,8 @@ namespace PaymentRecorder.Middlewares;
 
 public class ExceptionHandlingMiddleware
 {
-
     private readonly RequestDelegate _next;
-    
+
     public ExceptionHandlingMiddleware(RequestDelegate next)
     {
         _next = next;
@@ -51,7 +50,9 @@ public class ExceptionHandlingMiddleware
 
             await CreateExceptionResponseAsync(context, e);
             await _next(context);
-        };
+        }
+
+        ;
     }
 
     private Task CreateExceptionResponseAsync(HttpContext context, Exception exception)

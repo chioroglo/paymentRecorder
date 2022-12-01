@@ -8,7 +8,6 @@ namespace Data;
 
 public sealed class EfDbContext : IdentityDbContext<ApplicationUser>
 {
-
     // TODO add indexes in entity configuration
     public EfDbContext(DbContextOptions<EfDbContext> options) : base(options)
     {
@@ -29,7 +28,7 @@ public sealed class EfDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(modelBuilder);
 
-        Assembly assembly = typeof(EntityConfigurationAssemblyMarker).Assembly;
+        var assembly = typeof(EntityConfigurationAssemblyMarker).Assembly;
 
         modelBuilder.ApplyConfigurationsFromAssembly(assembly);
     }

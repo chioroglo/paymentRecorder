@@ -11,7 +11,7 @@ namespace PaymentRecorder.Controllers.Base
     public abstract class AppBaseController : ControllerBase
     {
         protected readonly IMapper Mapper;
-        
+
         protected AppBaseController(IMapper mapper)
         {
             Mapper = mapper;

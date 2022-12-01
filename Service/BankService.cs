@@ -13,21 +13,21 @@ public class BankService : BaseEntityService<Bank>, IBankService
 {
     public BankService(EfDbContext db) : base(db)
     {
-
     }
 
 
     public async Task<Bank> GetByCodeAsync(string bankCode, CancellationToken cancellationToken)
     {
         var entity = await _db.Banks.FirstOrDefaultAsync(e => e.Code == bankCode, cancellationToken) ??
-                     throw new EntityValidationException(EntityWasNotFoundBecause<Bank>($"with code:{bankCode} does not exist"));
+                     throw new EntityValidationException(
+                         EntityWasNotFoundBecause<Bank>($"with code:{bankCode} does not exist"));
 
         return entity;
     }
 
     public async Task<Bank> Add(Bank entity, CancellationToken cancellationToken)
     {
-        await ValidateForExistingBankCodeAsync(entity,cancellationToken);
+        await ValidateForExistingBankCodeAsync(entity, cancellationToken);
 
         await _db.AddAsync(entity, cancellationToken);
 
@@ -38,7 +38,6 @@ public class BankService : BaseEntityService<Bank>, IBankService
 
     public async Task RemoveAsync(long id, Guid version, CancellationToken cancellationToken)
     {
-
         var entity = await _db.Banks.Include(e => e.Accounts).FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                      throw new EntityValidationException(EntityWasNotFoundBecause<Bank>($"of ID:{id} does not exist"));
 
@@ -47,7 +46,8 @@ public class BankService : BaseEntityService<Bank>, IBankService
 
         if (entity.Accounts.Count > 0)
         {
-            throw new EntityValidationException(EntityCannotBeDeletedBecause<Bank>($"of name {entity.Name} has associated bank accounts"));
+            throw new EntityValidationException(
+                EntityCannotBeDeletedBecause<Bank>($"of name {entity.Name} has associated bank accounts"));
         }
 
         _db.Remove(entity);
@@ -58,9 +58,10 @@ public class BankService : BaseEntityService<Bank>, IBankService
     public async Task<Bank> UpdateAsync(Bank entity, CancellationToken cancellationToken)
     {
         var entityInDatabase = await _db.Banks.FirstOrDefaultAsync(e => entity.Id == e.Id, cancellationToken) ??
-                     throw new EntityValidationException(EntityWasNotFoundBecause<Bank>($"of ID:{entity.Id} does not exist"));
+                               throw new EntityValidationException(
+                                   EntityWasNotFoundBecause<Bank>($"of ID:{entity.Id} does not exist"));
 
-        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entityInDatabase.Version,entity.Version);
+        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entityInDatabase.Version, entity.Version);
 
         await ValidateForExistingBankCodeAsync(entity, cancellationToken);
 
@@ -77,9 +78,12 @@ public class BankService : BaseEntityService<Bank>, IBankService
 
     private async Task ValidateForExistingBankCodeAsync(Bank entity, CancellationToken cancellationToken)
     {
-        if (await _db.Banks.FirstOrDefaultAsync(e => e.Code == entity.Code && e.Id != entity.Id, cancellationToken) != null)
+        if (await _db.Banks.FirstOrDefaultAsync(e => e.Code == entity.Code && e.Id != entity.Id, cancellationToken) !=
+            null)
         {
-            throw new EntityValidationException(EntityCannotBeCreatedBecause<Bank>($"has code, that is already assigned to another {nameof(Bank)} in database"));
+            throw new EntityValidationException(
+                EntityCannotBeCreatedBecause<Bank>(
+                    $"has code, that is already assigned to another {nameof(Bank)} in database"));
         }
     }
 }

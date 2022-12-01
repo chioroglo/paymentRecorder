@@ -25,7 +25,8 @@ namespace PaymentRecorder.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountModel>>> GetAll(CancellationToken cancellationToken)
         {
-            var accounts = await _accountService.GetAllWithIncludeAsNoTrackingAsync(cancellationToken, e => e.Bank, e => e.Agent,e => e.IncomingOrders,e => e.OutcomingOrders);
+            var accounts = await _accountService.GetAllWithIncludeAsNoTrackingAsync(cancellationToken, e => e.Bank,
+                e => e.Agent, e => e.IncomingOrders, e => e.OutcomingOrders);
 
             return Ok(accounts.Select(e => Mapper.Map<AccountModel>(e)));
         }
@@ -33,9 +34,10 @@ namespace PaymentRecorder.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id:long}")]
-        public async Task<ActionResult<AccountModel>> GetById([FromRoute] long id,CancellationToken cancellationToken)
+        public async Task<ActionResult<AccountModel>> GetById([FromRoute] long id, CancellationToken cancellationToken)
         {
-            var entity = await _accountService.GetByIdWithIncludeAsNoTrackingAsync(id, cancellationToken, e => e.Bank, e => e.Agent,
+            var entity = await _accountService.GetByIdWithIncludeAsNoTrackingAsync(id, cancellationToken, e => e.Bank,
+                e => e.Agent,
                 e => e.IncomingOrders, e => e.OutcomingOrders);
 
             Response.Headers.ETag = entity.Version.ToString();
@@ -46,21 +48,23 @@ namespace PaymentRecorder.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<ActionResult<AccountModel>> AddNewAccount([FromBody] AccountDto dto , CancellationToken cancellationToken)
+        public async Task<ActionResult<AccountModel>> AddNewAccount([FromBody] AccountDto dto,
+            CancellationToken cancellationToken)
         {
-            var request  = Mapper.Map<Account>(dto);
+            var request = Mapper.Map<Account>(dto);
 
-            var newlyCreatedEntity = await _accountService.Add(request,cancellationToken);
+            var newlyCreatedEntity = await _accountService.Add(request, cancellationToken);
 
             Response.Headers.ETag = newlyCreatedEntity.Version.ToString();
-            return  Mapper.Map<AccountModel>(newlyCreatedEntity);
+            return Mapper.Map<AccountModel>(newlyCreatedEntity);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id:long}")]
-        public async Task<ActionResult<AccountModel>> Put([FromRoute] long id, [FromBody] AccountDto dto,CancellationToken cancellationToken)
+        public async Task<ActionResult<AccountModel>> Put([FromRoute] long id, [FromBody] AccountDto dto,
+            CancellationToken cancellationToken)
         {
             var request = Mapper.Map<Account>(dto);
             request.Version = Guid.Parse(HttpContext.Request.Headers.IfMatch);
@@ -78,12 +82,11 @@ namespace PaymentRecorder.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:long}")]
-        public async Task<ActionResult> Delete([FromRoute] long id,CancellationToken cancellationToken)
+        public async Task<ActionResult> Delete([FromRoute] long id, CancellationToken cancellationToken)
         {
             await _accountService.RemoveAsync(id, Guid.Parse(HttpContext.Request.Headers.IfMatch), cancellationToken);
 
             return StatusCode(StatusCodes.Status204NoContent);
         }
-
     }
 }

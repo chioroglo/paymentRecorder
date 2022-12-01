@@ -9,7 +9,7 @@ public class AccountSeed
     {
         if (!await dbContext.Accounts.AnyAsync())
         {
-            Account[] accounts = new Account[]
+            var accounts = new Account[]
             {
                 new Account
                 {

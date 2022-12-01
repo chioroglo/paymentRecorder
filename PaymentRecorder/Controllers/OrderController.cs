@@ -19,9 +19,10 @@ namespace PaymentRecorder.Controllers
         }
 
         [HttpGet("{orderNumber:long}")]
-        public async Task<ActionResult<OrderModel>> GetByNumberAsync(long orderNumber, CancellationToken cancellationToken)
+        public async Task<ActionResult<OrderModel>> GetByNumberAsync(long orderNumber,
+            CancellationToken cancellationToken)
         {
-            var order =  await _orderService.GetByNumber(orderNumber, cancellationToken);
+            var order = await _orderService.GetByNumber(orderNumber, cancellationToken);
 
             Response.Headers.ETag = order.Version.ToString();
             return Mapper.Map<OrderModel>(order);
@@ -38,7 +39,8 @@ namespace PaymentRecorder.Controllers
         }
 
         [HttpPut("{orderNumber:long}")]
-        public async Task<ActionResult<OrderModel>> EditOrderByNumber([FromRoute] long orderNumber,[FromBody] OrderDto orderDto,
+        public async Task<ActionResult<OrderModel>> EditOrderByNumberAsync([FromRoute] long orderNumber,
+            [FromBody] OrderDto orderDto,
             CancellationToken cancellationToken)
         {
             orderDto.Version = Guid.Parse(Request.Headers.IfMatch);

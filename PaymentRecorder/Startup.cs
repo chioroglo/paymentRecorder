@@ -11,9 +11,8 @@ namespace PaymentRecorder;
 
 public class Startup
 {
-
     public IConfiguration Configuration { get; set; }
-    
+
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
@@ -21,10 +20,9 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        string connectionString = Configuration.GetConnectionString("DefaultConnection");
-        
+        var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-        
+
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -35,10 +33,8 @@ public class Startup
         services.ConfigureFluentValidation();
 
 
-        services.AddDbContext<EfDbContext>(options =>
-        {
-            options.UseSqlServer(connectionString);
-        }, ServiceLifetime.Transient);
+        services.AddDbContext<EfDbContext>(options => { options.UseSqlServer(connectionString); },
+            ServiceLifetime.Transient);
 
 
         services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -51,14 +47,12 @@ public class Startup
         }).ConfigureJwtBearer(Configuration);
 
         services.AddAuthorization();
-        
-        services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
 
+        services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-
         if (env.IsDevelopment())
         {
             app.UseSwagger();
@@ -77,9 +71,6 @@ public class Startup
         app.UseAuthorization();
 
 
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-        });
+        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
     }
 }

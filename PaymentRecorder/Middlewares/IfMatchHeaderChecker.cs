@@ -17,7 +17,7 @@ public class IfMatchHeaderChecker
     public async Task InvokeAsync(HttpContext httpContext, EfDbContext db)
     {
         var methodOfOngoingRequest = httpContext.Request.Method;
-        
+
         var methodsThatRequireIfMatchHeaderChecking = new string[]
         {
             HttpMethod.Put.Method,
@@ -31,8 +31,6 @@ public class IfMatchHeaderChecker
             {
                 throw new ValidationException(ThisMethodRequiresHttpHeader("If-Match"));
             }
-
-            
         }
 
         await _next(httpContext);

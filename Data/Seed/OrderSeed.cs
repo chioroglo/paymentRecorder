@@ -10,7 +10,7 @@ public class OrderSeed
     {
         if (!await dbContext.Orders.AnyAsync())
         {
-            Order[] orders = new Order[]
+            var orders = new Order[]
             {
                 new Order
                 {

@@ -30,6 +30,5 @@ public class AgentConfiguration : IEntityTypeConfiguration<Agent>
         builder.HasMany(e => e.Accounts)
             .WithOne(e => e.Agent)
             .OnDelete(DeleteBehavior.NoAction);
-
     }
 }

@@ -10,9 +10,7 @@ public class AgentDto
     [MinLength(NameMinLength)]
     public string Name { get; set; }
 
-    [EnumDataType(typeof(LegalAgentType))]
-    public LegalAgentType Type { get; set; }
+    [EnumDataType(typeof(LegalAgentType))] public LegalAgentType Type { get; set; }
 
-    [RegularExpression("^\\d{13}$")]
-    public long FiscalCode { get; set; }
+    [RegularExpression("^\\d{13}$")] public long FiscalCode { get; set; }
 }

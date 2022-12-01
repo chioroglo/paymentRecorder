@@ -8,13 +8,10 @@ public static class FluentValidationConfiguration
 {
     public static IServiceCollection ConfigureFluentValidation(this IServiceCollection services)
     {
-        
-        services.AddFluentValidationAutoValidation(config =>
-        {
-            config.DisableDataAnnotationsValidation = true;
-        });
+        services.AddFluentValidationAutoValidation(config => { config.DisableDataAnnotationsValidation = true; });
 
-        services.AddValidatorsFromAssemblyContaining<DtoAssemblyMarkerForDependencyInjection>(ServiceLifetime.Transient);
+        services.AddValidatorsFromAssemblyContaining<DtoAssemblyMarkerForDependencyInjection>(ServiceLifetime
+            .Transient);
 
 
         return services;
