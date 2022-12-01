@@ -1,5 +1,4 @@
 ﻿using Data;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
 namespace PaymentRecorder.Middlewares
@@ -23,7 +22,7 @@ namespace PaymentRecorder.Middlewares
                 return;
             }
 
-            await using (var transaction = await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead,httpContext.RequestAborted))
+            await using (var transaction = await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.ReadCommitted,httpContext.RequestAborted))
             {
                 await _next(httpContext);
                 

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Common.Dto;
+using Common.Dto.Order;
 using Common.Models;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -28,10 +28,24 @@ namespace PaymentRecorder.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<OrderModel>> AddOrder([FromBody] OrderDto orderDto,
+        public async Task<ActionResult<OrderModel>> AddOrder([FromBody] OrderDto createOrderDto,
             CancellationToken cancellationToken)
         {
-            return Mapper.Map<OrderModel>(await _orderService.Add(orderDto, cancellationToken));
+            var entity = await _orderService.Add(createOrderDto, cancellationToken);
+
+            Response.Headers.ETag = entity.Version.ToString();
+            return Mapper.Map<OrderModel>(entity);
+        }
+
+        [HttpPut("{orderNumber:long}")]
+        public async Task<ActionResult<OrderModel>> EditOrderByNumber([FromRoute] long orderNumber,[FromBody] OrderDto orderDto,
+            CancellationToken cancellationToken)
+        {
+            orderDto.Version = Guid.Parse(Request.Headers.IfMatch);
+            var entity = await _orderService.UpdateByNumberAsync(orderNumber, orderDto, cancellationToken);
+
+            Response.Headers.ETag = entity.Version.ToString();
+            return Mapper.Map<OrderModel>(entity);
         }
     }
 }

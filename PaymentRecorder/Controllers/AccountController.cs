@@ -25,7 +25,7 @@ namespace PaymentRecorder.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountModel>>> GetAll(CancellationToken cancellationToken)
         {
-            var accounts = await _accountService.GetAllWithIncludeAsync(cancellationToken, e => e.Bank, e => e.Agent,e => e.IncomingOrders,e => e.OutcomingOrders);
+            var accounts = await _accountService.GetAllWithIncludeAsNoTrackingAsync(cancellationToken, e => e.Bank, e => e.Agent,e => e.IncomingOrders,e => e.OutcomingOrders);
 
             return Ok(accounts.Select(e => Mapper.Map<AccountModel>(e)));
         }
@@ -35,7 +35,7 @@ namespace PaymentRecorder.Controllers
         [HttpGet("{id:long}")]
         public async Task<ActionResult<AccountModel>> GetById([FromRoute] long id,CancellationToken cancellationToken)
         {
-            var entity = await _accountService.GetByIdWithIncludeAsync(id, cancellationToken, e => e.Bank, e => e.Agent,
+            var entity = await _accountService.GetByIdWithIncludeAsNoTrackingAsync(id, cancellationToken, e => e.Bank, e => e.Agent,
                 e => e.IncomingOrders, e => e.OutcomingOrders);
 
             Response.Headers.ETag = entity.Version.ToString();

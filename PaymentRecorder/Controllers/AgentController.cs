@@ -25,7 +25,7 @@ namespace PaymentRecorder.Controllers
         [HttpGet("{id:long}")]
         public async Task<ActionResult<AgentModel>> GetByIdIncludeAccountsNumberAsync(long id, CancellationToken cancellationToken)
         {
-            var entity = await _agentService.GetByIdWithIncludeAsync(id,cancellationToken,e => e.Accounts);
+            var entity = await _agentService.GetByIdWithIncludeAsNoTrackingAsync(id,cancellationToken,e => e.Accounts);
 
 
             Response.Headers.ETag = entity.Version.ToString();

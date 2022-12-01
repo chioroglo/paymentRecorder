@@ -24,7 +24,7 @@ namespace PaymentRecorder.Controllers
         [HttpGet("{id:long}")]
         public async Task<ActionResult<BankModel>> GetByIdAsync(long id, CancellationToken cancellationToken)
         {
-            var entity = await _bankService.GetByIdAsync(id, cancellationToken);
+            var entity = await _bankService.GetByIdAsNoTrackingAsync(id, cancellationToken);
 
 
             Response.Headers.ETag = entity.Version.ToString();

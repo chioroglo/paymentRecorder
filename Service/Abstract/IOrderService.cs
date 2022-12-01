@@ -1,4 +1,4 @@
-﻿using Common.Dto;
+﻿using Common.Dto.Order;
 using Domain;
 using Service.Abstract.Base;
 
@@ -8,9 +8,9 @@ public interface IOrderService : IBaseEntityService<Order>
 {
     Task<Order> Add(OrderDto dto, CancellationToken cancellationToken);
 
-    Task RemoveAsync(long id, Guid version, CancellationToken cancellationToken);
+    Task RemoveByOrderNumberAsync(long orderNumber, Guid version, CancellationToken cancellationToken);
 
-    Task<Order> UpdateAsync(OrderDto entity, CancellationToken cancellationToken);
+    Task<Order> UpdateByNumberAsync(long orderNumber,OrderDto entity, CancellationToken cancellationToken);
 
     Task<Order> GetByNumber(long orderNumber, CancellationToken cancellationToken);
 }

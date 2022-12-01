@@ -17,26 +17,26 @@ public abstract class BaseEntityService<TEntity> : IBaseEntityService<TEntity> w
         _db = db;
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<TEntity>> GetAllAsNoTrackingAsync(CancellationToken cancellationToken)
     {
         return await _db.Set<TEntity>().AsNoTracking().ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllWithIncludeAsync(CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties)
+    public async Task<IEnumerable<TEntity>> GetAllWithIncludeAsNoTrackingAsync(CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties)
     {
         var query = _db.IncludeProperties(includeProperties);
 
         return await query.AsNoTracking().ToListAsync(cancellationToken);
     }
 
-    public async Task<TEntity> GetByIdAsync(long id, CancellationToken cancellationToken)
+    public async Task<TEntity> GetByIdAsNoTrackingAsync(long id, CancellationToken cancellationToken)
     {
         return await _db.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                throw new EntityValidationException(EntityWasNotFoundBecause<TEntity>($"of ID:{id} does not exist"));
 
     }
 
-    public async Task<TEntity> GetByIdWithIncludeAsync(long id, CancellationToken cancellationToken,
+    public async Task<TEntity> GetByIdWithIncludeAsNoTrackingAsync(long id, CancellationToken cancellationToken,
         params Expression<Func<TEntity, object>>[] includeProperties)
     {
         var query = _db.IncludeProperties<TEntity>(includeProperties);
@@ -45,7 +45,7 @@ public abstract class BaseEntityService<TEntity> : IBaseEntityService<TEntity> w
                throw new EntityValidationException(EntityWasNotFoundBecause<TEntity>($" ID:{id} does not exist"));
     }
 
-    public async Task<IEnumerable<TEntity>> GetWhereWithIncludeAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken,
+    public async Task<IEnumerable<TEntity>> GetWhereWithIncludeAsNoTrackingAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken,
         params Expression<Func<TEntity, object>>[] includeProperties)
     {
         var query = _db.IncludeProperties(includeProperties);
