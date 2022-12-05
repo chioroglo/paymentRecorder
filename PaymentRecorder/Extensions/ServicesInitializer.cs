@@ -17,5 +17,6 @@ public static class ServicesInitializer
         services.AddTransient<IOrderService, OrderService>();
         services.AddTransient<ITransactionService, TransactionService>();
         services.AddTransient<IPasswordHasher<ApplicationUser>, PasswordHasherHmacSha512>();
+        services.AddTransient<ITokenService, TokenService>();
     }
 }

@@ -49,7 +49,9 @@ public class ExceptionHandlingMiddleware
             }
 
             await CreateExceptionResponseAsync(context, e);
-        };
+        }
+
+        ;
     }
 
     private Task CreateExceptionResponseAsync(HttpContext context, Exception exception)

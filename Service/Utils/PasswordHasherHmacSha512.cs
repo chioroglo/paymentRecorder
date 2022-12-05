@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Service.Utils;
 
-public class PasswordHasherHmacSha512 : IPasswordHasher<ApplicationUser>
+public sealed class PasswordHasherHmacSha512 : IPasswordHasher<ApplicationUser>
 {
     public string HashPassword(ApplicationUser user, string password)
     {

@@ -2,15 +2,11 @@
 using Common.Dto.Auth;
 using Common.Exceptions;
 using Common.Extensions;
-using Common.Jwt;
 using Common.Models.Auth;
-using Data;
 using Domain;
 using Domain.Enum;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using Service.Abstract;
-using Service.Utils;
 using static Common.Exceptions.ExceptionMessages.IdentityExceptionMessages;
 
 
@@ -19,14 +15,12 @@ namespace Service;
 public class AuthService : IAuthService
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly JWTConfigurationFromAppsettingsJson _jwtConfiguration;
-    private readonly EfDbContext _db;
+    private readonly ITokenService _tokenService;
 
-    public AuthService(UserManager<ApplicationUser> userManager, IOptions<JWTConfigurationFromAppsettingsJson> jwt, EfDbContext db)
+    public AuthService(UserManager<ApplicationUser> userManager, ITokenService tokenService)
     {
         _userManager = userManager;
-        _db = db;
-        _jwtConfiguration = jwt.Value;
+        _tokenService = tokenService;
     }
 
     public async Task<AuthenticationModel> RegisterAsync(RegistrationDto dto, CancellationToken cancellationToken)
@@ -65,16 +59,28 @@ public class AuthService : IAuthService
 
         await _userManager.AddToRoleAsync(user, UserRole.Accountant.GetEnumDescription());
 
-        var token = await JwtIssuer.CreateAccessTokenConformAppsettings(_userManager, user, _jwtConfiguration);
+        var refreshToken = await _tokenService.CreateUniqueRefreshTokenAsync(cancellationToken);
+        user.RefreshToken = refreshToken.Token;
+        user.RefreshTokenExpirationDate = refreshToken.ExpirationDate;
 
 
+
+
+        // check if adds refresh token automatically
+        // uncomment if not
+        await _userManager.UpdateAsync(user);
+
+        var accessToken = await _tokenService.CreateAccessToken(user,cancellationToken);
+        
         return new AuthenticationModel
         {
             Username = user.UserName,
             Email = user.Email,
-            RefreshTokenExpirationDate = token.ValidTo,
             Roles = new List<string> { UserRole.Accountant.GetEnumDescription() },
-            RefreshToken = ""
+            AccessToken = new JwtSecurityTokenHandler().WriteToken(accessToken),
+            AccessTokenExpirationDate = accessToken.ValidTo,
+            RefreshToken = user.RefreshToken,
+            RefreshTokenExpirationDate = refreshToken.ExpirationDate
         };
     }
 
@@ -88,14 +94,14 @@ public class AuthService : IAuthService
             throw new IdentityException(AuthenticationFailedMessage());
         }
         
-        var refreshToken = await JwtIssuer.CreateUniqueRefreshToken(_userManager, user,_jwtConfiguration, cancellationToken);
+        var refreshToken = await _tokenService.CreateUniqueRefreshTokenAsync(cancellationToken);
         user.RefreshToken = refreshToken.Token;
         user.RefreshTokenExpirationDate = refreshToken.ExpirationDate;
 
         await _userManager.UpdateAsync(user);
             
 
-        var accessToken = await JwtIssuer.CreateAccessTokenConformAppsettings(_userManager, user, _jwtConfiguration);
+        var accessToken = await _tokenService.CreateAccessToken(user,cancellationToken);
         var roles = await _userManager.GetRolesAsync(user);
 
         return new AuthenticationModel

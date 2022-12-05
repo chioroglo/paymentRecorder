@@ -190,7 +190,7 @@ public class OrderService : BaseEntityService<Order>, IOrderService
 
 
         return await GetQueryWithAllInclusionsForOrderModel()
-            .FirstOrDefaultAsync(e => e.Id == entityFromDb.Id, cancellationToken); //?? entityFromDb;
+            .FirstOrDefaultAsync(e => e.Id == entityFromDb.Id, cancellationToken) ?? entityFromDb;
     }
 
 
