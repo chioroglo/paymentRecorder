@@ -60,7 +60,8 @@ namespace PaymentRecorder.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id:long}")]
-        public async Task<ActionResult<BankModel>> EditBankById(long id,[FromBody] BankDto request, CancellationToken cancellationToken)
+        public async Task<ActionResult<BankModel>> EditBankById(long id, [FromBody] BankDto request,
+            CancellationToken cancellationToken)
         {
             var dto = Mapper.Map<Bank>(request);
             dto.Version = Guid.Parse(HttpContext.Request.Headers.IfMatch);

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Query;
 using Service.Abstract;
 using Service.Abstract.Base;
 using static Common.Exceptions.ExceptionMessages.ValidationExceptionMessages;
-using static Service.Utils.EntityValidationUtils;
+using static Service.Utils.EntityValidationMethods;
 
 namespace Service;
 
@@ -70,8 +70,8 @@ public class OrderService : BaseEntityService<Order>, IOrderService
             throw new EntityValidationException(
                 EntityCannotBeCreatedBecause<Order>("information has invalid dates of execution and/or issuing"));
         }
-        
-        
+
+
         var newOrder = new Order
         {
             Version = Guid.NewGuid(),
@@ -106,18 +106,21 @@ public class OrderService : BaseEntityService<Order>, IOrderService
 
     public async Task RemoveByOrderNumberAsync(long orderNumber, Guid version, CancellationToken cancellationToken)
     {
-        var entity = await _db.Orders.FirstOrDefaultAsync(e => e.Id == orderNumber, cancellationToken) 
-            ?? throw new EntityValidationException(EntityCannotBeDeletedBecause<Transaction>($"of ID {orderNumber} does not exist")); ;
-        
-        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entity.Version,version);
+        var entity = await _db.Orders.FirstOrDefaultAsync(e => e.Id == orderNumber, cancellationToken)
+                     ?? throw new EntityValidationException(
+                         EntityCannotBeDeletedBecause<Transaction>($"of ID {orderNumber} does not exist"));
+        ;
+
+        ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entity.Version, version);
 
         _db.Orders.Remove(entity);
     }
 
-    public async Task<Order> UpdateByNumberAsync(long orderNumber,OrderDto dto, CancellationToken cancellationToken)
+    public async Task<Order> UpdateByNumberAsync(long orderNumber, OrderDto dto, CancellationToken cancellationToken)
     {
         var entityFromDb = await _db.Orders.FirstOrDefaultAsync(e => e.Number == orderNumber, cancellationToken)
-            ?? throw new EntityValidationException(EntityCannotBeModifiedBecause<Order>($"with number {orderNumber} does not exist"));
+                           ?? throw new EntityValidationException(
+                               EntityCannotBeModifiedBecause<Order>($"with number {orderNumber} does not exist"));
 
 
         ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(dto.Version, entityFromDb.Version);
@@ -141,8 +144,8 @@ public class OrderService : BaseEntityService<Order>, IOrderService
         // change to any
         if (await _db.Orders.CountAsync(e => e.Number == dto.Number && e.Id != entityFromDb.Id, cancellationToken) > 0)
         {
-
-            throw new EntityValidationException(EntityCannotBeCreatedBecause<Order>("with specified number is occupied"));
+            throw new EntityValidationException(
+                EntityCannotBeCreatedBecause<Order>("with specified number is occupied"));
         }
 
         if (dto.TransactionState == TransactionState.Completed && dto.ExecutionDate == null)
@@ -156,7 +159,7 @@ public class OrderService : BaseEntityService<Order>, IOrderService
             throw new EntityValidationException(
                 EntityCannotBeCreatedBecause<Order>("information has invalid dates of execution and issuing"));
         }
-        
+
 
         entityFromDb.Version = Guid.NewGuid();
         entityFromDb.Number = orderNumber;
@@ -183,7 +186,7 @@ public class OrderService : BaseEntityService<Order>, IOrderService
             TransactionState = dto.TransactionState
         };
 
-        await _transactionService.EditAsync(transactionDto,cancellationToken);
+        await _transactionService.EditAsync(transactionDto, cancellationToken);
 
 
         return await GetQueryWithAllInclusionsForOrderModel()

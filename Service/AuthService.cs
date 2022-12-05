@@ -62,7 +62,7 @@ public class AuthService : IAuthService
 
         await _userManager.AddToRoleAsync(user, UserRole.Accountant.GetEnumDescription());
 
-        var token = await JwtUtils.CreateJwtTokenConformAppsettings(_userManager, user, _jwt);
+        var token = await JwtIssuer.CreateAccessTokenConformAppsettings(_userManager, user, _jwt);
 
 
         return new AuthenticationModel
@@ -85,7 +85,7 @@ public class AuthService : IAuthService
             throw new IdentityException(AuthenticationFailedMessage());
         }
 
-        var token = await JwtUtils.CreateJwtTokenConformAppsettings(_userManager, user, _jwt);
+        var token = await JwtIssuer.CreateAccessTokenConformAppsettings(_userManager, user, _jwt);
         var roles = await _userManager.GetRolesAsync(user);
 
         return new AuthenticationModel

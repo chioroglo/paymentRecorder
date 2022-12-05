@@ -10,7 +10,7 @@ public interface IOrderService : IBaseEntityService<Order>
 
     Task RemoveByOrderNumberAsync(long orderNumber, Guid version, CancellationToken cancellationToken);
 
-    Task<Order> UpdateByNumberAsync(long orderNumber,OrderDto entity, CancellationToken cancellationToken);
+    Task<Order> UpdateByNumberAsync(long orderNumber, OrderDto entity, CancellationToken cancellationToken);
 
     Task<Order> GetByNumber(long orderNumber, CancellationToken cancellationToken);
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Service.Abstract;
 using Service.Abstract.Base;
 using static Common.Exceptions.ExceptionMessages.ValidationExceptionMessages;
-using static Service.Utils.EntityValidationUtils;
+using static Service.Utils.EntityValidationMethods;
 
 namespace Service;
 

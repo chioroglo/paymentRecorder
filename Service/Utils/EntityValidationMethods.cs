@@ -2,7 +2,7 @@
 
 namespace Service.Utils;
 
-public static class EntityValidationUtils
+public static class EntityValidationMethods
 {
     public static void ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(Guid entityInDatabaseConcurrencyToken,
         Guid requestEntityConcurrencyToken)

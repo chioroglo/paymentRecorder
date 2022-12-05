@@ -7,29 +7,22 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Service.Utils;
 
-public class JwtUtils
+public static class JwtIssuer
 {
-    public static async Task<JwtSecurityToken> CreateJwtTokenConformAppsettings<TUser>(UserManager<TUser> userManager,
+    public static async Task<JwtSecurityToken> CreateAccessTokenConformAppsettings<TUser>(UserManager<TUser> userManager,
         TUser user, JWTConfigurationFromAppsettingsJson configuration) where TUser : IdentityUser
     {
         var userClaims = await userManager.GetClaimsAsync(user);
         var roles = await userManager.GetRolesAsync(user);
-        var roleClaims = new List<Claim>();
-
-        foreach (var role in roles)
-        {
-            roleClaims.Add(new Claim("roles", role));
-        }
+        
+        var roleClaims = roles.Select(role => new Claim("roles", role)).ToList();
 
         var claims = new Claim[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtTokenClaimNames.UserId, user.Id)
-            }
-            .Union(userClaims)
-            .Union(roleClaims);
+            }.Union(userClaims).Union(roleClaims);
 
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.Key));
 
@@ -40,7 +33,7 @@ public class JwtUtils
             configuration.Audience,
             claims,
             signingCredentials: signingCredentials,
-            expires: DateTime.UtcNow.AddDays(configuration.DurationInDays));
+            expires: DateTime.UtcNow.AddMinutes(configuration.DurationInMinutes));
 
         return token;
     }
