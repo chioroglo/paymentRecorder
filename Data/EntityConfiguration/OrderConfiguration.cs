@@ -29,6 +29,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(e => e.ExecutionDate)
             .IsRequired(false);
 
+        builder.Property(e => e.Amount)
+            .HasPrecision(10);
+
         builder.HasOne(e => e.Transaction)
             .WithOne(e => e.Order)
             .HasForeignKey<Transaction>(e => e.OrderId)

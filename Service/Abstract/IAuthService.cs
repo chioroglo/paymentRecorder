@@ -5,7 +5,7 @@ namespace Service.Abstract;
 
 public interface IAuthService
 {
-    Task<AuthenticationModel> RegisterAsync(RegistrationDto dto);
+    Task<AuthenticationModel> RegisterAsync(RegistrationDto dto, CancellationToken cancellationToken);
 
-    Task<AuthenticationModel> LoginAsync(LoginDto dto);
+    Task<AuthenticationModel> LoginAsync(LoginDto dto, CancellationToken cancellationToken);
 }

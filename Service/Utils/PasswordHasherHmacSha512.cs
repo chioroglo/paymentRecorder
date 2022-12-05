@@ -18,9 +18,9 @@ public class PasswordHasherHmacSha512 : IPasswordHasher<ApplicationUser>
         }
     }
 
-    public PasswordVerificationResult VerifyHashedPassword(ApplicationUser user, string hashedPassword, string providedPassword)
+    public PasswordVerificationResult VerifyHashedPassword(ApplicationUser user, string hashedPassword,
+        string providedPassword)
     {
-        
         return HashPassword(user, providedPassword) == hashedPassword
             ? PasswordVerificationResult.Success
             : PasswordVerificationResult.Failed;

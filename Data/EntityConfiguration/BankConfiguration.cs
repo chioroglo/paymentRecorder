@@ -21,7 +21,9 @@ public class BankConfiguration : IEntityTypeConfiguration<Bank>
             .HasDefaultValueSql(UtilSqlCommands.SqlServerNewGuidCommand);
 
 
-        builder.Property(e => e.Code).HasMaxLength(BankValidationConstraints.BankCodeLengthFixed).IsFixedLength();
+        builder.Property(e => e.Code)
+            .HasMaxLength(BankValidationConstraints.BankCodeLengthFixed)
+            .IsFixedLength();
 
         builder.Property(e => e.Name)
             .HasMaxLength(CommonValidationConstraints.NameMaxLength);

@@ -1,6 +1,4 @@
-﻿using Domain.Enum;
-
-namespace Common.Models.Auth;
+﻿namespace Common.Models.Auth;
 
 public class AuthenticationModel
 {
@@ -9,8 +7,12 @@ public class AuthenticationModel
     public string Email { get; set; }
 
     public IEnumerable<string> Roles { get; set; }
+    
+    public string RefreshToken { get; set; }
 
-    public string Token { get; set; }
+    public DateTime RefreshTokenExpirationDate { get; set; }
 
-    public DateTime ExpiresOn { get; set; }
+    public string AccessToken { get; set; }
+
+    public DateTime AccessTokenExpirationDate { get; set; }
 }
