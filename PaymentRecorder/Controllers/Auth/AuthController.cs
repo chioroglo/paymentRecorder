@@ -30,9 +30,10 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost("register")]
-    public async Task<ActionResult<AuthenticationResponseModel>> AddNewUserAsync([FromBody] RegistrationDto dto,CancellationToken cancellationToken)
+    public async Task<ActionResult<AuthenticationResponseModel>> AddNewUserAsync([FromBody] RegistrationDto dto,
+        CancellationToken cancellationToken)
     {
-        var result = await _authService.RegisterAsync(dto,cancellationToken);
+        var result = await _authService.RegisterAsync(dto, cancellationToken);
 
         HttpContext.Response.Cookies.Append(
             JwtCookieClaims.RefreshToken,
@@ -45,15 +46,16 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost("login")]
-    public async Task<ActionResult<AuthenticationResponseModel>> LoginAsync([FromBody] LoginDto dto,CancellationToken cancellationToken)
+    public async Task<ActionResult<AuthenticationResponseModel>> LoginAsync([FromBody] LoginDto dto,
+        CancellationToken cancellationToken)
     {
-        var result = await _authService.LoginAsync(dto,cancellationToken);
+        var result = await _authService.LoginAsync(dto, cancellationToken);
 
         HttpContext.Response.Cookies.Append(
             JwtCookieClaims.RefreshToken,
             result.RefreshToken,
             CookieOptionsFactory.CreateOptionsForTokenCookie(result.RefreshTokenExpirationDate));
-        
+
         return Ok(_mapper.Map<AuthenticationResponseModel>(result));
     }
 
@@ -63,10 +65,10 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<AccessToken>> GetAccessToken(CancellationToken cancellationToken)
     {
         var refreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken]
-            ?? throw new IdentityException(IdentityExceptionMessages.InvalidTokenMessage());
+                           ?? throw new IdentityException(IdentityExceptionMessages.InvalidTokenMessage());
 
         var accessToken = await _tokenService.GetAccessToken(refreshToken, cancellationToken);
-        
+
         return Ok(accessToken);
     }
 
@@ -76,9 +78,9 @@ public class AuthController : ControllerBase
     public async Task<ActionResult> ExchangeRefreshToken(CancellationToken cancellationToken)
     {
         // retrieve refresh token from httponly cookie
-        
-        var oldRefreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ?? 
-                    throw new IdentityException(IdentityExceptionMessages.InvalidTokenMessage());
+
+        var oldRefreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ??
+                              throw new IdentityException(IdentityExceptionMessages.InvalidTokenMessage());
 
         var newRefreshToken = await _tokenService.ExchangeRefreshToken(oldRefreshToken, cancellationToken);
 
@@ -89,5 +91,4 @@ public class AuthController : ControllerBase
 
         return Ok();
     }
-
 }

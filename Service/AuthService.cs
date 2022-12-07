@@ -22,7 +22,8 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
     }
 
-    public async Task<AuthenticationServiceResponseDto> RegisterAsync(RegistrationDto dto, CancellationToken cancellationToken)
+    public async Task<AuthenticationServiceResponseDto> RegisterAsync(RegistrationDto dto,
+        CancellationToken cancellationToken)
     {
         if (await _userManager.FindByEmailAsync(dto.Email) != null)
         {
@@ -62,15 +63,14 @@ public class AuthService : IAuthService
         }
 
         await _userManager.AddToRoleAsync(user, UserRole.Accountant.GetEnumDescription());
-        
 
 
         // check if adds refresh token automatically
         // uncomment if not
         await _userManager.UpdateAsync(user);
 
-        var accessToken = await _tokenService.CreateAccessToken(user,cancellationToken);
-        
+        var accessToken = await _tokenService.CreateAccessToken(user, cancellationToken);
+
         return new AuthenticationServiceResponseDto
         {
             Username = user.UserName,
@@ -101,9 +101,9 @@ public class AuthService : IAuthService
         }
 
         await _userManager.UpdateAsync(user);
-            
 
-        var accessToken = await _tokenService.CreateAccessToken(user,cancellationToken);
+
+        var accessToken = await _tokenService.CreateAccessToken(user, cancellationToken);
         var roles = await _userManager.GetRolesAsync(user);
 
         return new AuthenticationServiceResponseDto

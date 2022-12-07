@@ -16,6 +16,5 @@ public class UserProfile : Profile
             .ForMember(dest => dest.AccessToken, opt => opt.MapFrom(src => src.AccessToken))
             .ForMember(dest => dest.AccessTokenExpirationDate,
                 opt => opt.MapFrom(src => src.AccessTokenExpirationDate));
-
     }
 }

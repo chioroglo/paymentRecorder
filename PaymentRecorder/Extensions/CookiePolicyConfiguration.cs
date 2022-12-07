@@ -6,10 +6,7 @@ namespace PaymentRecorder.Extensions
     {
         public static IServiceCollection ConfigureCookiePolicy(this IServiceCollection services)
         {
-            return services.Configure<CookiePolicyOptions>(options =>
-            {
-
-            });
+            return services.Configure<CookiePolicyOptions>(options => { });
         }
     }
 }

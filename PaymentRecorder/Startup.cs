@@ -32,7 +32,8 @@ public class Startup
         services.ConfigureIdentity();
         services.ConfigureCookiePolicy();
 
-        services.AddDbContext<EfDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Transient);
+        services.AddDbContext<EfDbContext>(options => options.UseSqlServer(connectionString),
+            ServiceLifetime.Transient);
 
 
         services.AddIdentity<ApplicationUser, IdentityRole>()
