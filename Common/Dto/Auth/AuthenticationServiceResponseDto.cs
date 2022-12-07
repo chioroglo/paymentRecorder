@@ -1,6 +1,6 @@
-﻿namespace Common.Models.Auth;
+﻿namespace Common.Dto.Auth;
 
-public class AuthenticationModel
+public class AuthenticationServiceResponseDto
 {
     public string Username { get; set; }
 

@@ -2,7 +2,6 @@
 using Common.Dto.Auth;
 using Common.Exceptions;
 using Common.Extensions;
-using Common.Models.Auth;
 using Domain;
 using Domain.Enum;
 using Microsoft.AspNetCore.Identity;
@@ -23,7 +22,7 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
     }
 
-    public async Task<AuthenticationModel> RegisterAsync(RegistrationDto dto, CancellationToken cancellationToken)
+    public async Task<AuthenticationServiceResponseDto> RegisterAsync(RegistrationDto dto, CancellationToken cancellationToken)
     {
         if (await _userManager.FindByEmailAsync(dto.Email) != null)
         {
@@ -35,12 +34,17 @@ public class AuthService : IAuthService
             throw new IdentityException(RegistrationFailedBecause($"username {dto.Username} is occupied"));
         }
 
+
+        var refreshToken = await _tokenService.CreateUniqueRefreshTokenAsync(cancellationToken);
+
         var user = new ApplicationUser()
         {
             UserName = dto.Username,
             Email = dto.Email,
             Firstname = dto.Firstname,
-            Lastname = dto.Lastname
+            Lastname = dto.Lastname,
+            RefreshToken = refreshToken.Token,
+            RefreshTokenExpirationDate = refreshToken.ExpirationDate
         };
 
         var result = await _userManager.CreateAsync(user, dto.Password);
@@ -58,12 +62,7 @@ public class AuthService : IAuthService
         }
 
         await _userManager.AddToRoleAsync(user, UserRole.Accountant.GetEnumDescription());
-
-        var refreshToken = await _tokenService.CreateUniqueRefreshTokenAsync(cancellationToken);
-        user.RefreshToken = refreshToken.Token;
-        user.RefreshTokenExpirationDate = refreshToken.ExpirationDate;
-
-
+        
 
 
         // check if adds refresh token automatically
@@ -72,7 +71,7 @@ public class AuthService : IAuthService
 
         var accessToken = await _tokenService.CreateAccessToken(user,cancellationToken);
         
-        return new AuthenticationModel
+        return new AuthenticationServiceResponseDto
         {
             Username = user.UserName,
             Email = user.Email,
@@ -84,7 +83,7 @@ public class AuthService : IAuthService
         };
     }
 
-    public async Task<AuthenticationModel> LoginAsync(LoginDto dto, CancellationToken cancellationToken)
+    public async Task<AuthenticationServiceResponseDto> LoginAsync(LoginDto dto, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByNameAsync(dto.EmailOrUsername) ??
                    await _userManager.FindByEmailAsync(dto.EmailOrUsername);
@@ -107,7 +106,7 @@ public class AuthService : IAuthService
         var accessToken = await _tokenService.CreateAccessToken(user,cancellationToken);
         var roles = await _userManager.GetRolesAsync(user);
 
-        return new AuthenticationModel
+        return new AuthenticationServiceResponseDto
         {
             Username = user.UserName,
             Email = user.Email,

@@ -1,4 +1,5 @@
 using PaymentRecorder.Extensions;
+using PaymentRecorder.Factories;
 
 namespace PaymentRecorder
 {

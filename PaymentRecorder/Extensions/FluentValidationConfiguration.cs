@@ -6,7 +6,7 @@ namespace PaymentRecorder.Extensions;
 
 public static class FluentValidationConfiguration
 {
-    public static IServiceCollection ConfigureFluentValidation(this IServiceCollection services)
+    public static IServiceCollection AddFluentValidation(this IServiceCollection services)
     {
         services.AddFluentValidationAutoValidation(config => { config.DisableDataAnnotationsValidation = true; });
 

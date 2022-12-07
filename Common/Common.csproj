@@ -29,10 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dto\Auth\" />
     <Folder Include="Models\Error\" />
     <Folder Include="Models\Base\" />
-    <Folder Include="Models\Auth\" />
   </ItemGroup>
 
 </Project>

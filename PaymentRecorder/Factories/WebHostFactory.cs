@@ -1,4 +1,4 @@
-﻿namespace PaymentRecorder;
+﻿namespace PaymentRecorder.Factories;
 
 public class WebHostFactory
 {

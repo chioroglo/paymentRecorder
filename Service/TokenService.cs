@@ -7,6 +7,7 @@ using Common.Jwt;
 using Common.Validation.ValidationConstraints;
 using Data.Migrations;
 using Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

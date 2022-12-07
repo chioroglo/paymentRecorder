@@ -30,11 +30,9 @@ public class Startup
 
         services.Configure<JWTConfigurationFromAppsettingsJson>(Configuration.GetSection("JWT"));
         services.ConfigureIdentity();
-        services.ConfigureFluentValidation();
+        services.ConfigureCookiePolicy();
 
-
-        services.AddDbContext<EfDbContext>(options => { options.UseSqlServer(connectionString); },
-            ServiceLifetime.Transient);
+        services.AddDbContext<EfDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Transient);
 
 
         services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -48,6 +46,7 @@ public class Startup
 
         services.AddAuthorization();
 
+        services.AddFluentValidation();
         services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
     }
 
