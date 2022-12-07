@@ -93,10 +93,13 @@ public class AuthService : IAuthService
         {
             throw new IdentityException(AuthenticationFailedMessage());
         }
-        
-        var refreshToken = await _tokenService.CreateUniqueRefreshTokenAsync(cancellationToken);
-        user.RefreshToken = refreshToken.Token;
-        user.RefreshTokenExpirationDate = refreshToken.ExpirationDate;
+
+        if (user.RefreshTokenExpirationDate < DateTime.UtcNow)
+        {
+            var refreshToken = await _tokenService.CreateUniqueRefreshTokenAsync(cancellationToken);
+            user.RefreshToken = refreshToken.Token;
+            user.RefreshTokenExpirationDate = refreshToken.ExpirationDate;
+        }
 
         await _userManager.UpdateAsync(user);
             

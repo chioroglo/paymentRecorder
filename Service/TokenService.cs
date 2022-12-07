@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Service.Abstract;
 using static Common.Exceptions.ExceptionMessages.IdentityExceptionMessages;
+using static Common.Validation.ValidationConstraints.ApplicationUserValidationConstraints;
 
 namespace Service;
 
@@ -21,7 +22,8 @@ public class TokenService : ITokenService
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly JWTConfigurationFromAppsettingsJson _jwtConfiguration;
 
-    public TokenService(UserManager<ApplicationUser> userManager, IOptions<JWTConfigurationFromAppsettingsJson> jwtConfiguration)
+    public TokenService(UserManager<ApplicationUser> userManager,
+        IOptions<JWTConfigurationFromAppsettingsJson> jwtConfiguration)
     {
         _userManager = userManager;
         _jwtConfiguration = jwtConfiguration.Value;
@@ -57,33 +59,37 @@ public class TokenService : ITokenService
 
     public async Task<RefreshToken> CreateUniqueRefreshTokenAsync(CancellationToken cancellationToken)
     {
-        var randomNumber = new byte[ApplicationUserValidationConstraints.RefreshTokenLengthFixed];
+        const string alphabatForToken = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_";
+        var data = new byte[RefreshTokenLengthFixed];
 
-        using (var randomNumberGenerator = RandomNumberGenerator.Create())
+
+        using (var rng = new RNGCryptoServiceProvider())
         {
-            randomNumberGenerator.GetBytes(randomNumber);
-            
-            var sha512EncodedToken = new HMACSHA512().ComputeHash(randomNumber);
-
-            var refreshToken = Convert.ToBase64String(sha512EncodedToken);
-
-            if (await _userManager.Users.FirstOrDefaultAsync(e => e.RefreshToken == refreshToken, cancellationToken) !=
-                null)
-            {
-                return await CreateUniqueRefreshTokenAsync(cancellationToken);
-            }
-
-            return new RefreshToken
-            {
-                Token = refreshToken,
-                ExpirationDate = DateTime.UtcNow.AddDays(_jwtConfiguration.RefreshTokenLifetimeInDays)
-            };
+            rng.GetBytes(data);
         }
+
+        var tokenBuilder = new StringBuilder(RefreshTokenLengthFixed);
+
+        Array.ForEach(data, b => tokenBuilder.Append(alphabatForToken[b % alphabatForToken.Length]));
+
+        var token = tokenBuilder.ToString();
+
+        if (await _userManager.Users.FirstOrDefaultAsync(e => e.RefreshToken == token, cancellationToken) != null)
+        {
+            return await CreateUniqueRefreshTokenAsync(cancellationToken);
+        }
+
+        return new RefreshToken
+        {
+            Token = token,
+            ExpirationDate = DateTime.UtcNow.AddDays(_jwtConfiguration.RefreshTokenLifetimeInDays)
+        };
     }
 
     public async Task<RefreshToken> ExchangeRefreshToken(string oldRefreshToken, CancellationToken cancellationToken)
     {
-        var user = await _userManager.Users.FirstOrDefaultAsync(e => e.RefreshToken == oldRefreshToken, cancellationToken);
+        var user = await _userManager.Users.FirstOrDefaultAsync(e => e.RefreshToken == oldRefreshToken,
+            cancellationToken);
 
         if (user == null || user.RefreshTokenExpirationDate < DateTime.UtcNow)
         {
@@ -108,14 +114,14 @@ public class TokenService : ITokenService
     public async Task<AccessToken> GetAccessToken(string refreshToken, CancellationToken cancellationToken)
     {
         var user = await _userManager.Users.FirstOrDefaultAsync(e => e.RefreshToken == refreshToken, cancellationToken);
-        
+
         if (user == null || user.RefreshTokenExpirationDate < DateTime.UtcNow)
         {
             throw new IdentityException(InvalidTokenMessage());
         }
 
         var token = await CreateAccessToken(user, cancellationToken);
-        
+
         return new AccessToken
         {
             Token = new JwtSecurityTokenHandler().WriteToken(token),

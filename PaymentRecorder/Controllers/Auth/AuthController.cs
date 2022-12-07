@@ -1,8 +1,10 @@
-﻿using Common.Dto.Auth;
+﻿using System.Net.Mime;
+using Common.Dto.Auth;
 using Common.Jwt;
 using Common.Models.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
+using ContentType = Azure.Core.ContentType;
 
 namespace PaymentRecorder.Controllers.Auth;
 
@@ -52,11 +54,11 @@ public class AuthController : ControllerBase
 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [HttpPut("exchange-refresh-token")]
-
+    [HttpPost("exchange-refresh-token")]
     public async Task<ActionResult<RefreshToken>> GetRefreshToken([FromQuery] string refreshToken,
         CancellationToken cancellationToken)
     {
+        // retrieve refresh token from httponly cookie
         var newRefreshToken = await _tokenService.ExchangeRefreshToken(refreshToken, cancellationToken);
 
         return newRefreshToken;
