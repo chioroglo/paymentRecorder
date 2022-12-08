@@ -1,1 +1,1 @@
-export * from "../../api/http/axiosInstance";
+export * from "../axiosInstance";

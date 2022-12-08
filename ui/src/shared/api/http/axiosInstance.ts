@@ -1,10 +1,7 @@
 import axios from "axios";
-import {API_URL} from "../../axios/config";
+import {API_URL} from "./config";
 
-const instance = axios.create({
+export const axiosInstance = axios.create({
     withCredentials: false,
     baseURL : API_URL
 })
-
-
-export { instance };

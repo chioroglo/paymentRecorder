@@ -1,6 +1,6 @@
-import {instance} from "../../api/http/axiosInstance";
+import {axiosInstance } from "../axiosInstance";
 
-instance.interceptors.request.use((config) => {
+axiosInstance.interceptors.request.use((config) => {
     console.log(config);
     return config;
 });
