@@ -21,7 +21,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         var connectionString = Configuration.GetConnectionString("DefaultConnection");
-
+        
 
         services.AddControllers();
         services.AddEndpointsApiExplorer();
@@ -30,7 +30,7 @@ public class Startup
 
         services.Configure<JWTConfigurationFromAppsettingsJson>(Configuration.GetSection("JWT"));
         services.ConfigureIdentity();
-        services.ConfigureCookiePolicy();
+        services.AddCors(Configuration);
 
         services.AddDbContext<EfDbContext>(options => options.UseSqlServer(connectionString),
             ServiceLifetime.Transient);
@@ -62,6 +62,7 @@ public class Startup
         app.UseHttpsRedirection();
 
         app.UseRouting();
+        app.UseCors();
 
         app.UseCustomExceptionHandling();
         app.UseDbTransactionPerRequest();
