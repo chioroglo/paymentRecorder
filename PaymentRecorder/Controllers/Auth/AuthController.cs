@@ -64,8 +64,8 @@ public class AuthController : ControllerBase
     [HttpGet("get-access-token")]
     public async Task<ActionResult<AccessToken>> GetAccessToken(CancellationToken cancellationToken)
     {
-        var refreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken]
-                           ?? throw new IdentityException(IdentityExceptionMessages.InvalidTokenMessage());
+        var refreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ??
+                           throw new AuthenticationException(AuthorizationExceptionMessages.InvalidTokenMessage());
 
         var accessToken = await _tokenService.GetAccessToken(refreshToken, cancellationToken);
 
@@ -77,10 +77,8 @@ public class AuthController : ControllerBase
     [HttpPost("exchange-refresh-token")]
     public async Task<ActionResult> ExchangeRefreshToken(CancellationToken cancellationToken)
     {
-        // retrieve refresh token from httponly cookie
-
         var oldRefreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ??
-                              throw new IdentityException(IdentityExceptionMessages.InvalidTokenMessage());
+                              throw new AuthenticationException(AuthorizationExceptionMessages.InvalidTokenMessage());
 
         var newRefreshToken = await _tokenService.ExchangeRefreshToken(oldRefreshToken, cancellationToken);
 

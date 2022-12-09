@@ -25,9 +25,14 @@ public class ExceptionHandlingMiddleware
         {
             switch (e)
             {
+                case IdentityException: 
+                case AuthenticationException:
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    break;
+                }
                 case FormatException:
                 case EntityValidationException:
-                case IdentityException:
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     break;

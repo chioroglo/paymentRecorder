@@ -8,8 +8,8 @@ public static class CookieOptionsFactory
         {
             HttpOnly = true,
             Secure = true,
-            IsEssential = true,
-            Expires = expires
+            Expires = expires,
+            SameSite = SameSiteMode.None
         };
     }
 }

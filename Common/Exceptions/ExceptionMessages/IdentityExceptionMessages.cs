@@ -12,8 +12,4 @@ public static class IdentityExceptionMessages
         return "Authentication failed, check username or password";
     }
 
-    public static string InvalidTokenMessage()
-    {
-        return $"Token processing has failed, because token was invalid";
-    }
 }

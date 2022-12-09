@@ -12,7 +12,8 @@ public static class CorsPolicyConfiguration
                     builder
                         .WithOrigins(configuration["ReactApplicationAddress"])
                         .AllowAnyHeader()
-                        .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE");
+                        .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+                        .AllowCredentials();
                 });
         });
     }

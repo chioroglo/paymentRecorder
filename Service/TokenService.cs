@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Common.Exceptions;
+using Common.Exceptions.ExceptionMessages;
 using Common.Jwt;
 using Common.Validation.ValidationConstraints;
 using Data.Migrations;
@@ -94,7 +95,7 @@ public class TokenService : ITokenService
 
         if (user == null || user.RefreshTokenExpirationDate < DateTime.UtcNow)
         {
-            throw new IdentityException(InvalidTokenMessage());
+            throw new AuthenticationException(AuthorizationExceptionMessages.InvalidTokenMessage());
         }
 
         var newRefreshToken = await CreateUniqueRefreshTokenAsync(cancellationToken);
@@ -118,7 +119,7 @@ public class TokenService : ITokenService
 
         if (user == null || user.RefreshTokenExpirationDate < DateTime.UtcNow)
         {
-            throw new IdentityException(InvalidTokenMessage());
+            throw new AuthenticationException(AuthorizationExceptionMessages.InvalidTokenMessage());
         }
 
         var token = await CreateAccessToken(user, cancellationToken);
