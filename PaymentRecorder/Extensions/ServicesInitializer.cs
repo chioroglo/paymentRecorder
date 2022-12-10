@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Service;
 using Service.Abstract;
+using Service.Abstract.Auth;
+using Service.Auth;
 using Service.Utils;
 
 namespace PaymentRecorder.Extensions;

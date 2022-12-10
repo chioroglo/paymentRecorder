@@ -7,8 +7,7 @@ using Microsoft.Extensions.ObjectPool;
 using Moq;
 using NUnit.Framework;
 using PaymentRecorder.Controllers.Auth;
-using Service.Abstract;
-
+using Service.Abstract.Auth;
 
 namespace UnitTest.Controller
 {

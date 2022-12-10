@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using AutoMapper;
 using Common.Dto.Auth;
 using Common.Exceptions;
 using Common.Exceptions.ExceptionMessages;
@@ -7,7 +9,7 @@ using Common.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PaymentRecorder.Factories;
-using Service.Abstract;
+using Service.Abstract.Auth;
 
 namespace PaymentRecorder.Controllers.Auth;
 
@@ -65,7 +67,7 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<AccessToken>> GetAccessToken(CancellationToken cancellationToken)
     {
         var refreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ??
-                           throw new AuthenticationException(AuthorizationExceptionMessages.InvalidTokenMessage());
+                           throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
 
         var accessToken = await _tokenService.GetAccessToken(refreshToken, cancellationToken);
 
@@ -78,7 +80,7 @@ public class AuthController : ControllerBase
     public async Task<ActionResult> ExchangeRefreshToken(CancellationToken cancellationToken)
     {
         var oldRefreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ??
-                              throw new AuthenticationException(AuthorizationExceptionMessages.InvalidTokenMessage());
+                              throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
 
         var newRefreshToken = await _tokenService.ExchangeRefreshToken(oldRefreshToken, cancellationToken);
 
@@ -88,5 +90,21 @@ public class AuthController : ControllerBase
             , CookieOptionsFactory.CreateOptionsForTokenCookie(newRefreshToken.ExpirationDate));
 
         return Ok();
+    }
+
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [HttpGet("get-current-user")]
+    public async Task<ActionResult<ApplicationUserModel>> GetUserByAccessToken(
+        CancellationToken cancellationToken)
+    {
+        var claims = HttpContext.User.Claims;
+        
+        var userIdClaim = HttpContext.User.Claims.FirstOrDefault(e => e.Properties.Values.Contains(JwtRegisteredClaimNames.Sub))
+                          ?? throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
+
+        var userId = userIdClaim.Value;
+
+        return await _authService.GetByUserId(userId, cancellationToken);
     }
 }

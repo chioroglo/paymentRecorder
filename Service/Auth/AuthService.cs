@@ -1,15 +1,17 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Common.Dto.Auth;
 using Common.Exceptions;
+using Common.Exceptions.ExceptionMessages;
 using Common.Extensions;
+using Common.Models.Auth;
 using Domain;
 using Domain.Enum;
 using Microsoft.AspNetCore.Identity;
-using Service.Abstract;
+using Service.Abstract.Auth;
 using static Common.Exceptions.ExceptionMessages.IdentityExceptionMessages;
 
 
-namespace Service;
+namespace Service.Auth;
 
 public class AuthService : IAuthService
 {
@@ -87,6 +89,7 @@ public class AuthService : IAuthService
     {
         var user = await _userManager.FindByNameAsync(dto.EmailOrUsername) ??
                    await _userManager.FindByEmailAsync(dto.EmailOrUsername);
+        
 
         if (user == null || !await _userManager.CheckPasswordAsync(user, dto.Password))
         {
@@ -115,6 +118,25 @@ public class AuthService : IAuthService
             AccessTokenExpirationDate = accessToken.ValidTo,
             RefreshToken = user.RefreshToken,
             RefreshTokenExpirationDate = user.RefreshTokenExpirationDate
+        };
+    }
+
+    public async Task<ApplicationUserModel> GetByUserId(string userId, CancellationToken cancellationToken)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        var roles = await _userManager.GetRolesAsync(user);
+
+        if (user == null)
+        {
+            throw new EntityValidationException(
+                ValidationExceptionMessages.EntityWasNotFoundBecause<ApplicationUser>("with this ID does not exist"));
+        }
+
+        return new ApplicationUserModel
+        {
+            Username = user.UserName,
+            Email = user.Email,
+            Roles = roles
         };
     }
 }

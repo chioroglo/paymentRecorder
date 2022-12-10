@@ -2,7 +2,7 @@
 
 namespace Domain.Abstract;
 
-public class BaseEntity
+public abstract class BaseEntity : IBaseEntity
 {
     public long Id { get; set; }
 

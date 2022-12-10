@@ -1,6 +1,6 @@
 ﻿namespace Common.Exceptions.ExceptionMessages;
 
-public static class AuthorizationExceptionMessages
+public static class AuthenticationExceptionMessages
 {
     public static string InvalidTokenMessage()
     {

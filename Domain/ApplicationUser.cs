@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Abstract;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain;
 
-public class ApplicationUser : IdentityUser
+public class ApplicationUser : IdentityUser, IBaseEntity
 {
     public string Firstname { get; set; }
 

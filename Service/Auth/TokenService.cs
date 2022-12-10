@@ -13,11 +13,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Service.Abstract;
+using Service.Abstract.Auth;
 using static Common.Exceptions.ExceptionMessages.IdentityExceptionMessages;
 using static Common.Validation.ValidationConstraints.ApplicationUserValidationConstraints;
 
-namespace Service;
+namespace Service.Auth;
 
 public class TokenService : ITokenService
 {
@@ -58,6 +58,7 @@ public class TokenService : ITokenService
 
         return token;
     }
+    
 
     public async Task<RefreshToken> CreateUniqueRefreshTokenAsync(CancellationToken cancellationToken)
     {
@@ -95,7 +96,7 @@ public class TokenService : ITokenService
 
         if (user == null || user.RefreshTokenExpirationDate < DateTime.UtcNow)
         {
-            throw new AuthenticationException(AuthorizationExceptionMessages.InvalidTokenMessage());
+            throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
         }
 
         var newRefreshToken = await CreateUniqueRefreshTokenAsync(cancellationToken);
@@ -119,7 +120,7 @@ public class TokenService : ITokenService
 
         if (user == null || user.RefreshTokenExpirationDate < DateTime.UtcNow)
         {
-            throw new AuthenticationException(AuthorizationExceptionMessages.InvalidTokenMessage());
+            throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
         }
 
         var token = await CreateAccessToken(user, cancellationToken);

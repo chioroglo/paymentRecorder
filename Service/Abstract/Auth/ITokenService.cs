@@ -2,7 +2,7 @@
 using Common.Jwt;
 using Domain;
 
-namespace Service.Abstract;
+namespace Service.Abstract.Auth;
 
 public interface ITokenService
 {

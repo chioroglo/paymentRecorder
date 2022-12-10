@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using AutoMapper;
+﻿using AutoMapper;
 using Common.Dto.Auth;
 using Common.Models.Auth;
 
@@ -16,5 +15,10 @@ public class UserProfile : Profile
             .ForMember(dest => dest.AccessToken, opt => opt.MapFrom(src => src.AccessToken))
             .ForMember(dest => dest.AccessTokenExpirationDate,
                 opt => opt.MapFrom(src => src.AccessTokenExpirationDate));
+
+        CreateMap<AuthenticationServiceResponseDto, ApplicationUserModel>()
+            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Username))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.Roles, opt => opt.MapFrom(src => src.Roles));
     }
 }
