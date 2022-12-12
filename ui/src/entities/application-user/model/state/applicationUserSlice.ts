@@ -1,16 +1,14 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {applicationUserInitialState} from "./applicationUserInitialState";
 import {ApplicationUserDto} from "../types/ApplicationUserDto";
-import {login} from "../thunks/login";
+import {authenticate} from "../thunks/authenticate";
 
 export const applicationUserSlice = createSlice({
     name: "applicationUserSlice",
     initialState: applicationUserInitialState,
     reducers: {},
     extraReducers: {
-        [login.fulfilled.type]: (state, action: PayloadAction<ApplicationUserDto>) => {
-
-            //console.log(action.payload.accessTokenExpirationDate);
+        [authenticate.fulfilled.type]: (state, action: PayloadAction<ApplicationUserDto>) => {
             state.username = action.payload.username;
             state.roles = action.payload.roles;
             state.email = action.payload.email;
@@ -18,15 +16,16 @@ export const applicationUserSlice = createSlice({
             state.accessTokenExpirationDate = action.payload.accessTokenExpirationDate;
             state.isLoading = false;
             state.isAuthorized = true;
+            state.errorMessage = "";
         },
-        [login.pending.type]: (state) => {
+        [authenticate.pending.type]: (state) => {
             state.isLoading = true;
             state.errorMessage = "";
         },
-        [login.rejected.type]: (state, action: PayloadAction<string>) => {
+        [authenticate.rejected.type]: (state, action: PayloadAction<string>) => {
             state.errorMessage = action.payload;
             state.isAuthorized = false;
-            state.isLoading = true;
+            state.isLoading = false;
         }
 
     }

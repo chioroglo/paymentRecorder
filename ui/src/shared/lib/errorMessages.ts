@@ -1,0 +1,1 @@
+export const CLIENT_ERROR_OCCURRED = "Error occurred while processing request";

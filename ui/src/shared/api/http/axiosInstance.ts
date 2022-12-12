@@ -13,10 +13,6 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
 });
 
-axiosInstance.interceptors.response.use((response) => {
-        console.log(response)
-        return response;
-    },
-    (error) => {
-        console.log(error);
-    })
+axiosInstance.interceptors.response.use(null,(error) => {
+    return Promise.reject(error);
+});
