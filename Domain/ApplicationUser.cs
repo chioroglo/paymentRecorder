@@ -9,7 +9,7 @@ public class ApplicationUser : IdentityUser, IBaseEntity
 
     public string Lastname { get; set; }
 
-    public string RefreshToken { get; set; }
+    public string? RefreshToken { get; set; }
 
-    public DateTime RefreshTokenExpirationDate { get; set; }
+    public DateTime? RefreshTokenExpirationDate { get; set; }
 }

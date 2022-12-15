@@ -95,16 +95,27 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpGet("get-current-user")]
-    public async Task<ActionResult<ApplicationUserModel>> GetUserByAccessToken(
+    public async Task<ActionResult<ApplicationUserModel>> IdentifyUserByAccessToken(
         CancellationToken cancellationToken)
     {
-        var claims = HttpContext.User.Claims;
-        
         var userIdClaim = HttpContext.User.Claims.FirstOrDefault(e => e.Properties.Values.Contains(JwtRegisteredClaimNames.Sub))
                           ?? throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
 
         var userId = userIdClaim.Value;
 
         return await _authService.GetByUserId(userId, cancellationToken);
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [HttpPost("logout")]
+    public async Task<ActionResult> LogoutToken(CancellationToken cancellationToken)
+    {
+        var refreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ??
+                              throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
+
+        await _authService.Logout(refreshToken,cancellationToken);
+
+        return NoContent();
     }
 }

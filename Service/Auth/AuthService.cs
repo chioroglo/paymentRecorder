@@ -96,7 +96,7 @@ public class AuthService : IAuthService
             throw new IdentityException(AuthenticationFailedMessage());
         }
 
-        if (user.RefreshTokenExpirationDate < DateTime.UtcNow)
+        if (user.RefreshTokenExpirationDate == null && user.RefreshToken == null)
         {
             var refreshToken = await _tokenService.CreateUniqueRefreshTokenAsync(cancellationToken);
             user.RefreshToken = refreshToken.Token;
@@ -117,7 +117,7 @@ public class AuthService : IAuthService
             AccessToken = new JwtSecurityTokenHandler().WriteToken(accessToken),
             AccessTokenExpirationDate = accessToken.ValidTo,
             RefreshToken = user.RefreshToken,
-            RefreshTokenExpirationDate = user.RefreshTokenExpirationDate
+            RefreshTokenExpirationDate = user.RefreshTokenExpirationDate ?? DateTime.UtcNow
         };
     }
 
@@ -138,5 +138,20 @@ public class AuthService : IAuthService
             Email = user.Email,
             Roles = roles
         };
+    }
+
+    public async Task Logout(string refreshToken, CancellationToken cancellationToken)
+    {
+        var user = _userManager.Users.FirstOrDefault(e => e.RefreshToken == refreshToken);
+
+        if (user == null)
+        {
+            throw new AuthenticationException(AuthenticationFailedMessage());
+        }
+
+        user.RefreshToken = null;
+        user.RefreshTokenExpirationDate = null;
+
+        await _userManager.UpdateAsync(user);
     }
 }

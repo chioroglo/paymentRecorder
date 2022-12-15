@@ -10,4 +10,6 @@ public interface IAuthService
     Task<AuthenticationServiceResponseDto> LoginAsync(LoginDto dto, CancellationToken cancellationToken);
 
     Task<ApplicationUserModel> GetByUserId(string userId, CancellationToken cancellationToken);
+
+    Task Logout(string refreshToken,CancellationToken cancellationToken);
 }

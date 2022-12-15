@@ -31,5 +31,6 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.Property(e => e.AccountCode)
             .HasMaxLength(AccountValidationConstraints.CodeLengthFixed)
             .IsFixedLength();
+        
     }
 }

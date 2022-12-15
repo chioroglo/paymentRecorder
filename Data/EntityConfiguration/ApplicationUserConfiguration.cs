@@ -22,10 +22,11 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
 
         builder.Property(e => e.RefreshToken)
             .HasMaxLength(RefreshTokenLengthFixed)
-            .IsFixedLength();
+            .IsFixedLength()
+            .IsRequired(false);
 
         builder.Property(e => e.RefreshTokenExpirationDate)
-            .IsRequired()
+            .IsRequired(false)
             .HasDefaultValueSql(SqlServerUtcDateCommand);
 
         builder.HasIndex(e => e.RefreshToken)
