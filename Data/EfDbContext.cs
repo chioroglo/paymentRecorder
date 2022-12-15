@@ -8,7 +8,6 @@ namespace Data;
 
 public sealed class EfDbContext : IdentityDbContext<ApplicationUser>
 {
-    // TODO add indexes in entity configuration
     public EfDbContext(DbContextOptions<EfDbContext> options) : base(options)
     {
         Database.Migrate();

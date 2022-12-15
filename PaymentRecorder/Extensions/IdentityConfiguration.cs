@@ -1,4 +1,4 @@
-﻿using Common.Validation.ValidationConstraints;
+﻿using Common.Validation.Constraints;
 using Microsoft.AspNetCore.Identity;
 
 namespace PaymentRecorder.Extensions

@@ -1,3 +1,5 @@
 ﻿namespace Domain.Abstract;
 
-public interface IBaseEntity { }
+public interface IBaseEntity
+{
+}

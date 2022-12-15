@@ -21,7 +21,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         var connectionString = Configuration.GetConnectionString("DefaultConnection");
-        
+
 
         services.AddControllers();
         services.AddEndpointsApiExplorer();

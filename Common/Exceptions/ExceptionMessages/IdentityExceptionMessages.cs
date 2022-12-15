@@ -11,5 +11,4 @@ public static class IdentityExceptionMessages
     {
         return "Authentication failed, check username or password";
     }
-
 }

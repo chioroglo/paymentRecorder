@@ -15,7 +15,7 @@ namespace UnitTest.Controller
     public class AuthControllerTest
     {
         private IEnumerable<ApplicationUser> _users;
-        
+
         private IAuthService _authService;
         private ITokenService _tokenService;
         private IMapper _mapper;
@@ -57,7 +57,8 @@ namespace UnitTest.Controller
                     Email = "vitalie.calasnicov@office.com",
                     NormalizedEmail = "VITALIE.CALASNICOV@OFFICE.COM",
                     EmailConfirmed = false,
-                    PasswordHash = "uZO/ULtUZWgnUM/RRZG3l901DsuZBKTjuO1DiXCWItxLT1DnaEO+/1m4EpZZXzyUluYNB1+A/QWq11i01Ohf5A==",
+                    PasswordHash =
+                        "uZO/ULtUZWgnUM/RRZG3l901DsuZBKTjuO1DiXCWItxLT1DnaEO+/1m4EpZZXzyUluYNB1+A/QWq11i01Ohf5A==",
                     SecurityStamp = "C7TT7XOGPTNNNA6WLQED3CNJFENHSGJW",
                     ConcurrencyStamp = "2cb1e97e-c7d2-462a-9aa6-c6f6afe52122",
                     PhoneNumber = null,
@@ -68,7 +69,8 @@ namespace UnitTest.Controller
                     AccessFailedCount = 0,
                     Firstname = "Vitalie",
                     Lastname = "Calașnicov",
-                    RefreshToken = "AMiEvE7LIVO17pSrBohk9KHnzYR+JbMTlJOkm1QWnQOH8UMklgakhwgLH5xhlLjSxSaheOlKhwHSfAyD1SJWsYYlk+xioV2gjR+t                            ",
+                    RefreshToken =
+                        "AMiEvE7LIVO17pSrBohk9KHnzYR+JbMTlJOkm1QWnQOH8UMklgakhwgLH5xhlLjSxSaheOlKhwHSfAyD1SJWsYYlk+xioV2gjR+t                            ",
                     RefreshTokenExpirationDate = DateTime.UtcNow.AddDays(1)
                 }
             };
@@ -78,8 +80,8 @@ namespace UnitTest.Controller
         [Test]
         public async Task RegistrationFailsWhenEmailAlreadyExists()
         {
-            Mock<IAuthService> authServiceMock = new Mock<IAuthService>();
-            Mock<ITokenService> tokenServiceMock = new Mock<ITokenService>();
+            var authServiceMock = new Mock<IAuthService>();
+            var tokenServiceMock = new Mock<ITokenService>();
             var dto = new RegistrationDto
             {
                 Firstname = "Vitalie",
@@ -89,12 +91,11 @@ namespace UnitTest.Controller
                 Password = "test_pwd1__"
             };
             authServiceMock.Setup(x => x.RegisterAsync(dto, default)).Throws(new IdentityException("aaa"));
-            var controller = new AuthController(authServiceMock.Object,tokenServiceMock.Object,_mapper);
+            var controller = new AuthController(authServiceMock.Object, tokenServiceMock.Object, _mapper);
 
             Assert.ThrowsAsync<IdentityException>(async () => await controller.AddNewUserAsync(dto, default));
 
             //Assert.That(await controller.AddNewUserAsync(dto, default),);
-
         }
     }
 }

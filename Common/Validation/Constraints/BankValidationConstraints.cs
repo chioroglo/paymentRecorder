@@ -1,4 +1,4 @@
-﻿namespace Common.Validation.ValidationConstraints;
+﻿namespace Common.Validation.Constraints;
 
 public static class BankValidationConstraints
 {

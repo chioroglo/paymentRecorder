@@ -5,7 +5,6 @@ using System.Text;
 using Common.Exceptions;
 using Common.Exceptions.ExceptionMessages;
 using Common.Jwt;
-using Common.Validation.ValidationConstraints;
 using Data.Migrations;
 using Domain;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +14,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Service.Abstract.Auth;
 using static Common.Exceptions.ExceptionMessages.IdentityExceptionMessages;
-using static Common.Validation.ValidationConstraints.ApplicationUserValidationConstraints;
+using static Common.Validation.Constraints.ApplicationUserValidationConstraints;
 
 namespace Service.Auth;
 
@@ -58,7 +57,7 @@ public class TokenService : ITokenService
 
         return token;
     }
-    
+
 
     public async Task<RefreshToken> CreateUniqueRefreshTokenAsync(CancellationToken cancellationToken)
     {

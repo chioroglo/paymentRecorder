@@ -1,4 +1,4 @@
-﻿using Common.Validation.ValidationConstraints;
+﻿using Common.Validation.Constraints;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

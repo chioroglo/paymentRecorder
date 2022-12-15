@@ -1,7 +1,7 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static Common.Validation.ValidationConstraints.ApplicationUserValidationConstraints;
+using static Common.Validation.Constraints.ApplicationUserValidationConstraints;
 using static Data.EntityConfiguration.UtilSqlCommands;
 
 namespace Data.EntityConfiguration;

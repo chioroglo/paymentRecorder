@@ -8,6 +8,7 @@ using Common.Jwt;
 using Common.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using PaymentRecorder.Factories;
 using Service.Abstract.Auth;
 
@@ -98,8 +99,9 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<ApplicationUserModel>> IdentifyUserByAccessToken(
         CancellationToken cancellationToken)
     {
-        var userIdClaim = HttpContext.User.Claims.FirstOrDefault(e => e.Properties.Values.Contains(JwtRegisteredClaimNames.Sub))
-                          ?? throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
+        var userIdClaim =
+            HttpContext.User.Claims.FirstOrDefault(e => e.Properties.Values.Contains(JwtRegisteredClaimNames.Sub))
+            ?? throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
 
         var userId = userIdClaim.Value;
 
@@ -112,9 +114,12 @@ public class AuthController : ControllerBase
     public async Task<ActionResult> LogoutToken(CancellationToken cancellationToken)
     {
         var refreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ??
-                              throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
+                           throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
 
-        await _authService.Logout(refreshToken,cancellationToken);
+        await _authService.Logout(refreshToken, cancellationToken);
+
+        HttpContext.Response.Cookies.Append(JwtCookieClaims.RefreshToken, "",
+            CookieOptionsFactory.CreateOptionsForTokenCookie(DateTime.UtcNow.AddDays(-1)));
 
         return NoContent();
     }

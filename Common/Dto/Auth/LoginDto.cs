@@ -1,4 +1,4 @@
-﻿using Common.Validation.ValidationConstraints;
+﻿using Common.Validation.Constraints;
 using FluentValidation;
 
 namespace Common.Dto.Auth;

@@ -1,4 +1,4 @@
-﻿using Common.Validation.ValidationConstraints;
+﻿using Common.Validation.Constraints;
 using Common.Validation.Validators;
 using Domain.Enum;
 using FluentValidation;

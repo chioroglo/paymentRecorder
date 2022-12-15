@@ -89,7 +89,7 @@ public class AuthService : IAuthService
     {
         var user = await _userManager.FindByNameAsync(dto.EmailOrUsername) ??
                    await _userManager.FindByEmailAsync(dto.EmailOrUsername);
-        
+
 
         if (user == null || !await _userManager.CheckPasswordAsync(user, dto.Password))
         {

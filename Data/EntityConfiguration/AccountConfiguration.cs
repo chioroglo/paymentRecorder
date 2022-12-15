@@ -1,4 +1,4 @@
-﻿using Common.Validation.ValidationConstraints;
+﻿using Common.Validation.Constraints;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -31,6 +31,5 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.Property(e => e.AccountCode)
             .HasMaxLength(AccountValidationConstraints.CodeLengthFixed)
             .IsFixedLength();
-        
     }
 }

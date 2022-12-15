@@ -25,7 +25,7 @@ public class ExceptionHandlingMiddleware
         {
             switch (e)
             {
-                case IdentityException: 
+                case IdentityException:
                 case AuthenticationException:
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
