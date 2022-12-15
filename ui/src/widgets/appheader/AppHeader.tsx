@@ -17,7 +17,7 @@ const AppHeader = () => {
                 <Box sx={{flexGrow: 1}} style={{display: "flex", justifyContent: "flex-start"}}>
 
                     <AppNavLink to={"/"}>
-                        Home
+                        <Typography color={"#FFF"}>Home Page</Typography>
                     </AppNavLink>
 
                 </Box>

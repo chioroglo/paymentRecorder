@@ -7,5 +7,5 @@ export const applicationUserInitialState: IApplicationUserState = {
     accessTokenExpirationDate: "",
     isAuthorized: false,
     errorMessage: "",
-    isLoading: true
+    isLoading: false
 }
