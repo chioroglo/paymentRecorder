@@ -1,4 +1,4 @@
-export interface ApplicationUserDto {
+export interface ApplicationUserWithAccessToken {
     username: string,
     email: string,
     roles: string[],

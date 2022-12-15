@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Data.EntityConfiguration;
+﻿using Data.EntityConfiguration;
 using Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

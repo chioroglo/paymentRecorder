@@ -95,7 +95,7 @@ public class TokenService : ITokenService
 
         if (user == null || user.RefreshTokenExpirationDate < DateTime.UtcNow)
         {
-            throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
+            throw new AuthenticationException(TokenExceptionMessages.InvalidTokenMessage());
         }
 
         var newRefreshToken = await CreateUniqueRefreshTokenAsync(cancellationToken);
@@ -119,7 +119,7 @@ public class TokenService : ITokenService
 
         if (user == null || user.RefreshTokenExpirationDate < DateTime.UtcNow)
         {
-            throw new AuthenticationException(AuthenticationExceptionMessages.InvalidTokenMessage());
+            throw new AuthenticationException(TokenExceptionMessages.InvalidTokenMessage());
         }
 
         var token = await CreateAccessToken(user, cancellationToken);

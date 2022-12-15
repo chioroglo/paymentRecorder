@@ -66,9 +66,7 @@ public class AuthService : IAuthService
 
         await _userManager.AddToRoleAsync(user, UserRole.Accountant.GetEnumDescription());
 
-
-        // check if adds refresh token automatically
-        // uncomment if not
+        
         await _userManager.UpdateAsync(user);
 
         var accessToken = await _tokenService.CreateAccessToken(user, cancellationToken);
@@ -140,14 +138,37 @@ public class AuthService : IAuthService
         };
     }
 
+    public async Task<AuthenticationServiceResponseDto> GetUserAndAccessTokenByRefreshToken(string refreshToken, CancellationToken cancellationToken)
+    {
+        var user = _userManager.Users.FirstOrDefault(e => e.RefreshToken == refreshToken) ??
+                   throw new AuthenticationException(TokenExceptionMessages.InvalidTokenMessage());
+
+        if (user.RefreshTokenExpirationDate < DateTime.UtcNow)
+        {
+            throw new AuthenticationException(TokenExceptionMessages.TokenExpiredMessage());
+        }
+
+
+        var accessToken = await _tokenService.CreateAccessToken(user, cancellationToken);
+        var roles = await _userManager.GetRolesAsync(user);
+
+        return new AuthenticationServiceResponseDto
+        {
+            Username = user.UserName,
+            Email = user.Email,
+            Roles = roles,
+            RefreshToken = user.RefreshToken,
+            RefreshTokenExpirationDate = user.RefreshTokenExpirationDate ?? DateTime.UtcNow,
+            AccessToken = new JwtSecurityTokenHandler().WriteToken(accessToken),
+            AccessTokenExpirationDate = accessToken.ValidTo
+        };
+    }
+
     public async Task Logout(string refreshToken, CancellationToken cancellationToken)
     {
-        var user = _userManager.Users.FirstOrDefault(e => e.RefreshToken == refreshToken);
-
-        if (user == null)
-        {
-            throw new AuthenticationException(AuthenticationFailedMessage());
-        }
+        var user = _userManager.Users.FirstOrDefault(e => e.RefreshToken == refreshToken) ??
+                   throw new AuthenticationException(TokenExceptionMessages.InvalidTokenMessage());
+        
 
         user.RefreshToken = null;
         user.RefreshTokenExpirationDate = null;

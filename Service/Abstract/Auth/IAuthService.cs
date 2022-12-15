@@ -11,5 +11,8 @@ public interface IAuthService
 
     Task<ApplicationUserModel> GetByUserId(string userId, CancellationToken cancellationToken);
 
+    Task<AuthenticationServiceResponseDto> GetUserAndAccessTokenByRefreshToken(string refreshToken,
+        CancellationToken cancellationToken);
+
     Task Logout(string refreshToken, CancellationToken cancellationToken);
 }
