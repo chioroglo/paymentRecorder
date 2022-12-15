@@ -1,38 +1,18 @@
-import {Button, Typography} from '@mui/material';
-import {authenticate} from 'entities/application-user/model/thunks/authenticate';
+import { Layout } from 'pages/layout';
 import React from 'react';
-import {useDispatchTyped} from "../shared/store/hooks/useDispatchTyped";
-import {useSelectorTyped} from "../shared/store/hooks/useSelectorTyped";
-import {LoginDto} from 'entities/application-user/types';
-import {
-    actualizeUserUsingRefreshTokenFromCookies
-} from "../entities/application-user/lib/actualizeUserUsingRefreshTokenFromCookies";
+import {Routes,Route} from "react-router-dom";
 
 function App() {
-    const dispatch = useDispatchTyped();
-
-    const authState = useSelectorTyped(state => state.applicationUserReducer);
-
-    const handleLogin = async () => {
-        const username = prompt();
-        const password = prompt();
-
-        dispatch(await authenticate({emailOrUsername: username, password: password, rememberMe: false} as LoginDto));
-    }
-
-    const actualize = async() => {
-        dispatch(await actualizeUserUsingRefreshTokenFromCookies());
-    }
 
     return (
-        <div className="App">
-            <p>
-                <Button onClick={handleLogin}>Login with credentials</Button>
-                <Button onClick={actualize}>ACTUALIZE</Button>
-                <Typography>{JSON.stringify(authState)}</Typography>
-            </p>
-        </div>
-    );
+    <div className="App">
+        <Routes>
+            <Route path="/" element={<Layout/>}>
+
+            </Route>
+        </Routes>
+    </div>
+);
 }
 
 export {App};

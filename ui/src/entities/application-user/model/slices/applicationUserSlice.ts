@@ -1,8 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {applicationUserInitialState} from "./applicationUserInitialState";
-import {ApplicationUserWithAccessToken} from "../../types/ApplicationUserWithAccessToken";
+import {applicationUserInitialState} from "../state/applicationUserInitialState";
+import {ApplicationUserWithAccessToken} from "../../types";
 import {authenticate} from "../thunks/authenticate";
-import {actualizeUserUsingRefreshTokenFromCookies} from "../../lib/actualizeUserUsingRefreshTokenFromCookies";
+import {actualizeUserUsingRefreshToken} from "../thunks/actualizeUserUsingRefreshToken";
 
 export const applicationUserSlice = createSlice({
     name: "applicationUserSlice",
@@ -28,13 +28,23 @@ export const applicationUserSlice = createSlice({
             state.isAuthorized = false;
             state.isLoading = false;
         },
-        [actualizeUserUsingRefreshTokenFromCookies.fulfilled.type]: (state,action) => {
+        [actualizeUserUsingRefreshToken.fulfilled.type]: (state, action: PayloadAction<ApplicationUserWithAccessToken>) => {
+            state.username = action.payload.username;
+            state.roles = action.payload.roles;
+            state.email = action.payload.email;
+            state.accessToken = action.payload.accessToken;
+            state.accessTokenExpirationDate = action.payload.accessTokenExpirationDate;
             state.isLoading = false;
+            state.isAuthorized = true;
+            state.errorMessage = "";
         },
-        [actualizeUserUsingRefreshTokenFromCookies.pending.type]: (state,action) => {
+        [actualizeUserUsingRefreshToken.pending.type]: (state) => {
             state.isLoading = true;
+            state.errorMessage = "";
         },
-        [actualizeUserUsingRefreshTokenFromCookies.rejected.type]: (state,action) => {
+        [actualizeUserUsingRefreshToken.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.errorMessage = action.payload;
+            state.isAuthorized = false;
             state.isLoading = false;
         }
 
