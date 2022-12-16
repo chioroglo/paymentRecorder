@@ -4,6 +4,8 @@ import {Provider} from 'react-redux';
 import {App} from './app/App';
 import {setupStore} from "./shared/store/store";
 import {BrowserRouter} from "react-router-dom";
+import {ThemeProvider} from "@mui/material";
+import {theme} from "./app/ui";
 
 const store = setupStore();
 
@@ -14,7 +16,9 @@ const root = ReactDOM.createRoot(
 root.render(
     <Provider store={store}>
         <BrowserRouter>
-            <App/>
+            <ThemeProvider theme={theme}>
+                <App/>
+            </ThemeProvider>
         </BrowserRouter>
     </Provider>
 );

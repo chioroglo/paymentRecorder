@@ -2,3 +2,5 @@
 // they will be separated by purpose
 // f.e string,dom etc.
 export * from "./errorMessages";
+
+export * from "../../app/ui/palette";

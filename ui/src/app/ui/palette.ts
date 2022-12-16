@@ -1,0 +1,10 @@
+export const palette = {
+    KASHMIR_BLUE: "#507394",
+    NEPAL: "#8AA5BD",
+    ROCK_BLUE: "#95B3CA",
+    ZIGGURAT: "#BBD0DE",
+    BOTTICELLI: "#C9D8E5",
+    ERROR_CRIMSON: "#990000",
+    SUCCESS_MINT: "#3DED97",
+    WARNING_YELLOW: "#FFD400"
+}

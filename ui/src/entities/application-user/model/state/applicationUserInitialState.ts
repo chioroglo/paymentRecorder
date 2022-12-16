@@ -1,4 +1,5 @@
 import {IApplicationUserState} from "../types/IApplicationUserState";
+
 export const applicationUserInitialState: IApplicationUserState = {
     username: "",
     email: "",
@@ -7,5 +8,5 @@ export const applicationUserInitialState: IApplicationUserState = {
     accessTokenExpirationDate: "",
     isAuthorized: false,
     errorMessage: "",
-    isLoading: false
+    isLoading: true
 }
