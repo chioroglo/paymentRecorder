@@ -1,7 +1,7 @@
 import {Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
 import {Link} from "react-router-dom";
 import React from 'react';
-import { AppNavLink } from 'shared/ui/AppNavLink';
+import { AppNavLink } from 'shared/ui/components/AppNavLink';
 import {useSelectorTyped} from "../../shared/store/hooks/useSelectorTyped";
 import { AppNavBar } from "../../shared/ui";
 import {useDispatchTyped} from "../../shared/store/hooks/useDispatchTyped";
@@ -23,10 +23,11 @@ const AppHeader = () => {
         <AppNavBar color="primary">
             <Toolbar>
 
-                <Box sx={{flexGrow: 1}} style={{display: "flex", justifyContent: "flex-start"}}>
+                <Box sx={{flexGrow: 1}} style={{display: "flex", justifyContent: "flex-start",alignItems:"center"}}>
 
+                    <img width="64px" height="64px" src={"logo1024.png"}/>
                     <AppNavLink to={"/"}>
-                        <Typography color={"#FFF"}>Home Page</Typography>
+                        <Typography color={"#FFF"}>PaymentRecorder</Typography>
                     </AppNavLink>
 
                 </Box>

@@ -1,1 +1,1 @@
-export * from "./AppNavBar";
+export * from "./components/AppNavBar";

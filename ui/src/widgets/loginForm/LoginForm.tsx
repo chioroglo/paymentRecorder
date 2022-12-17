@@ -4,7 +4,7 @@ import {LoginFormFields} from "./lib/LoginFormFields";
 import {useSelectorTyped} from "../../shared/store/hooks/useSelectorTyped";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {CenteredLoader} from "../../shared/ui/CenteredLoader";
+import {CenteredLoader} from "../../shared/ui/components/CenteredLoader";
 import {Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel, Paper } from '@mui/material';
 import {
     buttonStyle,
@@ -14,7 +14,7 @@ import {
     rememberMeStyle,
     textFieldStyle
 } from './lib/LoginFormStyles';
-import { FormHeader } from 'shared/ui/FormHeader';
+import { FormHeader } from 'shared/ui/components/FormHeader';
 import { Link } from "react-router-dom";
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import {authenticate} from "../../entities/application-user/model/thunks";
