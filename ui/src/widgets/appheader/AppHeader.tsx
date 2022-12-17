@@ -1,13 +1,14 @@
-import {Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import {Box, Button, IconButton, Toolbar, Typography} from '@mui/material';
 import {Link, NavLink} from "react-router-dom";
 import React from 'react';
-import { AppNavLink } from 'shared/ui/components/AppNavLink';
 import {useSelectorTyped} from "../../shared/store/hooks/useSelectorTyped";
-import { AppNavBar } from "../../shared/ui";
+import {AppNavBar} from "../../shared/ui";
 import {useDispatchTyped} from "../../shared/store/hooks/useDispatchTyped";
 import {logout} from "../../entities/application-user/model/thunks";
 import LogoutIcon from '@mui/icons-material/Logout';
-import { HeaderNavLink } from 'shared/ui/components/HeaderNavLink';
+import {HeaderNavLink} from 'shared/ui/components/HeaderNavLink';
+
+const logo = require("../../shared/media/logo1024.png");
 
 const AppHeader = () => {
 
@@ -25,7 +26,8 @@ const AppHeader = () => {
                     user.isAuthorized ?
                         <Box justifyContent="space-around" minWidth="fit-content" display={"flex"} alignItems="center">
 
-                            <IconButton style={{"border":"1px solid black"}} onClick={handleLogout}><LogoutIcon/></IconButton>
+                            <IconButton style={{"border": "1px solid black"}}
+                                        onClick={handleLogout}><LogoutIcon/></IconButton>
                             <Typography display={"inline"}>Welcome, {user.username}!</Typography>
                         </Box>
                         :
@@ -41,9 +43,9 @@ const AppHeader = () => {
                     <HeaderNavLink to="/economic-agents">AGENTS</HeaderNavLink>
                 </Box>
 
-                <Box style={{display: "flex", justifyContent: "space-between",alignItems:"center",}}>
+                <Box style={{display: "flex", justifyContent: "space-between", alignItems: "center",}}>
 
-                    <img width="64px" height="64px" src={"logo1024.png"}/>
+                    <img width="64px" height="64px" src={logo}/>
                     <NavLink to={"/"}>
                         <Typography color={"#FFF"}>PaymentRecorder</Typography>
                     </NavLink>

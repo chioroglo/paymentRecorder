@@ -1,7 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {applicationUserInitialState} from "../initial-states/applicationUserInitialState";
 import {ApplicationUserWithAccessToken} from "../../types";
-import { authenticate, logout} from "../thunks";
+import {authenticate, logout} from "../thunks";
+
 export const applicationUserSlice = createSlice({
     name: "applicationUserSlice",
     initialState: applicationUserInitialState,
@@ -28,12 +29,12 @@ export const applicationUserSlice = createSlice({
         },
         [logout.fulfilled.type]: (state) => {
             state.isAuthorized = false;
-            state.isLoading = true;
+            state.isLoading = false;
         },
         [logout.pending.type]: (state) => {
             state.isLoading = true;
         },
-        [logout.rejected.type]: (state,action: PayloadAction<string>) => {
+        [logout.rejected.type]: (state, action: PayloadAction<string>) => {
             state.errorMessage = action.payload;
             state.isAuthorized = false;
             state.isLoading = false;

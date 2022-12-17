@@ -1,8 +1,10 @@
 import {IApplicationUserState} from "../types/IApplicationUserState";
 import {
     AccessTokenExpirationDateStorageClaim,
-    AccessTokenStorageClaim, EmailStorageClaim,
-    getStorageClaimNames, RolesStorageClaim,
+    AccessTokenStorageClaim,
+    EmailStorageClaim,
+    getStorageClaimNames,
+    RolesStorageClaim,
     UsernameStorageClaim
 } from "../../lib";
 
@@ -26,7 +28,7 @@ export const applicationUserInitialState: IApplicationUserState = ((): IApplicat
 
     const storageUserStateClaimNames = getStorageClaimNames();
 
-    const availableStorages = [localStorage,sessionStorage];
+    const availableStorages = [localStorage, sessionStorage];
 
     availableStorages.map((storage) => {
         if (storageUserStateClaimNames.filter((claim) => storage.getItem(claim)).length === storageUserStateClaimNames.length) {

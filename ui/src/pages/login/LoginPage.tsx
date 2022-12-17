@@ -1,6 +1,6 @@
 import React from 'react';
-import { useTitle } from 'shared/ui/hooks';
-import { LoginForm } from 'widgets/loginForm';
+import {useTitle} from 'shared/ui/hooks';
+import {LoginForm} from 'widgets/loginForm';
 
 export const LoginPage = () => {
 

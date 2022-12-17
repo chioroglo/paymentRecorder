@@ -1,7 +1,7 @@
 import React from "react";
-import { MUIColor } from "shared/lib";
+import {MUIColor} from "shared/lib";
 
 export interface AppNavBarProps {
     children?: React.ReactNode,
-    color:  MUIColor
+    color: MUIColor
 }

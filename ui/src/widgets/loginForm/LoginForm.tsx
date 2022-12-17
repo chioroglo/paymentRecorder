@@ -5,7 +5,7 @@ import {useSelectorTyped} from "../../shared/store/hooks/useSelectorTyped";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {CenteredLoader} from "../../shared/ui/components/CenteredLoader";
-import {Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel, Paper } from '@mui/material';
+import {Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel, Paper} from '@mui/material';
 import {
     buttonStyle,
     checkboxStyle,
@@ -14,11 +14,11 @@ import {
     rememberMeStyle,
     textFieldStyle
 } from './lib/LoginFormStyles';
-import { FormHeader } from 'shared/ui/components/FormHeader';
-import { Link } from "react-router-dom";
+import {FormHeader} from 'shared/ui/components/FormHeader';
+import {Link} from "react-router-dom";
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import {authenticate} from "../../entities/application-user/model/thunks";
-import { palette } from 'app/ui';
+import {palette} from 'app/ui';
 
 export const LoginForm = () => {
 
@@ -33,7 +33,7 @@ export const LoginForm = () => {
             password: "",
             rememberMe: false
         },
-        onSubmit: async (values,formikHelpers) => {
+        onSubmit: async (values, formikHelpers) => {
             dispatch(authenticate(values));
         },
         validationSchema: Yup.object({
@@ -59,7 +59,8 @@ export const LoginForm = () => {
 
                         <FormControl style={textFieldStyle}>
                             <InputLabel htmlFor="emailOrUsername">Email or username</InputLabel>
-                            <Input onChange={formik.handleChange} value={formik.values.emailOrUsername} name="emailOrUsername"/>
+                            <Input onChange={formik.handleChange} value={formik.values.emailOrUsername}
+                                   name="emailOrUsername"/>
                             <FormHelperText>
                                 {formik.touched.emailOrUsername && formik.errors.emailOrUsername && (
                                     <span style={errorTextStyle}>{formik.errors.emailOrUsername}</span>)}

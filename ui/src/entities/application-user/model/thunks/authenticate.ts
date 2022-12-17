@@ -1,14 +1,14 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {axiosInstance} from "../../../../shared/api/http";
-import {ApplicationUserWithAccessToken} from "../../types";
+import {axiosHttpClient} from "../../../../shared/api/http";
+import {ApplicationUserWithAccessToken, LoginDto} from "../../types";
 import {
-    AccessTokenStorageClaim,
     AccessTokenExpirationDateStorageClaim,
-    EmailStorageClaim, RolesStorageClaim,
+    AccessTokenStorageClaim,
+    EmailStorageClaim,
+    RolesStorageClaim,
     UsernameStorageClaim
 } from "../../lib"
-import {LoginDto} from "../../types";
-import { AxiosError } from "axios";
+import {AxiosError} from "axios";
 import {ErrorResponse} from "../../../../shared/api/types";
 
 export const authenticate = createAsyncThunk(
@@ -16,7 +16,7 @@ export const authenticate = createAsyncThunk(
     async (data: LoginDto, thunkAPI) => {
         try {
 
-            let response = await axiosInstance.post<ApplicationUserWithAccessToken>('/auth/login/', {
+            let response = await axiosHttpClient.post<ApplicationUserWithAccessToken>('/auth/login/', {
                 password: data.password,
                 emailOrUsername: data.emailOrUsername
             });
@@ -25,11 +25,11 @@ export const authenticate = createAsyncThunk(
             storage.setItem(AccessTokenStorageClaim, response.data.accessToken);
             storage.setItem(AccessTokenExpirationDateStorageClaim, response.data.accessTokenExpirationDate);
             storage.setItem(UsernameStorageClaim, response.data.username);
-            storage.setItem(EmailStorageClaim,response.data.email);
-            storage.setItem(RolesStorageClaim,response.data.roles.toString());
+            storage.setItem(EmailStorageClaim, response.data.email);
+            storage.setItem(RolesStorageClaim, response.data.roles.toString());
 
             return response.data;
-        } catch(err) {
+        } catch (err) {
             const errorResponse = err as AxiosError<ErrorResponse>;
 
             return thunkAPI.rejectWithValue(errorResponse.response?.data.Message);

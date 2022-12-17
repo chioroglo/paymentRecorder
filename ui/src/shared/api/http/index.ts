@@ -1,3 +1,3 @@
 // here lies instance of axios
 
-export * from "./axiosInstance";
+export * from "./axiosHttpClient";
