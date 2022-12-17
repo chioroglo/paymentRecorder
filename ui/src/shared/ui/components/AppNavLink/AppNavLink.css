@@ -1,0 +1,21 @@
+.app-nav-link {
+    position: relative;
+}
+
+.app-nav-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 10px;
+    right: 0;
+    background: #FFFFFF;
+    transition: width .5s ease;
+}
+
+.app-nav-link:hover:after {
+    width: 100%;
+    left: 0;
+    background: #FFFFFF;
+}

@@ -1,6 +1,8 @@
+import React from "react";
+
 export interface AppNavLinkProps {
     to: string,
     children: JSX.Element | string,
-    highlightColor?: string,
-    color?: string
+    color?: string,
+    style?: React.CSSProperties
 }
