@@ -1,0 +1,1 @@
+export type MUIColor =  "inherit" | "primary" | "secondary" | "default" | "transparent" | undefined;

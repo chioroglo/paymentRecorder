@@ -1,7 +1,7 @@
 import {Navigate, useLocation} from "react-router-dom";
 import {useSelectorTyped} from "../../../shared/store/hooks/useSelectorTyped";
 
-const OnlyForUnauthorized = ({children}: { children: JSX.Element }) => {
+export const RouteGuardUnauthorizedOnly = ({children}: { children: JSX.Element }) => {
 
     const location = useLocation();
 
@@ -15,5 +15,3 @@ const OnlyForUnauthorized = ({children}: { children: JSX.Element }) => {
         return <Navigate to={fromPage} state {...{from: location}} replace/>
     }
 };
-
-export default OnlyForUnauthorized;

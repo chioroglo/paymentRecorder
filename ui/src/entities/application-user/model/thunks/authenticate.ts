@@ -1,7 +1,12 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {axiosInstance} from "../../../../shared/api/http";
-import {ApplicationUserWithAccessToken} from "../../types/ApplicationUserWithAccessToken";
-import {AccessTokenClaim, AccessTokenExpirationDateClaim} from "../../lib"
+import {ApplicationUserWithAccessToken} from "../../types";
+import {
+    AccessTokenStorageClaim,
+    AccessTokenExpirationDateStorageClaim,
+    EmailStorageClaim, RolesStorageClaim,
+    UsernameStorageClaim
+} from "../../lib"
 import {LoginDto} from "../../types";
 import { AxiosError } from "axios";
 import {ErrorResponse} from "../../../../shared/api/types";
@@ -17,8 +22,11 @@ export const authenticate = createAsyncThunk(
             });
 
             const storage: Storage = data.rememberMe ? localStorage : sessionStorage;
-            storage.setItem(AccessTokenClaim, response.data.accessToken);
-            storage.setItem(AccessTokenExpirationDateClaim, response.data.accessTokenExpirationDate);
+            storage.setItem(AccessTokenStorageClaim, response.data.accessToken);
+            storage.setItem(AccessTokenExpirationDateStorageClaim, response.data.accessTokenExpirationDate);
+            storage.setItem(UsernameStorageClaim, response.data.username);
+            storage.setItem(EmailStorageClaim,response.data.email);
+            storage.setItem(RolesStorageClaim,response.data.roles.toString());
 
             return response.data;
         } catch(err) {

@@ -1,6 +1,6 @@
 import axios, {AxiosError,AxiosRequestConfig} from "axios";
- import {API_URL} from "shared/config/apiConfig";
-import {AccessTokenClaim} from "../../../entities/application-user/lib";
+import {API_URL} from "shared/config/apiConfig";
+import {AccessTokenStorageClaim} from "../../../entities/application-user/lib";
 
 export const axiosInstance = axios.create({
     baseURL: API_URL,
@@ -10,11 +10,13 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
 
     if (config?.headers) {
-        config.headers["Authorization"] = "Bearer " + sessionStorage.getItem(AccessTokenClaim) || localStorage.getItem(AccessTokenClaim);
+        config.headers["Authorization"] = "Bearer " + sessionStorage.getItem(AccessTokenStorageClaim) || localStorage.getItem(AccessTokenStorageClaim);
     }
     return config;
 });
 
+
+// make interceptors to refresh accessToken;
 axiosInstance.interceptors.response.use((response) => {
     console.log(response);
     return Promise.resolve(response);

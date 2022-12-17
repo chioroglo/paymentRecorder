@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {applicationUserInitialState} from "../state/applicationUserInitialState";
+import {applicationUserInitialState} from "../initial-states/applicationUserInitialState";
 import {ApplicationUserWithAccessToken} from "../../types";
-import {actualizeUserUsingRefreshToken, authenticate, logout} from "../thunks";
+import { authenticate, logout} from "../thunks";
 export const applicationUserSlice = createSlice({
     name: "applicationUserSlice",
     initialState: applicationUserInitialState,
@@ -22,25 +22,6 @@ export const applicationUserSlice = createSlice({
             state.errorMessage = "";
         },
         [authenticate.rejected.type]: (state, action: PayloadAction<string>) => {
-            state.errorMessage = action.payload;
-            state.isAuthorized = false;
-            state.isLoading = false;
-        },
-        [actualizeUserUsingRefreshToken.fulfilled.type]: (state, action: PayloadAction<ApplicationUserWithAccessToken>) => {
-            state.username = action.payload.username;
-            state.roles = action.payload.roles;
-            state.email = action.payload.email;
-            state.accessToken = action.payload.accessToken;
-            state.accessTokenExpirationDate = action.payload.accessTokenExpirationDate;
-            state.isLoading = false;
-            state.isAuthorized = true;
-            state.errorMessage = "";
-        },
-        [actualizeUserUsingRefreshToken.pending.type]: (state) => {
-            state.isLoading = true;
-            state.errorMessage = "";
-        },
-        [actualizeUserUsingRefreshToken.rejected.type]: (state, action: PayloadAction<string>) => {
             state.errorMessage = action.payload;
             state.isAuthorized = false;
             state.isLoading = false;

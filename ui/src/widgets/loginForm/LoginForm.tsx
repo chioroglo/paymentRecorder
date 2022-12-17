@@ -6,11 +6,19 @@ import {useFormik} from "formik";
 import * as Yup from "yup";
 import {CenteredLoader} from "../../shared/ui/CenteredLoader";
 import {Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel, Paper } from '@mui/material';
-import {buttonStyle, checkboxStyle, errorTextStyle, paperStyle, textFieldStyle } from './lib/LoginFormStyles';
+import {
+    buttonStyle,
+    checkboxStyle,
+    errorTextStyle,
+    paperStyle,
+    rememberMeStyle,
+    textFieldStyle
+} from './lib/LoginFormStyles';
 import { FormHeader } from 'shared/ui/FormHeader';
 import { Link } from "react-router-dom";
 import ContactPageIcon from '@mui/icons-material/ContactPage';
-import {authenticate} from "../../entities/application-user/model/thunks/authenticate";
+import {authenticate} from "../../entities/application-user/model/thunks";
+import { palette } from 'app/ui';
 
 export const LoginForm = () => {
 
@@ -31,10 +39,10 @@ export const LoginForm = () => {
         validationSchema: Yup.object({
             emailOrUsername: Yup
                 .string()
-                .required(),
+                .required("Please introduce email or username"),
             password: Yup
                 .string()
-                .required()
+                .required("Please introduce your password")
         })
     })
 
@@ -47,10 +55,10 @@ export const LoginForm = () => {
 
                     <Paper style={paperStyle} elevation={12}>
 
-                        <FormHeader iconColor={"#000"} caption="Login" icon={<ContactPageIcon/>}/>
+                        <FormHeader iconColor={palette.ROCK_BLUE} caption="Login" icon={<ContactPageIcon/>}/>
 
                         <FormControl style={textFieldStyle}>
-                            <InputLabel htmlFor="emailOrUsername">Username</InputLabel>
+                            <InputLabel htmlFor="emailOrUsername">Email or username</InputLabel>
                             <Input onChange={formik.handleChange} value={formik.values.emailOrUsername} name="emailOrUsername"/>
                             <FormHelperText>
                                 {formik.touched.emailOrUsername && formik.errors.emailOrUsername && (
@@ -73,12 +81,7 @@ export const LoginForm = () => {
 
                         <Button variant="outlined" style={buttonStyle} type="submit">Log in</Button>
 
-                        <Link style={{
-                            textAlign: "center",
-                            fontStyle: "italic",
-                            textDecoration: "bold",
-                            color: "blue"
-                        }} to="/register">Do not have an account? Click here</Link>
+                        <Link style={rememberMeStyle} to="/register">Do not have an account? Click here</Link>
                     </Paper>
                 </form>
             }

@@ -4,7 +4,7 @@ import {AppNavBarProps} from "./AppNavBarProps";
 
 export const AppNavBar = ({children,color}: AppNavBarProps) => {
     return (
-        <AppBar position="absolute">
+        <AppBar position="absolute" color={color}>
             {children}
         </AppBar>
     );
