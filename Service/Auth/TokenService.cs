@@ -48,6 +48,7 @@ public class TokenService : ITokenService
 
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
+        
         var token = new JwtSecurityToken(
             _jwtConfiguration.Issuer,
             _jwtConfiguration.Audience,
@@ -88,7 +89,7 @@ public class TokenService : ITokenService
         };
     }
 
-    public async Task<RefreshToken> ExchangeRefreshToken(string oldRefreshToken, CancellationToken cancellationToken)
+    public async Task<(RefreshToken,AccessToken)> ExchangeRefreshTokenAndGetNewAccessToken(string oldRefreshToken, CancellationToken cancellationToken)
     {
         var user = await _userManager.Users.FirstOrDefaultAsync(e => e.RefreshToken == oldRefreshToken,
             cancellationToken);
@@ -110,7 +111,17 @@ public class TokenService : ITokenService
             throw new IdentityException("token issuing problem occurred");
         }
 
-        return newRefreshToken;
+
+        var accessTokenCreatedByService = await CreateAccessToken(user, cancellationToken);
+
+        // model
+        var newAccessToken = new AccessToken()
+        {
+            Token = new JwtSecurityTokenHandler().WriteToken(accessTokenCreatedByService),
+            ExpirationDate = accessTokenCreatedByService.ValidTo
+        };
+
+        return (newRefreshToken,newAccessToken);
     }
 
     public async Task<AccessToken> GetAccessToken(string refreshToken, CancellationToken cancellationToken)

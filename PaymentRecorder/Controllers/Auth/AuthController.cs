@@ -65,8 +65,8 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpGet("get-access-token")]
-    public async Task<ActionResult<ApplicationUserModel>> GetUserAndAccessTokenByRefreshToken(CancellationToken cancellationToken)
-    {
+    public async Task<ActionResult<AuthenticationResponseModel>> GetUserAndAccessTokenByRefreshToken(CancellationToken cancellationToken)
+        {
         var refreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ??
                            throw new AuthenticationException(TokenExceptionMessages.InvalidTokenMessage());
 
@@ -78,35 +78,21 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost("exchange-refresh-token")]
-    public async Task<ActionResult> ExchangeRefreshToken(CancellationToken cancellationToken)
+    public async Task<ActionResult<AccessToken>> ExchangeRefreshToken(CancellationToken cancellationToken)
     {
         var oldRefreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ??
                               throw new AuthenticationException(TokenExceptionMessages.InvalidTokenMessage());
 
-        var newRefreshToken = await _tokenService.ExchangeRefreshToken(oldRefreshToken, cancellationToken);
+        var (newRefreshToken,newAccessToken) = await _tokenService.ExchangeRefreshTokenAndGetNewAccessToken(oldRefreshToken, cancellationToken);
 
         HttpContext.Response.Cookies.Append(
             JwtCookieClaims.RefreshToken,
             newRefreshToken.Token
             , CookieOptionsFactory.CreateOptionsForTokenCookie(newRefreshToken.ExpirationDate));
 
-        return Ok();
+        return Ok(newAccessToken);
     }
-
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [HttpGet("get-current-user")]
-    public async Task<ActionResult<ApplicationUserModel>> IdentifyUserByAccessToken(
-        CancellationToken cancellationToken)
-    {
-        var userIdClaim =
-            HttpContext.User.Claims.FirstOrDefault(e => e.Properties.Values.Contains(JwtRegisteredClaimNames.Sub))
-            ?? throw new AuthenticationException(TokenExceptionMessages.InvalidTokenMessage());
-
-        var userId = userIdClaim.Value;
-
-        return await _authService.GetByUserId(userId, cancellationToken);
-    }
+    
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]

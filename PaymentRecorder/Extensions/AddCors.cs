@@ -1,4 +1,6 @@
-﻿namespace PaymentRecorder.Extensions;
+﻿using System.Net.Http.Headers;
+
+namespace PaymentRecorder.Extensions;
 
 public static class CorsPolicyConfiguration
 {
@@ -13,7 +15,8 @@ public static class CorsPolicyConfiguration
                         .WithOrigins(configuration["ReactApplicationAddress"])
                         .AllowAnyHeader()
                         .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
-                        .AllowCredentials();
+                        .AllowCredentials()
+                        .WithExposedHeaders("ETag");
                 });
         });
     }

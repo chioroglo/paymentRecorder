@@ -14,7 +14,8 @@ public class LoginDtoValidator : AbstractValidator<LoginDto>
 {
     public LoginDtoValidator()
     {
-        RuleFor(dto => dto.Password)
-            .MinimumLength(ApplicationUserValidationConstraints.PasswordMinLength);
+        RuleFor(dto => dto.Password).NotNull().NotEmpty();
+
+        RuleFor(dto => dto.EmailOrUsername).NotNull().NotEmpty();
     }
 }
