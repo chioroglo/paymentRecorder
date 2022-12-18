@@ -47,9 +47,9 @@ export const LoginForm = () => {
             let variant: VariantType = "info";
 
             if (actionResult.meta.requestStatus === "rejected") {
-                message = typeof actionResult.payload === "string" && actionResult.payload || CLIENT_ERROR_OCCURRED;
+                message = (typeof actionResult.payload === "string" && actionResult.payload) || CLIENT_ERROR_OCCURRED;
                 variant = "error";
-            } else {
+            } else if (actionResult.meta.requestStatus === "fulfilled") {
                 message = "Authorized successfully";
                 variant = "success";
             }

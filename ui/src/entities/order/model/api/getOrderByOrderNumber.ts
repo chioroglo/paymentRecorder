@@ -1,6 +1,8 @@
 import {OrderModel} from "../types";
 import {axiosHttpClient} from "../../../../shared/api/http";
 import {EntityTagHeader} from "../../../../shared/lib";
+import {ErrorResponse} from "../../../../shared/api/types";
+import { AxiosError } from "axios";
 
 export const getOrderByOrderNumber = async (orderId: number): Promise<OrderModel> => {
     try {
@@ -8,6 +10,8 @@ export const getOrderByOrderNumber = async (orderId: number): Promise<OrderModel
 
         return {...response.data, entityTag: response.headers[EntityTagHeader]};
     } catch (e) {
-        return Promise.reject("Error");
+        const err = e as AxiosError<ErrorResponse>;
+
+        return Promise.reject(err.response?.data.Message);
     }
 }

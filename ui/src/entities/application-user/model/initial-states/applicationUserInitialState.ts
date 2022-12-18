@@ -39,11 +39,11 @@ export const applicationUserInitialState: IApplicationUserState = ((): IApplicat
 
     if (preferredStorage instanceof Storage) {
         // compare dates for access token expiration time
-        if (new Date(preferredStorage.getItem(AccessTokenExpirationDateStorageClaim) || new Date()) <= new Date()) {
-            state.isLoading = false;
-            state.isAuthorized = false;
-            return state;
-        }
+        // if (new Date(preferredStorage.getItem(AccessTokenExpirationDateStorageClaim) || new Date()) <= new Date()) {
+        //     state.isLoading = false;
+        //     state.isAuthorized = false;
+        //     return state;
+        // }
 
         state.username = preferredStorage.getItem(UsernameStorageClaim) || "";
         state.email = preferredStorage.getItem(EmailStorageClaim) || "";
