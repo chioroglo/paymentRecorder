@@ -24,4 +24,5 @@ axiosHttpClient.interceptors.response.use((response) => {
 }, async (error) => {
     const err = error as AxiosError;
     console.log(err);
+    return Promise.reject(error);
 });

@@ -21,12 +21,12 @@ const AppHeader = () => {
 
     return (
         <AppNavBar color="primary">
-            <Toolbar>
+            <Toolbar style={{justifyContent: "space-between"}}>
                 {
                     user.isAuthorized ?
-                        <Box justifyContent="space-around" minWidth="fit-content" display={"flex"} alignItems="center">
+                        <Box justifyContent="space-between" minWidth="200px" display={"flex"} alignItems="center">
 
-                            <IconButton style={{"border": "1px solid black"}}
+                            <IconButton style={{"border": "1px solid black", margin: "0 5px 0 0"}}
                                         onClick={handleLogout}><LogoutIcon/></IconButton>
                             <Typography display={"inline"}>Welcome, {user.username}!</Typography>
                         </Box>
@@ -34,18 +34,21 @@ const AppHeader = () => {
                         <Button color="primary" variant="contained" component={Link} to="/login">Login</Button>
                 }
 
-                <Box sx={{flexGrow: 1}} minWidth="100px" display="flex" justifyContent="flex-start">
+                {
+                    user.isAuthorized &&
+                    <Box sx={{flexGrow: 1}} minWidth="100px" display="flex" justifyContent="flex-start">
 
-                    <HeaderNavLink to="/orders">ORDERS</HeaderNavLink>
+                        <HeaderNavLink to="/orders">ORDERS</HeaderNavLink>
 
-                    <HeaderNavLink to="/banks">BANKS</HeaderNavLink>
+                        <HeaderNavLink to="/banks">BANKS</HeaderNavLink>
 
-                    <HeaderNavLink to="/economic-agents">AGENTS</HeaderNavLink>
-                </Box>
+                        <HeaderNavLink to="/economic-agents">AGENTS</HeaderNavLink>
+                    </Box>
+                }
 
                 <Box style={{display: "flex", justifyContent: "space-between", alignItems: "center",}}>
 
-                    <img width="64px" height="64px" src={logo}/>
+                    <img alt="logo" width="64px" height="64px" src={logo}/>
                     <NavLink to={"/"}>
                         <Typography color={"#FFF"}>PaymentRecorder</Typography>
                     </NavLink>

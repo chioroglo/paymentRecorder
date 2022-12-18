@@ -8,7 +8,7 @@ import {
     RolesStorageClaim,
     UsernameStorageClaim
 } from "../../lib"
-import {AxiosError} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import {ErrorResponse} from "../../../../shared/api/types";
 
 export const authenticate = createAsyncThunk(
@@ -31,6 +31,7 @@ export const authenticate = createAsyncThunk(
             return response.data;
         } catch (err) {
             const errorResponse = err as AxiosError<ErrorResponse>;
+
 
             return thunkAPI.rejectWithValue(errorResponse.response?.data.Message);
         }

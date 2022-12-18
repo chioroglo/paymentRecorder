@@ -30,6 +30,7 @@ export const applicationUserSlice = createSlice({
         [logout.fulfilled.type]: (state) => {
             state.isAuthorized = false;
             state.isLoading = false;
+
         },
         [logout.pending.type]: (state) => {
             state.isLoading = true;

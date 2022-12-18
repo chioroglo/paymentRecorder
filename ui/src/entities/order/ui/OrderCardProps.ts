@@ -1,4 +1,4 @@
-import { OrderModel } from "../model/types";
+import {OrderModel} from "../model/types";
 
 export interface OrderCardProps {
     order: OrderModel

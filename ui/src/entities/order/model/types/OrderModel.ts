@@ -1,6 +1,6 @@
-import { ModelConcurrencyTokenInterface } from "entities/types";
+import {ModelConcurrencyTokenInterface} from "entities/types";
 
-export interface OrderModel extends ModelConcurrencyTokenInterface{
+export interface OrderModel extends ModelConcurrencyTokenInterface {
     "id": number,
     "number": number,
     "emissionDate": string,

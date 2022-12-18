@@ -1,6 +1,6 @@
-import { OrderModel } from 'entities/order/model/types';
+import {OrderModel} from 'entities/order/model/types';
 import React, {useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {getOrderByOrderNumber} from "../../entities/order/model/api";
 import OrderCard from "../../entities/order/ui/OrderCard";
 import {CenteredLoader} from "../../shared/ui/components/CenteredLoader";
@@ -8,9 +8,9 @@ import {CenteredLoader} from "../../shared/ui/components/CenteredLoader";
 export const OrderPage = () => {
 
     const {orderNumber} = useParams();
-    const [order,setOrder] = useState<OrderModel>();
-    const [error,setError] = useState<boolean>(false);
-    const [isLoading,setLoading] = useState<boolean>(true);
+    const [order, setOrder] = useState<OrderModel>();
+    const [error, setError] = useState<boolean>(false);
+    const [isLoading, setLoading] = useState<boolean>(true);
 
     const fetchAndSetOrder = async () => {
         const response = await getOrderByOrderNumber(parseInt(orderNumber || "0"));
@@ -24,7 +24,7 @@ export const OrderPage = () => {
         }).finally(() => {
             setLoading(false);
         });
-    },[]);
+    }, []);
 
     return (
         <div>

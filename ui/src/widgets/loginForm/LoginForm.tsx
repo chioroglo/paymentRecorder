@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useDispatchTyped} from "../../shared/store/hooks/useDispatchTyped";
 import {LoginFormFields} from "./lib/LoginFormFields";
 import {useSelectorTyped} from "../../shared/store/hooks/useSelectorTyped";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {CenteredLoader} from "../../shared/ui/components/CenteredLoader";
-import {Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel, Paper} from '@mui/material';
+import {Button, Checkbox, FormControl, FormControlLabel, FormHelperText, IconButton, Input, InputLabel, Paper} from '@mui/material';
 import {
     buttonStyle,
     checkboxStyle,
@@ -19,8 +19,14 @@ import {Link} from "react-router-dom";
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import {authenticate} from "../../entities/application-user/model/thunks";
 import {palette} from 'app/ui';
+import {useSnackbar, VariantType} from "notistack";
+import CloseIcon from '@mui/icons-material/Close';
+import {CLIENT_ERROR_OCCURRED} from "../../shared/lib";
+import {PayloadAction} from "@reduxjs/toolkit";
 
 export const LoginForm = () => {
+
+    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 
     const dispatch = useDispatchTyped();
 
@@ -34,7 +40,28 @@ export const LoginForm = () => {
             rememberMe: false
         },
         onSubmit: async (values, formikHelpers) => {
-            dispatch(authenticate(values));
+            const actionResult = await dispatch(authenticate(values));
+
+
+            let message = "";
+            let variant: VariantType = "info";
+
+            if (actionResult.meta.requestStatus === "rejected") {
+                message = typeof actionResult.payload === "string" && actionResult.payload || CLIENT_ERROR_OCCURRED;
+                variant = "error";
+            } else {
+                message = "Authorized successfully";
+                variant = "success";
+            }
+
+            enqueueSnackbar(message,{
+                variant: variant,
+                action: (key) =>
+                    <IconButton onClick={() => closeSnackbar(key)}>
+                        <CloseIcon/>
+                    </IconButton>
+            });
+
         },
         validationSchema: Yup.object({
             emailOrUsername: Yup
@@ -45,6 +72,11 @@ export const LoginForm = () => {
                 .required("Please introduce your password")
         })
     })
+
+    useEffect(() => {
+
+
+    },[userState.errorMessage]);
 
     return (
         <>
