@@ -54,7 +54,7 @@ public class TokenService : ITokenService
             _jwtConfiguration.Audience,
             claims,
             signingCredentials: signingCredentials,
-            expires: DateTime.UtcNow.AddMinutes(_jwtConfiguration.AccessTokenLifetimeMinutes));
+            expires: DateTime.UtcNow.AddMinutes(_jwtConfiguration.AccessTokenLifetimeMinutes)); 
 
         return token;
     }

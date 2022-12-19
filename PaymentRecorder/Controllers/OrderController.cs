@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions.Impl;
 using Common.Dto.Order;
 using Common.Models;
 using Domain;
@@ -48,5 +49,18 @@ public class OrderController : AppBaseController
 
         Response.Headers.ETag = entity.Version.ToString();
         return Mapper.Map<OrderModel>(entity);
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [HttpDelete("{orderNumber:long}")]
+    public async Task<ActionResult> DeleteOrderByOrderNumber([FromRoute] long orderNumber,
+        CancellationToken cancellationToken)
+    {
+        var version = Guid.Parse(Request.Headers.IfMatch);
+        await _orderService.RemoveByOrderNumberAsync(orderNumber,version, cancellationToken);
+
+        return NoContent();
     }
 }

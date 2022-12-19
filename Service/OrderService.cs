@@ -106,14 +106,15 @@ public class OrderService : BaseEntityService<Order>, IOrderService
 
     public async Task RemoveByOrderNumberAsync(long orderNumber, Guid version, CancellationToken cancellationToken)
     {
-        var entity = await _db.Orders.FirstOrDefaultAsync(e => e.Id == orderNumber, cancellationToken)
+        var entity = await _db.Orders.FirstOrDefaultAsync(e => e.Number == orderNumber, cancellationToken)
                      ?? throw new EntityValidationException(
                          EntityCannotBeDeletedBecause<Transaction>($"of ID {orderNumber} does not exist"));
-        ;
 
         ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entity.Version, version);
 
         _db.Orders.Remove(entity);
+
+        await _db.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<Order> UpdateByNumberAsync(long orderNumber, OrderDto dto, CancellationToken cancellationToken)

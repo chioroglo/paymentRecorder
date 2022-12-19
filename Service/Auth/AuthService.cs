@@ -94,7 +94,7 @@ public class AuthService : IAuthService
             throw new IdentityException(AuthenticationFailedMessage());
         }
 
-        if (user.RefreshTokenExpirationDate == null && user.RefreshToken == null)
+        if ((user.RefreshTokenExpirationDate == null && user.RefreshToken == null) || (user.RefreshTokenExpirationDate <= DateTime.UtcNow))
         {
             var refreshToken = await _tokenService.CreateUniqueRefreshTokenAsync(cancellationToken);
             user.RefreshToken = refreshToken.Token;

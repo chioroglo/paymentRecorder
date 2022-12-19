@@ -22,13 +22,13 @@ namespace PaymentRecorder.Middlewares
             }
 
             await using (var transaction =
-                         await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.ReadCommitted,
+                         await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead,
                              httpContext.RequestAborted))
             {
                 await _next(httpContext);
 
-                await db.SaveChangesAsync(httpContext.RequestAborted);
-                await transaction.CommitAsync(httpContext.RequestAborted);
+                await db.SaveChangesAsync();
+                await transaction.CommitAsync();
             }
         }
     }
