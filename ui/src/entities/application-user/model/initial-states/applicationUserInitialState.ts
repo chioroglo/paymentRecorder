@@ -30,7 +30,7 @@ export const applicationUserInitialState: IApplicationUserState = ((): IApplicat
 
     const availableStorages = [localStorage, sessionStorage];
 
-    availableStorages.map((storage) => {
+    availableStorages.forEach((storage) => {
         if (storageUserStateClaimNames.filter((claim) => storage.getItem(claim)).length === storageUserStateClaimNames.length) {
             preferredStorage = storage;
         }

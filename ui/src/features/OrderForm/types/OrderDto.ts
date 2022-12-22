@@ -1,7 +1,7 @@
 import {TransactionState, TransactionType} from "../../../shared/lib/enum";
 import {DtoConcurrencyTokenInterface} from "../../../entities/types";
 
-export interface OrderDto extends DtoConcurrencyTokenInterface{
+export interface OrderDto extends DtoConcurrencyTokenInterface {
     number: number,
     emissionDate: string,
     amount: number,

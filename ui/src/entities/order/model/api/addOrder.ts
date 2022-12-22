@@ -13,7 +13,7 @@ export const addOrder = async (order: OrderDto): Promise<OrderModel> => {
             order.executionDate = undefined;
         }
 
-        const response = await axiosHttpClient.post<OrderModel>(`/order/`,order);
+        const response = await axiosHttpClient.post<OrderModel>(`/order/`, order);
 
         return {...response.data, entityTag: response.headers[EntityTagHeader] || NO_ENTITY_TOKEN_PROVIDED};
     } catch (e) {

@@ -1,10 +1,8 @@
-import { addOrder } from 'entities/order/model/api';
+import {addOrder} from 'entities/order/model/api';
 import {OrderDto} from 'features/OrderForm/types';
 import React from 'react';
 import {OrderForm} from "../../features/OrderForm/ui";
 import {useSnackbar, VariantType} from "notistack";
-import { AxiosError } from 'axios';
-import {ErrorResponse} from "../../shared/api/types";
 import {CLIENT_ERROR_OCCURRED} from "../../shared/lib";
 import {IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,10 +19,10 @@ export const AllOrdersPage = () => {
             await addOrder(order);
             message = "Order added successfully!";
             variant = "success";
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             variant = "error";
-            if (typeof(e) === "string") {
+            if (typeof (e) === "string") {
                 message = e;
             }
         } finally {

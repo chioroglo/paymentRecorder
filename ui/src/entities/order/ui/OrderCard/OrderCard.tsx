@@ -58,7 +58,7 @@ const OrderCard = ({order}: OrderCardProps) => {
 
             <Box display="flex">
                 <OrderCardGridCell style={{flexGrow: 1}}>
-                    {`ISSUE DATE: ${transformUtcStringToDateMonthHoursMinutes(order.issueDate)   } (${order.timezone}) / EXECUTION DATE: ${order.executionDate ? `${transformUtcStringToDateMonthHoursMinutes(order.executionDate)} (${order.timezone})` : '-'}`}
+                    {`ISSUE DATE: ${transformUtcStringToDateMonthHoursMinutes(order.issueDate)} (${order.timezone}) / EXECUTION DATE: ${order.executionDate ? `${transformUtcStringToDateMonthHoursMinutes(order.executionDate)} (${order.timezone})` : '-'}`}
                 </OrderCardGridCell>
                 <OrderCardGridCell>
                     {`TRANSACTION STATE : ${order.transactionState}`}
