@@ -11,7 +11,7 @@ export const axiosHttpClient = axios.create({
 axiosHttpClient.interceptors.request.use((config) => {
 
     if (config?.headers) {
-        config.headers["Authorization"] = "Bearer " + sessionStorage.getItem(AccessTokenStorageClaim) || localStorage.getItem(AccessTokenStorageClaim);
+        config.headers["Authorization"] = "Bearer " + (sessionStorage.getItem(AccessTokenStorageClaim) || localStorage.getItem(AccessTokenStorageClaim));
     }
     return config;
 });

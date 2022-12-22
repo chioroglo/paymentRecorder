@@ -19,6 +19,16 @@ public class AgentController : AppBaseController
         _agentService = agentService;
     }
 
+
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<AgentModel>>> GetAgentsList(CancellationToken cancellationToken)
+    {
+        var agents = await _agentService.GetAllAsNoTrackingAsync(cancellationToken);
+
+        return Ok(agents.Select(e => Mapper.Map<AgentModel>(e)));
+    }
+
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpGet("{id:long}")]

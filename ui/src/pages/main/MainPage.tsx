@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import {Button} from '@mui/material';
 import React from 'react';
 import {getOrderByOrderNumber} from "../../entities/order/model/api";
 
@@ -10,8 +10,7 @@ const MainPage = () => {
             const response = await getOrderByOrderNumber(443);
             console.log("COMPONENT");
             console.log(response);
-        }
-        catch(err) {
+        } catch (err) {
             //console.log(err);
         }
     }

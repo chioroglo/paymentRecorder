@@ -8,4 +8,4 @@ export const EmailStorageClaim = "email";
 
 export const RolesStorageClaim = "roles";
 
-export const getStorageClaimNames = () => [RolesStorageClaim, EmailStorageClaim, UsernameStorageClaim, AccessTokenStorageClaim, AccessTokenExpirationDateStorageClaim];
+export const getStorageAuthenticationClaimNames = () => [RolesStorageClaim, EmailStorageClaim, UsernameStorageClaim, AccessTokenStorageClaim, AccessTokenExpirationDateStorageClaim];

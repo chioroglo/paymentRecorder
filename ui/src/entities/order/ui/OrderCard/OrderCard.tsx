@@ -1,67 +1,68 @@
 import {Box, Paper} from '@mui/material';
 import React from 'react';
 import {OrderCardProps} from "./OrderCardProps";
-import {transformUtcStringToDateMonthHoursMinutes} from "../../../shared/lib";
-import {OrderGridCell} from "./OrderGridCell";
+import {transformUtcStringToDateMonthHoursMinutes} from "../../../../shared/lib";
+import {OrderCardGridCell} from "../OrderCardGridCell/OrderCardGridCell";
 
 
 const OrderCard = ({order}: OrderCardProps) => {
     return (
         <Paper variant="outlined" square>
             <Box display="flex">
-                <OrderGridCell>PAYMENT ORDER NO.</OrderGridCell>
-                <OrderGridCell>{order.number}</OrderGridCell>
-                <OrderGridCell
-                    style={{flexGrow: 1}}>{`EMISSION DATE:${transformUtcStringToDateMonthHoursMinutes(order.emissionDate)}`}</OrderGridCell>
+                <OrderCardGridCell>PAYMENT ORDER NO.</OrderCardGridCell>
+                <OrderCardGridCell>{'№' + order.number}</OrderCardGridCell>
+                <OrderCardGridCell
+                    style={{flexGrow: 1}}>{`EMISSION DATE:${transformUtcStringToDateMonthHoursMinutes(order.emissionDate)}`}</OrderCardGridCell>
             </Box>
 
             <Box display="flex">
-                <OrderGridCell>{`SUM: ${order.amount}`}</OrderGridCell>
-                <OrderGridCell style={{flexGrow: 1}}>{`${order.currencyName} ${order.amount}`}</OrderGridCell>
+                <OrderCardGridCell>{`SUM: ${order.amount}`}</OrderCardGridCell>
+                <OrderCardGridCell style={{flexGrow: 1}}>{`${order.amount} ${order.currencyName}`}</OrderCardGridCell>
 
             </Box>
 
             <Box display="flex">
-                <OrderGridCell style={{flexGrow: 1}}>{`ISSUER: ${order.issuerAgentName}`}</OrderGridCell>
+                <OrderCardGridCell style={{flexGrow: 1}}>{`ISSUER: ${order.issuerAgentName}`}</OrderCardGridCell>
                 <Box>
-                    <OrderGridCell>{`ISSUER ACCOUNT: ${order.issuerAccountCode}`}</OrderGridCell>
-                    <OrderGridCell>{`ISSUER IDNP: ${order.issuerFiscalCode}`}</OrderGridCell>
+                    <OrderCardGridCell>{`ISSUER ACCOUNT: ${order.issuerAccountCode}`}</OrderCardGridCell>
+                    <OrderCardGridCell>{`ISSUER IDNP: ${order.issuerFiscalCode}`}</OrderCardGridCell>
                 </Box>
             </Box>
 
             <Box display="flex">
-                <OrderGridCell
-                    style={{flexGrow: 1}}>{`ISSUER REPRESENTER (BANK) ${order.issuerBankName}`}</OrderGridCell>
-                <OrderGridCell>{`BANK CODE ${order.issuerBankCode}`}</OrderGridCell>
+                <OrderCardGridCell
+                    style={{flexGrow: 1}}>{`ISSUER REPRESENTER (BANK) ${order.issuerBankName}`}</OrderCardGridCell>
+                <OrderCardGridCell>{`BANK CODE ${order.issuerBankCode}`}</OrderCardGridCell>
             </Box>
 
             <Box display="flex">
-                <OrderGridCell style={{flexGrow: 1}}>{`BENEFICIARY: ${order.beneficiaryAgentName}`}</OrderGridCell>
+                <OrderCardGridCell
+                    style={{flexGrow: 1}}>{`BENEFICIARY: ${order.beneficiaryAgentName}`}</OrderCardGridCell>
                 <Box>
-                    <OrderGridCell>{`BENEFICIARY ACCOUNT: ${order.beneficiaryAccountCode}`}</OrderGridCell>
-                    <OrderGridCell>{`BENEFICIARY IDNP: ${order.beneficiaryAccountCode}`}</OrderGridCell>
+                    <OrderCardGridCell>{`BENEFICIARY ACCOUNT: ${order.beneficiaryAccountCode}`}</OrderCardGridCell>
+                    <OrderCardGridCell>{`BENEFICIARY IDNP: ${order.beneficiaryAccountCode}`}</OrderCardGridCell>
                 </Box>
             </Box>
 
             <Box display="flex">
-                <OrderGridCell
-                    style={{flexGrow: 1}}>{`BENEFICIARY REPRESENTER (BANK) ${order.beneficiaryBankName}`}</OrderGridCell>
-                <OrderGridCell>{`BANK CODE ${order.beneficiaryBankCode}`}</OrderGridCell>
+                <OrderCardGridCell
+                    style={{flexGrow: 1}}>{`BENEFICIARY REPRESENTER (BANK) ${order.beneficiaryBankName}`}</OrderCardGridCell>
+                <OrderCardGridCell>{`BANK CODE ${order.beneficiaryBankCode}`}</OrderCardGridCell>
             </Box>
 
             <Box display="flex">
-                <OrderGridCell style={{flexGrow: 1}}>{`DESTINATION: ${order.destination}`}</OrderGridCell>
-                <OrderGridCell>{`TRANSACTION TYPE: ${order.transactionType}`}</OrderGridCell>
+                <OrderCardGridCell style={{flexGrow: 1}}>{`DESTINATION: ${order.destination}`}</OrderCardGridCell>
+                <OrderCardGridCell>{`TRANSACTION TYPE: ${order.transactionType}`}</OrderCardGridCell>
             </Box>
 
 
             <Box display="flex">
-                <OrderGridCell style={{flexGrow: 1}}>
-                    {`ISSUE DATE ${order.issueDate} / EXECUTION DATE ${order.executionDate ? transformUtcStringToDateMonthHoursMinutes(order.executionDate) : '-'}`}
-                </OrderGridCell>
-                <OrderGridCell>
+                <OrderCardGridCell style={{flexGrow: 1}}>
+                    {`ISSUE DATE: ${transformUtcStringToDateMonthHoursMinutes(order.issueDate)   } (${order.timezone}) / EXECUTION DATE: ${order.executionDate ? `${transformUtcStringToDateMonthHoursMinutes(order.executionDate)} (${order.timezone})` : '-'}`}
+                </OrderCardGridCell>
+                <OrderCardGridCell>
                     {`TRANSACTION STATE : ${order.transactionState}`}
-                </OrderGridCell>
+                </OrderCardGridCell>
             </Box>
 
         </Paper>

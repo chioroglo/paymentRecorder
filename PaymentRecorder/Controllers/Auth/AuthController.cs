@@ -65,12 +65,14 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpGet("get-access-token")]
-    public async Task<ActionResult<AuthenticationResponseModel>> GetUserAndAccessTokenByRefreshToken(CancellationToken cancellationToken)
-        {
+    public async Task<ActionResult<AuthenticationResponseModel>> GetUserAndAccessTokenByRefreshToken(
+        CancellationToken cancellationToken)
+    {
         var refreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ??
                            throw new AuthenticationException(TokenExceptionMessages.InvalidTokenMessage());
 
-        var userWithAccessToken = await _authService.GetUserAndAccessTokenByRefreshToken(refreshToken, cancellationToken);
+        var userWithAccessToken =
+            await _authService.GetUserAndAccessTokenByRefreshToken(refreshToken, cancellationToken);
 
         return Ok(_mapper.Map<AuthenticationResponseModel>(userWithAccessToken));
     }
@@ -83,7 +85,8 @@ public class AuthController : ControllerBase
         var oldRefreshToken = HttpContext.Request.Cookies[JwtCookieClaims.RefreshToken] ??
                               throw new AuthenticationException(TokenExceptionMessages.InvalidTokenMessage());
 
-        var (newRefreshToken,newAccessToken) = await _tokenService.ExchangeRefreshTokenAndGetNewAccessToken(oldRefreshToken, cancellationToken);
+        var (newRefreshToken, newAccessToken) =
+            await _tokenService.ExchangeRefreshTokenAndGetNewAccessToken(oldRefreshToken, cancellationToken);
 
         HttpContext.Response.Cookies.Append(
             JwtCookieClaims.RefreshToken,
@@ -92,7 +95,7 @@ public class AuthController : ControllerBase
 
         return Ok(newAccessToken);
     }
-    
+
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -104,8 +107,10 @@ public class AuthController : ControllerBase
 
         await _authService.Logout(refreshToken, cancellationToken);
 
-        HttpContext.Response.Cookies.Append(JwtCookieClaims.RefreshToken, "",
-            CookieOptionsFactory.CreateOptionsForTokenCookie(DateTime.UtcNow.AddDays(-1)));
+        HttpContext.Response.Cookies.Delete(JwtCookieClaims.RefreshToken);
+
+        //HttpContext.Response.Cookies.Append(JwtCookieClaims.RefreshToken, "",
+        //    CookieOptionsFactory.CreateOptionsForTokenCookie(DateTime.UtcNow.AddDays(-1)));
 
         return NoContent();
     }

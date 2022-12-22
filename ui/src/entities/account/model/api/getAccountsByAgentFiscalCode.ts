@@ -3,9 +3,9 @@ import {AxiosError} from "axios";
 import {ErrorResponse} from "../../../../shared/api/types";
 import {AccountModel} from "../types";
 
-export const getAccountsByAgentId = async (agentId: number): Promise<AccountModel[]> => {
+export const getAccountsByAgentFiscalCode = async (agentId: number): Promise<AccountModel[]> => {
     try {
-        const response = await axiosHttpClient.get<AccountModel[]>(`agent/get-by-agent-id/${agentId}`);
+        const response = await axiosHttpClient.get<AccountModel[]>(`account/get-by-agent-fiscal-code/${agentId}`);
 
         return response.data;
         //return {...response.data, entityTag: response.headers[EntityTagHeader]};

@@ -1,15 +1,14 @@
 import React from 'react';
-import {Typography} from "@mui/material";
+import {Box} from "@mui/material";
+import {OrderCardGridCellProps} from "./OrderCardGridCellProps";
+import "./styles/OrderCardGridCell.css";
 
-const cellStyle: React.CSSProperties = {
-    border: "1px solid black",
-    padding: "5px 40px",
-    textAlign: "center"
-}
-export const OrderGridCell = ({children, style}: { children: string | number, style?: React.CSSProperties }) => {
+const orderCardGridCellClassName = "order-card-grid-cell";
+
+export const OrderCardGridCell = ({children, style}: OrderCardGridCellProps) => {
     return (
-        <Typography style={{...cellStyle, ...style}}>
+        <Box alignContent="self" className={orderCardGridCellClassName} style={{...style}}>
             {children}
-        </Typography>
+        </Box>
     );
 };

@@ -4,7 +4,6 @@ using Common.Models;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
-using System.Net;
 using PaymentRecorder.Controllers.Base;
 
 namespace PaymentRecorder.Controllers;
@@ -17,6 +16,16 @@ public class BankController : AppBaseController
     public BankController(IMapper mapper, IBankService bankService) : base(mapper)
     {
         _bankService = bankService;
+    }
+
+
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<BankModel>>> GetBankList(CancellationToken cancellationToken)
+    {
+        var banks = await _bankService.GetAllAsNoTrackingAsync(cancellationToken);
+
+        return Ok(banks.Select(e => Mapper.Map<BankModel>(e)));
     }
 
     [ProducesResponseType(StatusCodes.Status200OK)]

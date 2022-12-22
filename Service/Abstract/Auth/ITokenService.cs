@@ -10,7 +10,8 @@ public interface ITokenService
 
     Task<RefreshToken> CreateUniqueRefreshTokenAsync(CancellationToken cancellationToken);
 
-    Task<(RefreshToken,AccessToken)> ExchangeRefreshTokenAndGetNewAccessToken(string oldRefreshToken, CancellationToken cancellationToken);
+    Task<(RefreshToken, AccessToken)> ExchangeRefreshTokenAndGetNewAccessToken(string oldRefreshToken,
+        CancellationToken cancellationToken);
 
     Task<AccessToken> GetAccessToken(string refreshToken, CancellationToken cancellationToken);
 }

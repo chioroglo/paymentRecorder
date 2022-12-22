@@ -21,6 +21,17 @@ namespace PaymentRecorder.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("get-by-agent-fiscal-code/{agentId:long}")]
+        public async Task<ActionResult<IEnumerable<AccountModel>>> GetByAgentFiscalCode(long agentId,
+            CancellationToken cancellationToken)
+        {
+            var accounts = await _accountService.GetByAgentFiscalCodeAsync(agentId, cancellationToken);
+
+            return Ok(accounts.Select(e => Mapper.Map<AccountModel>(e)));
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountModel>>> GetAll(CancellationToken cancellationToken)

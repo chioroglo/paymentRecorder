@@ -1,9 +1,9 @@
-import {IApplicationUserState} from "../types/IApplicationUserState";
+import {IApplicationUserState} from "../types";
 import {
     AccessTokenExpirationDateStorageClaim,
     AccessTokenStorageClaim,
     EmailStorageClaim,
-    getStorageClaimNames,
+    getStorageAuthenticationClaimNames,
     RolesStorageClaim,
     UsernameStorageClaim
 } from "../../lib";
@@ -26,7 +26,7 @@ export const applicationUserInitialState: IApplicationUserState = ((): IApplicat
     // a source of all other info for initial storage or set to null if has no saved claims
     let preferredStorage: Storage | null | any = null;
 
-    const storageUserStateClaimNames = getStorageClaimNames();
+    const storageUserStateClaimNames = getStorageAuthenticationClaimNames();
 
     const availableStorages = [localStorage, sessionStorage];
 
@@ -38,12 +38,6 @@ export const applicationUserInitialState: IApplicationUserState = ((): IApplicat
 
 
     if (preferredStorage instanceof Storage) {
-        // compare dates for access token expiration time
-        // if (new Date(preferredStorage.getItem(AccessTokenExpirationDateStorageClaim) || new Date()) <= new Date()) {
-        //     state.isLoading = false;
-        //     state.isAuthorized = false;
-        //     return state;
-        // }
 
         state.username = preferredStorage.getItem(UsernameStorageClaim) || "";
         state.email = preferredStorage.getItem(EmailStorageClaim) || "";

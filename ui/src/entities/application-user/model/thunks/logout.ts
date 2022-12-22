@@ -10,14 +10,15 @@ export const logout = createAsyncThunk(
         try {
             let response = await axiosHttpClient.post('/auth/logout');
 
-            localStorage.clear();
-            sessionStorage.clear();
 
             return response.data;
         } catch (err) {
             const errorResponse = err as AxiosError<ErrorResponse>;
 
             return thunkAPI.rejectWithValue(errorResponse.response?.data.Message);
+        } finally {
+            localStorage.clear();
+            sessionStorage.clear();
         }
     }
 )

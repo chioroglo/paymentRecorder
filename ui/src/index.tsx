@@ -8,6 +8,8 @@ import {ThemeProvider} from "@mui/material";
 import {theme} from "./app/ui";
 import {SnackbarProvider} from "notistack";
 import {NOTIFICATION_STACK_CAPACITY, NOTIFICATIONS_AUTO_HIDE_DURATION_MS} from "./shared/config";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterMoment} from "@mui/x-date-pickers/AdapterMoment";
 
 const store = setupStore();
 
@@ -17,13 +19,15 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <ThemeProvider theme={theme}>
-                <SnackbarProvider autoHideDuration={NOTIFICATIONS_AUTO_HIDE_DURATION_MS}
-                                  maxSnack={NOTIFICATION_STACK_CAPACITY}>
-                    <App/>
-                </SnackbarProvider>
-            </ThemeProvider>
-        </BrowserRouter>
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+            <BrowserRouter>
+                <ThemeProvider theme={theme}>
+                    <SnackbarProvider autoHideDuration={NOTIFICATIONS_AUTO_HIDE_DURATION_MS}
+                                      maxSnack={NOTIFICATION_STACK_CAPACITY}>
+                        <App/>
+                    </SnackbarProvider>
+                </ThemeProvider>
+            </BrowserRouter>
+        </LocalizationProvider>
     </Provider>
 );

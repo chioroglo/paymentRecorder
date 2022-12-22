@@ -66,7 +66,7 @@ public class AuthService : IAuthService
 
         await _userManager.AddToRoleAsync(user, UserRole.Accountant.GetEnumDescription());
 
-        
+
         await _userManager.UpdateAsync(user);
 
         var accessToken = await _tokenService.CreateAccessToken(user, cancellationToken);
@@ -94,7 +94,8 @@ public class AuthService : IAuthService
             throw new IdentityException(AuthenticationFailedMessage());
         }
 
-        if ((user.RefreshTokenExpirationDate == null && user.RefreshToken == null) || (user.RefreshTokenExpirationDate <= DateTime.UtcNow))
+        if ((user.RefreshTokenExpirationDate == null && user.RefreshToken == null) ||
+            user.RefreshTokenExpirationDate <= DateTime.UtcNow)
         {
             var refreshToken = await _tokenService.CreateUniqueRefreshTokenAsync(cancellationToken);
             user.RefreshToken = refreshToken.Token;
@@ -138,7 +139,8 @@ public class AuthService : IAuthService
         };
     }
 
-    public async Task<AuthenticationServiceResponseDto> GetUserAndAccessTokenByRefreshToken(string refreshToken, CancellationToken cancellationToken)
+    public async Task<AuthenticationServiceResponseDto> GetUserAndAccessTokenByRefreshToken(string refreshToken,
+        CancellationToken cancellationToken)
     {
         var user = _userManager.Users.FirstOrDefault(e => e.RefreshToken == refreshToken) ??
                    throw new AuthenticationException(TokenExceptionMessages.InvalidTokenMessage());
@@ -168,7 +170,7 @@ public class AuthService : IAuthService
     {
         var user = _userManager.Users.FirstOrDefault(e => e.RefreshToken == refreshToken) ??
                    throw new AuthenticationException(TokenExceptionMessages.InvalidTokenMessage());
-        
+
 
         user.RefreshToken = null;
         user.RefreshTokenExpirationDate = null;

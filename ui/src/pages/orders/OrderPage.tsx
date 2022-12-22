@@ -2,7 +2,7 @@ import {OrderModel} from 'entities/order/model/types';
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {getOrderByOrderNumber} from "../../entities/order/model/api";
-import OrderCard from "../../entities/order/ui/OrderCard";
+import OrderCard from "../../entities/order/ui/OrderCard/OrderCard";
 import {CenteredLoader} from "../../shared/ui/components/CenteredLoader";
 
 export const OrderPage = () => {
@@ -14,7 +14,6 @@ export const OrderPage = () => {
 
     const fetchAndSetOrder = async () => {
         const response = await getOrderByOrderNumber(parseInt(orderNumber || "0"));
-        console.log("response received");
         setOrder(response);
     }
 

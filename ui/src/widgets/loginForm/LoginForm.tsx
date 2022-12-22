@@ -1,28 +1,29 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {useDispatchTyped} from "../../shared/store/hooks/useDispatchTyped";
 import {LoginFormFields} from "./lib/LoginFormFields";
 import {useSelectorTyped} from "../../shared/store/hooks/useSelectorTyped";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {CenteredLoader} from "../../shared/ui/components/CenteredLoader";
-import {Button, Checkbox, FormControl, FormControlLabel, FormHelperText, IconButton, Input, InputLabel, Paper} from '@mui/material';
 import {
-    buttonStyle,
-    checkboxStyle,
-    errorTextStyle,
-    paperStyle,
-    rememberMeStyle,
-    textFieldStyle
-} from './lib/LoginFormStyles';
+    Button,
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    IconButton,
+    Input,
+    InputLabel,
+    Paper
+} from '@mui/material';
+import {buttonStyle, checkboxStyle, errorTextStyle, paperStyle, textFieldStyle} from './lib/LoginFormStyles';
 import {FormHeader} from 'shared/ui/components/FormHeader';
-import {Link} from "react-router-dom";
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import {authenticate} from "../../entities/application-user/model/thunks";
 import {palette} from 'app/ui';
 import {useSnackbar, VariantType} from "notistack";
 import CloseIcon from '@mui/icons-material/Close';
 import {CLIENT_ERROR_OCCURRED} from "../../shared/lib";
-import {PayloadAction} from "@reduxjs/toolkit";
 
 export const LoginForm = () => {
 
@@ -54,7 +55,7 @@ export const LoginForm = () => {
                 variant = "success";
             }
 
-            enqueueSnackbar(message,{
+            enqueueSnackbar(message, {
                 variant: variant,
                 action: (key) =>
                     <IconButton onClick={() => closeSnackbar(key)}>
@@ -72,11 +73,6 @@ export const LoginForm = () => {
                 .required("Please introduce your password")
         })
     })
-
-    useEffect(() => {
-
-
-    },[userState.errorMessage]);
 
     return (
         <>
@@ -114,7 +110,6 @@ export const LoginForm = () => {
 
                         <Button variant="outlined" style={buttonStyle} type="submit">Log in</Button>
 
-                        <Link style={rememberMeStyle} to="/register">Do not have an account? Click here</Link>
                     </Paper>
                 </form>
             }

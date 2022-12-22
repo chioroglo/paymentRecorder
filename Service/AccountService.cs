@@ -15,6 +15,13 @@ public class AccountService : BaseEntityService<Account>, IAccountService
     {
     }
 
+    public async Task<IEnumerable<Account>> GetByAgentFiscalCodeAsync(long agentFiscalCode,
+        CancellationToken cancellationToken)
+    {
+        return await _db.Accounts.Include(e => e.Agent).Include(e => e.Bank)
+            .Where(e => e.Agent.FiscalCode == agentFiscalCode).ToListAsync(cancellationToken);
+    }
+
     public async Task<Account> Add(Account entity, CancellationToken cancellationToken)
     {
         _ = await _db.Banks.FirstOrDefaultAsync(e => e.Id == entity.BankId, cancellationToken) ??

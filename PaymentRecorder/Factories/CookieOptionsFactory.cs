@@ -9,7 +9,7 @@ public static class CookieOptionsFactory
             HttpOnly = true,
             Secure = true,
             Expires = expires,
-            SameSite = SameSiteMode.Unspecified
+            SameSite = SameSiteMode.None
         };
     }
 }

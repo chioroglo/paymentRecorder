@@ -20,7 +20,7 @@ export interface OrderModel extends ModelConcurrencyTokenInterface {
     "destination": string,
     "transactionType": string,
     "issueDate": string,
-    "executionDate": string,
+    "executionDate"?: string,
     "timezone": string,
     "transactionState": string
 }

@@ -48,13 +48,13 @@ public class TokenService : ITokenService
 
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
-        
+
         var token = new JwtSecurityToken(
             _jwtConfiguration.Issuer,
             _jwtConfiguration.Audience,
             claims,
             signingCredentials: signingCredentials,
-            expires: DateTime.UtcNow.AddMinutes(_jwtConfiguration.AccessTokenLifetimeMinutes)); 
+            expires: DateTime.UtcNow.AddMinutes(_jwtConfiguration.AccessTokenLifetimeMinutes));
 
         return token;
     }
@@ -89,7 +89,8 @@ public class TokenService : ITokenService
         };
     }
 
-    public async Task<(RefreshToken,AccessToken)> ExchangeRefreshTokenAndGetNewAccessToken(string oldRefreshToken, CancellationToken cancellationToken)
+    public async Task<(RefreshToken, AccessToken)> ExchangeRefreshTokenAndGetNewAccessToken(string oldRefreshToken,
+        CancellationToken cancellationToken)
     {
         var user = await _userManager.Users.FirstOrDefaultAsync(e => e.RefreshToken == oldRefreshToken,
             cancellationToken);
@@ -121,7 +122,7 @@ public class TokenService : ITokenService
             ExpirationDate = accessTokenCreatedByService.ValidTo
         };
 
-        return (newRefreshToken,newAccessToken);
+        return (newRefreshToken, newAccessToken);
     }
 
     public async Task<AccessToken> GetAccessToken(string refreshToken, CancellationToken cancellationToken)

@@ -53,6 +53,11 @@ public class OrderService : BaseEntityService<Order>, IOrderService
                                      EntityCannotBeCreatedBecause<Account>(
                                          $"with code : {dto.BeneficiaryAccountCode} and fiscal code {dto.BeneficiaryFiscalCode} was not found"));
 
+        if (issuerAccount.AccountCode == beneficiaryAccount.AccountCode)
+        {
+            throw new EntityValidationException(
+                EntityCannotBeCreatedBecause<Account>("of beneficiary and issuer are unique"));
+        }
 
         if (_db.Orders.Count(e => e.Number == dto.Number) > 0)
         {
@@ -141,6 +146,12 @@ public class OrderService : BaseEntityService<Order>, IOrderService
                                  ?? throw new EntityValidationException(
                                      EntityCannotBeModifiedBecause<Account>(
                                          $"with code : {dto.BeneficiaryAccountCode} and fiscal code {dto.BeneficiaryFiscalCode} was not found"));
+
+        if (issuerAccount.AccountCode == beneficiaryAccount.AccountCode)
+        {
+            throw new EntityValidationException(
+                EntityCannotBeCreatedBecause<Account>("of beneficiary and issuer are unique"));
+        }
 
         // change to any
         if (await _db.Orders.CountAsync(e => e.Number == dto.Number && e.Id != entityFromDb.Id, cancellationToken) > 0)

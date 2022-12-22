@@ -8,7 +8,7 @@ import {
     RolesStorageClaim,
     UsernameStorageClaim
 } from "../../lib"
-import {AxiosError, AxiosResponse} from "axios";
+import {AxiosError} from "axios";
 import {ErrorResponse} from "../../../../shared/api/types";
 
 export const authenticate = createAsyncThunk(
