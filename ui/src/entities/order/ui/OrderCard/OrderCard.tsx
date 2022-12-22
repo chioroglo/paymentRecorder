@@ -7,7 +7,7 @@ import {OrderGridCell} from "./OrderGridCell";
 
 const OrderCard = ({order}: OrderCardProps) => {
     return (
-        <Paper variant="outlined" style={{padding: "5px"}} square>
+        <Paper variant="outlined" square>
             <Box display="flex">
                 <OrderGridCell>PAYMENT ORDER NO.</OrderGridCell>
                 <OrderGridCell>{order.number}</OrderGridCell>
@@ -57,7 +57,7 @@ const OrderCard = ({order}: OrderCardProps) => {
 
             <Box display="flex">
                 <OrderGridCell style={{flexGrow: 1}}>
-                    {`ISSUE DATE ${order.issueDate} / EXECUTION DATE ${order.executionDate}`}
+                    {`ISSUE DATE ${order.issueDate} / EXECUTION DATE ${order.executionDate ? transformUtcStringToDateMonthHoursMinutes(order.executionDate) : '-'}`}
                 </OrderGridCell>
                 <OrderGridCell>
                     {`TRANSACTION STATE : ${order.transactionState}`}
