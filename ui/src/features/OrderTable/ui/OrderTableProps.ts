@@ -1,4 +1,4 @@
-import { OrderModel } from "entities/order/model/types";
+import {OrderModel} from "entities/order/model/types";
 
 export interface OrderTableProps {
     items: OrderModel[],

@@ -1,0 +1,18 @@
+.order-list-timespan-selector {
+    padding:20px;
+    margin:20px auto;
+    display:flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-content: center;
+}
+
+.timespan-selector-headline {
+    font-size: 64px;
+    text-align: center;
+}
+
+.timespan-inputs-container {
+    display:flex;
+    justify-content: space-around;
+}

@@ -4,8 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {getOrderByOrderNumber} from "../../../../entities/order/model/api";
 import OrderCard from "../../../../entities/order/ui/OrderCard/OrderCard";
-import {CenteredLoader} from "../../../../shared/ui/components";
-import {ErrorBannerWithMessage} from "../../../../shared/ui/components";
+import {CenteredLoader, ErrorBannerWithMessage} from "../../../../shared/ui/components";
 
 export const OrderPage = () => {
 

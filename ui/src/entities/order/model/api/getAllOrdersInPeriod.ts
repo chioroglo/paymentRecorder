@@ -1,14 +1,13 @@
 import {OrderModel} from "../types";
 import {axiosHttpClient} from "../../../../shared/api/http";
-import {EntityTagHeader} from "../../../../shared/lib";
 import {ErrorResponse} from "../../../../shared/api/types";
 import {AxiosError} from "axios";
 
-export const getOrderByOrderNumber = async (periodStart: string, periodEnd: string,limit: number = 10): Promise<OrderModel> => {
+export const getAllOrdersInPeriod = async (periodStart: Date, periodEnd: Date, limit: number = 10): Promise<OrderModel[]> => {
     try {
-        const response = await axiosHttpClient.get(`/order/${orderId}`,{});
+        const response = await axiosHttpClient.get<OrderModel[]>(`/order/get-by-period/?periodStart=${periodStart.toISOString()}&periodEnd=${periodEnd.toISOString()}&limit=${limit}`);
 
-        return {...response.data, entityTag: response.headers[EntityTagHeader]};
+        return response.data;
     } catch (e) {
         const err = e as AxiosError<ErrorResponse>;
 

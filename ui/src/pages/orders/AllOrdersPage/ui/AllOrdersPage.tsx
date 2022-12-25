@@ -1,12 +1,97 @@
-import { OrderTable } from 'features/OrderTable';
-import React from 'react';
+import {OrderModel} from 'entities/order/model/types';
+import {OrderTable} from 'features/OrderTable';
+import React, {useEffect, useState} from 'react';
+import {CenteredLoader, ErrorBannerWithMessage} from "../../../../shared/ui/components";
+import {getAllOrdersInPeriod} from "../../../../entities/order/model/api";
+import {CLIENT_ERROR_OCCURRED} from "../../../../shared/lib";
+import {Box, Paper, TextField, Typography} from "@mui/material";
+import {Moment} from "moment/moment";
+import {DateTimePicker} from "@mui/x-date-pickers";
+import "./styles/AllOrdersPage.css";
+
+const pageWidth = "90%"
 
 export const AllOrdersPage = () => {
+
+    const [isLoading, setLoading] = useState<boolean>(true);
+    const [orders, setOrders] = useState<OrderModel[]>([]);
+    const [error, setError] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>(CLIENT_ERROR_OCCURRED);
+
+    const [startDate, setStartDate] = useState<Date>(() => {
+        const date = new Date();
+        date.setMonth(0);
+        return date;
+    });
+
+    const [endDate, setEndDate] = useState<Date>(() => {
+        const date = new Date();
+        date.setMonth(11);
+        return date;
+    });
+
+    useEffect(() => {
+
+        setLoading(true);
+        setError(false);
+
+        // validation
+        if (startDate <= endDate) {
+            getAllOrdersInPeriod(startDate, endDate).then((result) => {
+                setOrders(result);
+            }).catch((errorMessage) => {
+                if (errorMessage) {
+                    setErrorMessage(errorMessage);
+                }
+                setError(true);
+            });
+        }
+        else {
+            setError(true);
+            setErrorMessage("Error has occurred. Please introduce correct time period");
+        }
+
+        setLoading(false);
+    }, [startDate,endDate]);
 
 
     return (
         <div>
-            <OrderTable items={[]}/>
+            {
+                isLoading ?
+                    <CenteredLoader/>
+                    :
+                    <>
+                        <div>
+                            <Paper className="order-list-timespan-selector" sx={{width:pageWidth}}>
+                                <Typography className="timespan-selector-headline">Order selection menu</Typography>
+                                <Box className="timespan-inputs-container">
+                                    <DateTimePicker label="Start date" renderInput={(params) =>
+                                        <TextField {...params} error={startDate >= endDate}/>}
+                                                    value={startDate}
+                                                    onChange={(value: Moment | null) => {
+                                                        if (value?.isValid()) {
+                                                            setStartDate(value?.toDate());
+                                                        }
+                                                    }}/>
+
+
+                                    <DateTimePicker label="End date" renderInput={(params) =>
+                                        <TextField {...params} error={startDate >= endDate}/>}
+                                                    value={endDate}
+                                                    onChange={(value: Moment | null) => {
+                                                        if (value?.isValid()) {
+                                                            setEndDate(value?.toDate());
+                                                        }
+                                                    }}/>
+                                </Box>
+
+                            </Paper>
+
+                            {error ? <ErrorBannerWithMessage message={errorMessage}/> : <OrderTable width={pageWidth} items={orders}/>}
+                        </div>
+                    </>
+            }
         </div>
     );
 };

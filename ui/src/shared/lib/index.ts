@@ -10,3 +10,5 @@ export * from "./MUIColor";
 export * from "./ApiHeaderClaims";
 
 export * from "./transformUtcToLocalDateMonthHoursMinutes";
+
+export * from "./changeTimezone";
