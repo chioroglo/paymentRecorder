@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static Common.Validation.Constraints.AccountValidationConstraints;
 
-namespace Common.Dto;
+namespace Common.Dto.Account;
 
 public class AccountDto
 {

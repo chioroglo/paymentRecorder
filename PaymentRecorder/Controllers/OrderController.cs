@@ -31,7 +31,7 @@ public class OrderController : AppBaseController
     [HttpPost]
     public async Task<ActionResult<OrderModel>> AddOrder([FromBody] OrderDto createOrderDto,
         CancellationToken cancellationToken)
-    {
+        {
         var entity = await _orderService.Add(createOrderDto, cancellationToken);
 
         Response.Headers.ETag = entity.Version.ToString();
@@ -61,5 +61,16 @@ public class OrderController : AppBaseController
         await _orderService.RemoveByOrderNumberAsync(orderNumber, version, cancellationToken);
 
         return NoContent();
+    }
+
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [HttpGet("get-by-period")]
+    public async Task<ActionResult<IEnumerable<OrderModel>>> GetAllOrdersIssuedInPeriod([FromQuery] DateTime periodStart, [FromQuery] DateTime periodEnd, [FromQuery] int limit,CancellationToken cancellationToken)
+    {
+
+        var orders = await _orderService.GetAllIssuedInPeriod(periodStart, periodEnd, limit, cancellationToken);
+
+        return Ok(orders.Select(e => Mapper.Map<OrderModel>(e)));
     }
 }

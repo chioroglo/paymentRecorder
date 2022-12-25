@@ -213,4 +213,20 @@ public class OrderService : BaseEntityService<Order>, IOrderService
                ?? throw new EntityValidationException(
                    EntityWasNotFoundBecause<Order>($"of number {orderNumber} does not exist"));
     }
+
+    public async Task<IEnumerable<Order>> GetAllIssuedInPeriod(DateTime periodStart, DateTime periodEnd,int limit, CancellationToken cancellationToken)
+    {
+        if (limit <= 0)
+        {
+            throw new EntityValidationException("Negative page limit introduced");
+        }
+
+        if (periodStart >= periodEnd)
+        {
+            throw new EntityValidationException("Invalid dates provided. Starting period is later or the same as ending period"); 
+        }
+
+        return await GetQueryWithAllInclusionsForOrderModel()
+            .Where(e => e.IssueDate >= periodStart && e.IssueDate <= periodEnd).Take(limit).ToListAsync(cancellationToken);
+    }
 }

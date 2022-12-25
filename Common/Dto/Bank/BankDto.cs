@@ -2,7 +2,7 @@
 using static Common.Validation.Constraints.BankValidationConstraints;
 using static Common.Validation.Constraints.CommonValidationConstraints;
 
-namespace Common.Dto;
+namespace Common.Dto.Bank;
 
 public class BankDto
 {

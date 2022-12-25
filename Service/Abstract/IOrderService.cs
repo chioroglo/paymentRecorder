@@ -13,4 +13,6 @@ public interface IOrderService : IBaseEntityService<Order>
     Task<Order> UpdateByNumberAsync(long orderNumber, OrderDto entity, CancellationToken cancellationToken);
 
     Task<Order> GetByNumber(long orderNumber, CancellationToken cancellationToken);
+
+    Task<IEnumerable<Order>> GetAllIssuedInPeriod(DateTime periodStart, DateTime periodEnd, int limit, CancellationToken cancellationToken);
 }

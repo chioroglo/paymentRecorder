@@ -2,10 +2,10 @@ import Button from '@mui/material/Button';
 import {OrderModel} from 'entities/order/model/types';
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {getOrderByOrderNumber} from "../../entities/order/model/api";
-import OrderCard from "../../entities/order/ui/OrderCard/OrderCard";
-import {CenteredLoader} from "../../shared/ui/components/CenteredLoader";
-import {ErrorBannerWithMessage} from "../../shared/ui/components/ErrorBannerWithMessage";
+import {getOrderByOrderNumber} from "../../../../entities/order/model/api";
+import OrderCard from "../../../../entities/order/ui/OrderCard/OrderCard";
+import {CenteredLoader} from "../../../../shared/ui/components";
+import {ErrorBannerWithMessage} from "../../../../shared/ui/components";
 
 export const OrderPage = () => {
 
@@ -23,12 +23,12 @@ export const OrderPage = () => {
     }
 
     useEffect(() => {
-        fetchAndSetOrder().catch(() => {
+        fetchAndSetOrder().catch((err) => {
             setError(true);
         }).finally(() => {
             setLoading(false);
         });
-    }, [fetchAndSetOrder]);
+    }, []);
 
     return (
         <div>

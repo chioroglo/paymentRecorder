@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Common.Dto;
 using Common.Models;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 using PaymentRecorder.Controllers.Base;
+using Common.Dto.Bank;
 
 namespace PaymentRecorder.Controllers;
 

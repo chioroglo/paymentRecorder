@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Common.Dto;
+using Common.Dto.Agent;
 using Common.Extensions;
 using Common.Models;
 using Domain;

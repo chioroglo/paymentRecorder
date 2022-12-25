@@ -40,7 +40,7 @@ const OrderCard = ({order}: OrderCardProps) => {
                     style={{flexGrow: 1}}>{`BENEFICIARY: ${order.beneficiaryAgentName}`}</OrderCardGridCell>
                 <Box>
                     <OrderCardGridCell>{`BENEFICIARY ACCOUNT: ${order.beneficiaryAccountCode}`}</OrderCardGridCell>
-                    <OrderCardGridCell>{`BENEFICIARY IDNP: ${order.beneficiaryAccountCode}`}</OrderCardGridCell>
+                    <OrderCardGridCell>{`BENEFICIARY IDNP: ${order.beneficiaryFiscalCode}`}</OrderCardGridCell>
                 </Box>
             </Box>
 

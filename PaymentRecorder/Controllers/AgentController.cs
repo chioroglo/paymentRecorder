@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using AutoMapper;
-using Common.Dto;
+using Common.Dto.Agent;
 using Common.Models;
 using Domain;
 using Microsoft.AspNetCore.Mvc;

@@ -32,7 +32,7 @@ public class OrderProfile : Profile
             .ForMember(opt => opt.BeneficiaryAgentName, opt => opt.MapFrom(src => src.BeneficiaryAccount.Agent.Name))
             .ForMember(opt => opt.BeneficiaryBankCode, opt => opt.MapFrom(src => src.BeneficiaryAccount.Bank.Code))
             .ForMember(opt => opt.BeneficiaryBankName,
-                opt => opt.MapFrom(src => src.BeneficiaryAccount.Agent.FiscalCode))
+                opt => opt.MapFrom(src => src.BeneficiaryAccount.Bank.Name))
             .ForMember(opt => opt.BeneficiaryFiscalCode,
                 opt => opt.MapFrom(src => src.BeneficiaryAccount.Agent.FiscalCode));
     }

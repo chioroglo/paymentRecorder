@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Common.Dto;
+using Common.Dto.Account;
 using Common.Models;
 using Domain;
 using Microsoft.AspNetCore.Mvc;

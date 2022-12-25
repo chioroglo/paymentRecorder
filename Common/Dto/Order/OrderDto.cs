@@ -48,7 +48,6 @@ public class OrderDtoValidator : AbstractValidator<OrderDto>
         RuleFor(e => e.Destination).MaximumLength(OrderValidationConstraints.DestinationMaxLength);
         RuleFor(e => e.IssuerAccountCode).Length(AccountValidationConstraints.CodeLengthFixed);
         RuleFor(e => e.BeneficiaryAccountCode).Length(AccountValidationConstraints.CodeLengthFixed);
-
         RuleFor(e => e.Timezone).IsValidWindowsTimezone();
     }
 }

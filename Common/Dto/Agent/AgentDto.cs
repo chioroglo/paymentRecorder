@@ -2,7 +2,7 @@
 using Domain.Enum;
 using static Common.Validation.Constraints.CommonValidationConstraints;
 
-namespace Common.Dto;
+namespace Common.Dto.Agent;
 
 public class AgentDto
 {
