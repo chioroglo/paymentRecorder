@@ -2,7 +2,7 @@ import {Box, Button, IconButton, Toolbar, Typography} from '@mui/material';
 import {Link, NavLink} from "react-router-dom";
 import React from 'react';
 import {useSelectorTyped} from "../../shared/store/hooks/useSelectorTyped";
-import {AppNavBar} from "../../shared/ui";
+import {AppNavBar} from "../../shared/ui/components";
 import {useDispatchTyped} from "../../shared/store/hooks/useDispatchTyped";
 import {logout} from "../../entities/application-user/model/thunks";
 import LogoutIcon from '@mui/icons-material/Logout';

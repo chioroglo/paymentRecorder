@@ -4,8 +4,9 @@ import React from 'react';
 import {Route, Routes} from "react-router-dom";
 import "./App.css";
 import {RouteGuardAuthRequired, RouteGuardUnauthorizedOnly} from "./lib/routeGuards";
-import {AllOrdersPage, OrderPage} from "../pages/orders";
+import {AllOrdersPage, CreateOrderPage, OrderPage} from "../pages/orders";
 import MainPage from "../pages/main/MainPage";
+import {NotFoundPage} from "../pages/not-found";
 
 function App() {
 
@@ -17,7 +18,9 @@ function App() {
                     <Route path="/login" element={<RouteGuardUnauthorizedOnly children={<LoginPage/>}/>}/>
                     <Route path="/orders" element={<RouteGuardAuthRequired children={<AllOrdersPage/>}/>}/>
                     <Route path="/orders/:orderNumber" element={<RouteGuardAuthRequired children={<OrderPage/>}/>}/>
+                    <Route path="/orders/create-new" element={<RouteGuardAuthRequired children={<CreateOrderPage/>}/>}/>
                     <Route path="/" element={<MainPage/>}></Route>
+                    <Route path="*" element={<NotFoundPage/>}></Route>
                 </Route>
             </Routes>
         </div>

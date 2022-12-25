@@ -1,35 +1,45 @@
+import Button from '@mui/material/Button';
 import {OrderModel} from 'entities/order/model/types';
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {getOrderByOrderNumber} from "../../entities/order/model/api";
 import OrderCard from "../../entities/order/ui/OrderCard/OrderCard";
 import {CenteredLoader} from "../../shared/ui/components/CenteredLoader";
+import {ErrorBannerWithMessage} from "../../shared/ui/components/ErrorBannerWithMessage";
 
 export const OrderPage = () => {
 
     const {orderNumber} = useParams();
+    const navigate = useNavigate();
     const [order, setOrder] = useState<OrderModel>();
     const [error, setError] = useState<boolean>(false);
     const [isLoading, setLoading] = useState<boolean>(true);
 
     const fetchAndSetOrder = async () => {
-        const response = await getOrderByOrderNumber(parseInt(orderNumber || "0"));
-        setOrder(response);
+        if (orderNumber) {
+            const response = await getOrderByOrderNumber(parseInt(orderNumber));
+            setOrder(response);
+        }
     }
 
     useEffect(() => {
-        fetchAndSetOrder().catch((err) => {
+        fetchAndSetOrder().catch(() => {
             setError(true);
         }).finally(() => {
             setLoading(false);
         });
-    }, []);
+    }, [fetchAndSetOrder]);
 
     return (
         <div>
             {
                 isLoading ? <CenteredLoader/> :
-                    ((!error && order) ? <OrderCard order={order}/> : <span>error</span>)
+                    ((!error && order) ? <OrderCard order={order}/> :
+                        <ErrorBannerWithMessage message={`Order with number №'${orderNumber}' was not found`}>
+                            <Button variant="outlined" onClick={() => navigate(-1)}>
+                                Go back
+                            </Button>
+                        </ErrorBannerWithMessage>)
             }
         </div>
     );

@@ -32,6 +32,7 @@ import {
 } from '../lib';
 import {OrderFormProps} from "./OrderFormProps";
 import {findWindows} from "windows-iana";
+import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
 
 const FiscalCodeValidationErrorMessage = "Please enter valid fiscal code"
 const sortedCurrencyList = currencyCodes.data.sort((left, right) => left.currency.localeCompare(right.currency));
@@ -396,7 +397,10 @@ const OrderForm = ({initialOrder, formActionCallback}: OrderFormProps) => {
                 </Box>
 
             </Paper>
-            <Button type="submit">SUBMIT</Button>
+            <Box display="flex" justifyContent="center">
+                <Button startIcon={<DocumentScannerIcon/>} variant="outlined" disabled={!(formik.isValid && formik.dirty)} type="submit">SUBMIT</Button>
+            </Box>
+
         </form>
     )
 };
