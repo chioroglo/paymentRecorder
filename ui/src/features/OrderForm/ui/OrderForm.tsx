@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import {OrderCardGridCell} from "../../../entities/order/ui";
 import {useFormik} from "formik";
-import {OrderDto} from "../types";
 import {TransactionState, TransactionType} from "../../../shared/lib/enum";
 import * as Yup from "yup";
 import "./styles/OrderForm.css";
@@ -27,12 +26,13 @@ import {isValidFiscalCode} from "../../../shared/lib";
 import {
     getBankOfSpecifiedAccountFromAccountList,
     orderDestinationMaxLength,
-    resetAccountListState,
-    resetAgentState
+    refetchAccountListState,
+    refetchAgentState
 } from '../lib';
 import {OrderFormProps} from "./OrderFormProps";
 import {findWindows} from "windows-iana";
 import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
+import {OrderDto} from 'entities/order/model/types';
 
 const FiscalCodeValidationErrorMessage = "Please enter valid fiscal code"
 const sortedCurrencyList = currencyCodes.data.sort((left, right) => left.currency.localeCompare(right.currency));
@@ -60,21 +60,21 @@ const OrderForm = ({initialOrder, formActionCallback}: OrderFormProps) => {
 
     const formik = useFormik<OrderDto>({
         initialValues: {
-            number: 0,
-            emissionDate: "",
-            amount: 0,
-            currencyCode: 978, // EUR
-            issuerAccountCode: "",
-            issuerFiscalCode: 0,
-            beneficiaryAccountCode: "",
-            beneficiaryFiscalCode: 0,
-            destination: "",
-            transactionType: TransactionType.Regular,
-            transactionState: TransactionState.Completed,
-            executionDate: undefined,
-            issueDate: "",
+            number: initialOrder?.number || 0,
+            emissionDate: initialOrder?.emissionDate || "",
+            amount: initialOrder?.amount || 0,
+            currencyCode: initialOrder?.currencyCode || 978, // EUR
+            issuerAccountCode: initialOrder?.issuerAccountCode || "",
+            issuerFiscalCode: initialOrder?.issuerFiscalCode || 0,
+            beneficiaryAccountCode: initialOrder?.beneficiaryAccountCode || "",
+            beneficiaryFiscalCode: initialOrder?.beneficiaryFiscalCode || 0,
+            destination: initialOrder?.destination || "",
+            transactionType: initialOrder?.transactionType || TransactionType.Regular,
+            transactionState: initialOrder?.transactionState || TransactionState.Completed,
+            executionDate: initialOrder?.executionDate || null,
+            issueDate: initialOrder?.issueDate || "",
             timezone: findWindows(Intl.DateTimeFormat().resolvedOptions().timeZone)[0],
-            ifMatch: ""
+            ifMatch: initialOrder?.entityTag || ""
         },
         onSubmit: async (dto, formikHelpers) => {
             await formActionCallback(dto);
@@ -213,8 +213,8 @@ const OrderForm = ({initialOrder, formActionCallback}: OrderFormProps) => {
                                            onChange={async (e) => {
                                                formik.handleChange(e);
                                                if (isValidFiscalCode(e.target.value)) {
-                                                   await resetAccountListState(setIssuerAccountsDropdownRange, parseInt(e.target.value));
-                                                   await resetAgentState(setIssuerAgentInfo, parseInt(e.target.value))
+                                                   await refetchAccountListState(setIssuerAccountsDropdownRange, parseInt(e.target.value));
+                                                   await refetchAgentState(setIssuerAgentInfo, parseInt(e.target.value))
                                                }
                                            }}
                                            value={formik.values.issuerFiscalCode}
@@ -282,8 +282,8 @@ const OrderForm = ({initialOrder, formActionCallback}: OrderFormProps) => {
                                            onChange={async (e) => {
                                                formik.handleChange(e);
                                                if (isValidFiscalCode(e.target.value)) {
-                                                   await resetAccountListState(setBeneficiaryAccountsDropdownRange, parseInt(e.target.value));
-                                                   await resetAgentState(setBeneficiaryAgentInfo, parseInt(e.target.value))
+                                                   await refetchAccountListState(setBeneficiaryAccountsDropdownRange, parseInt(e.target.value));
+                                                   await refetchAgentState(setBeneficiaryAgentInfo, parseInt(e.target.value))
                                                }
 
                                            }}
@@ -398,7 +398,8 @@ const OrderForm = ({initialOrder, formActionCallback}: OrderFormProps) => {
 
             </Paper>
             <Box display="flex" justifyContent="center">
-                <Button startIcon={<DocumentScannerIcon/>} variant="outlined" disabled={!(formik.isValid && formik.dirty)} type="submit">SUBMIT</Button>
+                <Button startIcon={<DocumentScannerIcon/>} variant="outlined"
+                        disabled={!(formik.isValid && formik.dirty)} type="submit">SUBMIT</Button>
             </Box>
 
         </form>

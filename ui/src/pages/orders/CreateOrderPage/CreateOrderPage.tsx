@@ -1,12 +1,13 @@
 import React from 'react';
 import {useSnackbar, VariantType} from "notistack";
-import {OrderDto} from "../../features/OrderForm/types";
-import {CLIENT_ERROR_OCCURRED} from "../../shared/lib";
-import {addOrder} from "../../entities/order/model/api";
-import {Box, Icon, IconButton, Paper, Typography} from "@mui/material";
+import {CLIENT_ERROR_OCCURRED} from "../../../shared/lib";
+import {addOrder} from "../../../entities/order/model/api";
+import {Box, IconButton, Paper, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import {OrderForm} from "../../features/OrderForm/ui";
+import {OrderForm} from "../../../features/OrderForm/ui";
 import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
+import {OrderDto} from 'entities/order/model/types';
+import "./ui/styles/CreateOrderPage.css";
 
 const CreateOrderPage = () => {
 
@@ -38,8 +39,8 @@ const CreateOrderPage = () => {
 
     return (
         <>
-            <Paper elevation={12} style={{display:"flex",justifyContent:"space-between",margin:"20px auto",width:"fit-content",padding:"20px",alignItems:"center"}}>
-                <DocumentScannerIcon fontSize={"large"} />
+            <Paper className={"create-order-warning-window"} elevation={12}>
+                <DocumentScannerIcon fontSize={"large"}/>
                 <Box>
                     <Typography textAlign="center" variant="h3">WRITE NEW PAYMENT ORDER</Typography>
                     <Typography textAlign="center" variant="h4">Please, take care about data you input!</Typography>

@@ -1,0 +1,8 @@
+.create-order-warning-window {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px auto;
+    width: fit-content;
+    padding: 20px;
+    align-items: center;
+}

@@ -1,5 +1,4 @@
-import {OrderModel} from "../../../entities/order/model/types";
-import {OrderDto} from "../types";
+import {OrderDto, OrderModel} from "../../../entities/order/model/types";
 
 export interface OrderFormProps {
     formActionCallback: (order: OrderDto) => void,

@@ -1,9 +1,8 @@
-import {OrderModel} from "../types";
+import {OrderDto, OrderModel} from "../types";
 import {axiosHttpClient} from "../../../../shared/api/http";
 import {EntityTagHeader, NO_ENTITY_TOKEN_PROVIDED} from "../../../../shared/lib";
 import {ErrorResponse} from "../../../../shared/api/types";
 import {AxiosError} from "axios";
-import {OrderDto} from "features/OrderForm/types";
 import {TransactionState} from "../../../../shared/lib/enum";
 
 export const addOrder = async (order: OrderDto): Promise<OrderModel> => {

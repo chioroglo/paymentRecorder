@@ -1,5 +1,5 @@
-import {TransactionState, TransactionType} from "../../../shared/lib/enum";
-import {DtoConcurrencyTokenInterface} from "../../../entities/types";
+import {TransactionState, TransactionType} from "../../../../shared/lib/enum";
+import {DtoConcurrencyTokenInterface} from "../../../types";
 
 export interface OrderDto extends DtoConcurrencyTokenInterface {
     number: number,
@@ -14,6 +14,6 @@ export interface OrderDto extends DtoConcurrencyTokenInterface {
     transactionType: TransactionType,
     transactionState: TransactionState,
     issueDate: string,
-    executionDate?: string,
+    executionDate?: string | null,
     timezone: string,
 }

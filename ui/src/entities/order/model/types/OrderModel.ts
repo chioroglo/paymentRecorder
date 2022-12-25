@@ -1,4 +1,5 @@
 import {ModelConcurrencyTokenInterface} from "entities/types";
+import {TransactionState, TransactionType} from "../../../../shared/lib/enum";
 
 export interface OrderModel extends ModelConcurrencyTokenInterface {
     "id": number,
@@ -8,19 +9,19 @@ export interface OrderModel extends ModelConcurrencyTokenInterface {
     "currencyCode": number,
     "currencyName": string,
     "issuerAccountCode": string,
-    "issuerFiscalCode": string,
+    "issuerFiscalCode": number,
     "issuerAgentName": string,
     "issuerBankName": string,
     "issuerBankCode": string,
     "beneficiaryAccountCode": string,
-    "beneficiaryFiscalCode": string,
+    "beneficiaryFiscalCode": number,
     "beneficiaryAgentName": string,
     "beneficiaryBankName": string,
     "beneficiaryBankCode": string,
     "destination": string,
-    "transactionType": string,
+    "transactionType": TransactionType,
     "issueDate": string,
     "executionDate"?: string,
     "timezone": string,
-    "transactionState": string
+    "transactionState": TransactionState
 }
