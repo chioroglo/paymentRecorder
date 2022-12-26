@@ -1,10 +1,10 @@
 import React from 'react';
-import {useDispatchTyped} from "../../shared/store/hooks/useDispatchTyped";
-import {LoginFormFields} from "./lib/LoginFormFields";
-import {useSelectorTyped} from "../../shared/store/hooks/useSelectorTyped";
+import {useDispatchTyped} from "../../../shared/store/hooks/useDispatchTyped";
+import {LoginFormFields} from "../lib/LoginFormFields";
+import {useSelectorTyped} from "../../../shared/store/hooks/useSelectorTyped";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {CenteredLoader} from "../../shared/ui/components";
+import {CenteredLoader} from "../../../shared/ui/components";
 import {
     Button,
     Checkbox,
@@ -16,14 +16,14 @@ import {
     InputLabel,
     Paper
 } from '@mui/material';
-import {buttonStyle, checkboxStyle, errorTextStyle, paperStyle, textFieldStyle} from './lib/LoginFormStyles';
+import {buttonStyle, checkboxStyle, errorTextStyle, paperStyle, textFieldStyle} from '../lib/LoginFormStyles';
 import {FormHeader} from 'shared/ui/components/FormHeader';
 import ContactPageIcon from '@mui/icons-material/ContactPage';
-import {authenticate} from "../../entities/application-user/model/thunks";
+import {authenticate} from "../../../entities/application-user/model/thunks";
 import {palette} from 'app/ui';
 import {useSnackbar, VariantType} from "notistack";
 import CloseIcon from '@mui/icons-material/Close';
-import {CLIENT_ERROR_OCCURRED} from "../../shared/lib";
+import {CLIENT_ERROR_OCCURRED} from "../../../shared/lib";
 
 export const LoginForm = () => {
 

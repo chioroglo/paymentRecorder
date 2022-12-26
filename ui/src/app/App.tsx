@@ -7,6 +7,7 @@ import {RouteGuardAuthRequired, RouteGuardUnauthorizedOnly} from "./lib/routeGua
 import {AllOrdersPage, CreateOrderPage, OrderPage} from "../pages/orders";
 import MainPage from "../pages/main/MainPage";
 import {NotFoundPage} from "../pages/not-found";
+import {BankMenuPage} from 'pages/banks/BankMenu';
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
                     </Route>
 
                     <Route path="banks">
-                        <Route path="menu"></Route>
+                        <Route path="menu" element={<RouteGuardAuthRequired children={<BankMenuPage/>}/>}/>
                     </Route>
 
                     <Route path="economic-agents">

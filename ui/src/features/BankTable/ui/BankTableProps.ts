@@ -1,8 +1,6 @@
-import { BankModel } from "entities/bank/model/types";
+import {BankModel} from "entities/bank/model/types";
 
 export interface BankTableProps {
-    width?: string,
-    height?: string,
-    items: BankModel[],
-    pageSize?: number
+    width?: string
+    items: BankModel[]
 }

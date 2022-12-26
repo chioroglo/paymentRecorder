@@ -3,4 +3,6 @@ a, a:active {
     text-decoration: none;
 }
 
-* { font-family: "Roboto", "sans-serif"; }
+* {
+    font-family: "Roboto", "sans-serif";
+}

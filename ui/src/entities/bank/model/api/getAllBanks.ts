@@ -8,7 +8,6 @@ export const getAllBanks = async (): Promise<BankModel[]> => {
         const response = await axiosHttpClient.get<BankModel[]>("bank");
 
         return response.data;
-        //return {...response.data, entityTag: response.headers[EntityTagHeader]};
     } catch (e) {
         const err = e as AxiosError<ErrorResponse>;
 

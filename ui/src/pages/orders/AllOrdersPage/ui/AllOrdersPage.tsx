@@ -8,7 +8,7 @@ import {Box, Button, Paper, TextField, Typography} from "@mui/material";
 import {Moment} from "moment/moment";
 import {DateTimePicker} from "@mui/x-date-pickers";
 import "./styles/AllOrdersPage.css";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const pageWidth = "90%"
 
@@ -47,59 +47,53 @@ export const AllOrdersPage = () => {
                     setErrorMessage(errorMessage);
                 }
                 setError(true);
-            });
+            }).finally(() => setLoading(false));
         } else {
             setError(true);
             setErrorMessage("Error has occurred. Please introduce correct time period");
         }
 
-        setLoading(false);
     }, [startDate, endDate]);
 
 
     return (
         <div>
-            {
-                isLoading ?
-                    <CenteredLoader/>
-                    :
-                    <>
-                        <div>
-                            <Paper elevation={12} className="order-list-timespan-selector" sx={{width: pageWidth}}>
-                                <Typography className="timespan-selector-headline">Order selection menu</Typography>
-                                <Box className="timespan-inputs-container">
-                                    <DateTimePicker label="Start date" renderInput={(params) =>
-                                        <TextField {...params} error={startDate >= endDate}/>}
-                                                    value={startDate}
-                                                    onChange={(value: Moment | null) => {
-                                                        if (value?.isValid()) {
-                                                            setStartDate(value?.toDate());
-                                                        }
-                                                    }}/>
+            <Paper elevation={12} className="order-list-timespan-selector" sx={{width: pageWidth}}>
+                <Typography className="timespan-selector-headline">Order selection menu</Typography>
+                <Box className="timespan-inputs-container">
+                    <DateTimePicker label="Start date" renderInput={(params) =>
+                        <TextField {...params} error={startDate >= endDate}/>}
+                                    value={startDate}
+                                    onChange={(value: Moment | null) => {
+                                        if (value?.isValid()) {
+                                            setStartDate(value?.toDate());
+                                        }
+                                    }}/>
 
 
-                                    <DateTimePicker label="End date" renderInput={(params) =>
-                                        <TextField {...params} error={startDate >= endDate}/>}
-                                                    value={endDate}
-                                                    onChange={(value: Moment | null) => {
-                                                        if (value?.isValid()) {
-                                                            setEndDate(value?.toDate());
-                                                        }
-                                                    }}/>
-                                </Box>
+                    <DateTimePicker label="End date" renderInput={(params) =>
+                        <TextField {...params} error={startDate >= endDate}/>}
+                                    value={endDate}
+                                    onChange={(value: Moment | null) => {
+                                        if (value?.isValid()) {
+                                            setEndDate(value?.toDate());
+                                        }
+                                    }}/>
+                </Box>
 
-                                <Box display="flex" justifyContent="space-around">
-                                    <Button variant="contained" fullWidth={false} onClick={() => navigate("/orders/create-new")}>
-                                        ADD NEW PAYMENT ORDER
-                                    </Button>
-                                </Box>
-                            </Paper>
-
-                            {error ? <ErrorBannerWithMessage message={errorMessage}/> :
-                                <OrderTable width={pageWidth} items={orders}/>}
-                        </div>
-                    </>
-            }
+                <Box display="flex" justifyContent="space-around">
+                    <Button variant="contained" fullWidth={false}
+                            onClick={() => navigate("/orders/create-new")}>
+                        ADD NEW PAYMENT ORDER
+                    </Button>
+                </Box>
+            </Paper>
+            {isLoading ?
+                <CenteredLoader/>
+                : <div>
+                    {error ? <ErrorBannerWithMessage message={errorMessage}/> :
+                        <OrderTable width={pageWidth} items={orders}/>}
+                </div>}
         </div>
     );
 };

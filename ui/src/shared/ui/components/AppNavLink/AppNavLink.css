@@ -1,4 +1,6 @@
-.app-nav-link { position: relative; }
+.app-nav-link {
+    position: relative;
+}
 
 .app-nav-link:after {
     content: '';
