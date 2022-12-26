@@ -62,6 +62,8 @@ public class BankController : AppBaseController
 
         var entity = await _bankService.Add(dto, cancellationToken);
 
+        Response.Headers.ETag = entity.Version.ToString();
+
         return Mapper.Map<BankModel>(entity);
     }
 

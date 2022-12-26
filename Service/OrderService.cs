@@ -227,6 +227,6 @@ public class OrderService : BaseEntityService<Order>, IOrderService
         }
 
         return await GetQueryWithAllInclusionsForOrderModel()
-            .Where(e => e.IssueDate >= periodStart && e.IssueDate <= periodEnd).Take(limit).ToListAsync(cancellationToken);
+            .Where(e => e.IssueDate >= periodStart && e.IssueDate <= periodEnd).OrderByDescending(e => e.IssueDate).Take(limit).ToListAsync(cancellationToken);
     }
 }
