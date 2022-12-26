@@ -27,7 +27,9 @@ const AppHeader = () => {
                         <Box justifyContent="space-between" minWidth="200px" display={"flex"} alignItems="center">
 
                             <IconButton style={{"border": "1px solid black", margin: "0 5px 0 0"}}
-                                        onClick={handleLogout}><LogoutIcon/></IconButton>
+                                        onClick={handleLogout}>
+                                <LogoutIcon/>
+                            </IconButton>
                             <Typography display={"inline"}>Welcome, {user.username}!</Typography>
                         </Box>
                         :
@@ -38,11 +40,11 @@ const AppHeader = () => {
                     user.isAuthorized &&
                     <Box sx={{flexGrow: 1}} minWidth="100px" display="flex" justifyContent="flex-start">
 
-                        <HeaderNavLink to="/orders">ORDERS</HeaderNavLink>
+                        <HeaderNavLink to="/orders/list">ORDERS</HeaderNavLink>
 
-                        <HeaderNavLink to="/banks">BANKS</HeaderNavLink>
+                        <HeaderNavLink to="/banks/menu">BANKS</HeaderNavLink>
 
-                        <HeaderNavLink to="/economic-agents">AGENTS</HeaderNavLink>
+                        <HeaderNavLink to="/economic-agents/menu">AGENTS</HeaderNavLink>
 
                         <HeaderNavLink to={"/accounts"}>ACCOUNTS</HeaderNavLink>
                     </Box>

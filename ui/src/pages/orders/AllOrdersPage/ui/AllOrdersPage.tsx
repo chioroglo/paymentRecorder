@@ -4,14 +4,17 @@ import React, {useEffect, useState} from 'react';
 import {CenteredLoader, ErrorBannerWithMessage} from "../../../../shared/ui/components";
 import {getAllOrdersInPeriod} from "../../../../entities/order/model/api";
 import {CLIENT_ERROR_OCCURRED} from "../../../../shared/lib";
-import {Box, Paper, TextField, Typography} from "@mui/material";
+import {Box, Button, Paper, TextField, Typography} from "@mui/material";
 import {Moment} from "moment/moment";
 import {DateTimePicker} from "@mui/x-date-pickers";
 import "./styles/AllOrdersPage.css";
+import { useNavigate } from 'react-router-dom';
 
 const pageWidth = "90%"
 
 export const AllOrdersPage = () => {
+
+    const navigate = useNavigate();
 
     const [isLoading, setLoading] = useState<boolean>(true);
     const [orders, setOrders] = useState<OrderModel[]>([]);
@@ -62,7 +65,7 @@ export const AllOrdersPage = () => {
                     :
                     <>
                         <div>
-                            <Paper className="order-list-timespan-selector" sx={{width: pageWidth}}>
+                            <Paper elevation={12} className="order-list-timespan-selector" sx={{width: pageWidth}}>
                                 <Typography className="timespan-selector-headline">Order selection menu</Typography>
                                 <Box className="timespan-inputs-container">
                                     <DateTimePicker label="Start date" renderInput={(params) =>
@@ -85,6 +88,11 @@ export const AllOrdersPage = () => {
                                                     }}/>
                                 </Box>
 
+                                <Box display="flex" justifyContent="space-around">
+                                    <Button variant="contained" fullWidth={false} onClick={() => navigate("/orders/create-new")}>
+                                        ADD NEW PAYMENT ORDER
+                                    </Button>
+                                </Box>
                             </Paper>
 
                             {error ? <ErrorBannerWithMessage message={errorMessage}/> :

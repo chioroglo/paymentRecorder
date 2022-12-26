@@ -5,7 +5,7 @@ import AppHeader from 'widgets/appheader/AppHeader';
 const Layout = () => {
     return (
         <>
-            <div style={{height: "5vh", minHeight: "70px"}}></div>
+            <div style={{height: "5vh", minHeight: "70px"}}/>
 
             <AppHeader/>
 

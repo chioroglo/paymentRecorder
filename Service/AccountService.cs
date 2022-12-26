@@ -42,9 +42,14 @@ public class AccountService : BaseEntityService<Account>, IAccountService
 
     public async Task RemoveAsync(long id, Guid version, CancellationToken cancellationToken)
     {
-        var entity = await _db.Accounts.FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
+        var entity = await _db.Accounts.Include(e => e.OutcomingOrders).Include(e => e.IncomingOrders).FirstOrDefaultAsync(e => e.Id == id, cancellationToken) ??
                      throw new EntityValidationException(
                          EntityWasNotFoundBecause<Account>($"of ID:{id} does not exist"));
+
+        if (entity.IncomingOrders.Any() || entity.OutcomingOrders.Any())
+        {
+            throw new EntityValidationException(EntityCannotBeDeletedBecause<Account>("has associated orders"));
+        }
 
         ValidateRowVersionEqualityThrowDbConcurrencyExceptionIfNot(entity.Version, version);
 

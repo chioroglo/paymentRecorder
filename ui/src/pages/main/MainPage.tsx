@@ -1,17 +1,20 @@
-import {Button} from '@mui/material';
-import React from 'react';
-import {getOrderByOrderNumber} from "../../entities/order/model/api";
+import {Box, Button, Paper} from '@mui/material';
+import React, { useState } from 'react';
+import {getAllBanks} from "../../entities/bank/model/api";
+import { BankModel } from 'entities/bank/model/types';
+import { BankTable } from 'features/BankTable';
 
 const MainPage = () => {
 
+    const [st,setSt] = useState<BankModel[]>([]);
 
     const queryApi = async () => {
         try {
-            const response = await getOrderByOrderNumber(443);
-            console.log("COMPONENT");
+            const response = await getAllBanks();
             console.log(response);
+            setSt(response);
         } catch (err) {
-            //console.log(err);
+
         }
     }
 
@@ -19,6 +22,10 @@ const MainPage = () => {
         <div>
             MAIN PAGE
             <Button onClick={() => queryApi()}>QUERY</Button>
+            <Paper style={{margin:"0 auto",width:"50%"}}>
+                <BankTable items={st}></BankTable>
+            </Paper>
+
         </div>
     );
 };

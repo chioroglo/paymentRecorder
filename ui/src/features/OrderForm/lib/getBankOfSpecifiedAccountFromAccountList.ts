@@ -5,5 +5,5 @@ export const getBankOfSpecifiedAccountFromAccountList = (accounts: AccountModel[
     const account = accounts.find(acc => acc.accountCode === accountCode);
 
     // ifMatch and id field may be omitted because it only used as model
-    return account ? {id:0,name: account.bankName, code: account.bankCode,ifMatch:""} : null
+    return account ? {id: 0, name: account.bankName, code: account.bankCode, ifMatch: ""} : null
 }

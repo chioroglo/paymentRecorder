@@ -2,10 +2,10 @@ import {axiosHttpClient} from "../../../../shared/api/http";
 import {AxiosError} from "axios";
 import {ErrorResponse} from "../../../../shared/api/types";
 
-export const deleteBank = async (concurrencyToken: string,bankId: number): Promise<void> => {
+export const deleteBank = async (concurrencyToken: string, bankId: number): Promise<void> => {
     try {
 
-        await axiosHttpClient.delete(`bank/${bankId}`,{
+        await axiosHttpClient.delete(`bank/${bankId}`, {
             headers: {
                 "If-Match": concurrencyToken
             }

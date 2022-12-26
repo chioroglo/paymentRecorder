@@ -4,7 +4,7 @@ import {LoginFormFields} from "./lib/LoginFormFields";
 import {useSelectorTyped} from "../../shared/store/hooks/useSelectorTyped";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {CenteredLoader} from "../../shared/ui/components/CenteredLoader";
+import {CenteredLoader} from "../../shared/ui/components";
 import {
     Button,
     Checkbox,

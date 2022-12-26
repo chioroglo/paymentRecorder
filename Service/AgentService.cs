@@ -57,7 +57,7 @@ public class AgentService : BaseEntityService<Agent>, IAgentService
         if (entity.Accounts.Count > 0)
         {
             throw new EntityValidationException(
-                EntityCannotBeDeletedBecause<Bank>($"of name {entity.Name} has associated bank accounts"));
+                EntityCannotBeDeletedBecause<Agent>($"of name {entity.Name} has associated bank accounts"));
         }
 
 

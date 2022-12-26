@@ -19,7 +19,7 @@ export const OrderPage = () => {
             const response = await getOrderByOrderNumber(parseInt(orderNumber));
             setOrder(response);
         }
-    },[orderNumber]);
+    }, [orderNumber]);
 
     useEffect(() => {
         fetchAndSetOrder().catch(() => {
