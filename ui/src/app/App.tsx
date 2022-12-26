@@ -19,8 +19,8 @@ function App() {
                     <Route path="/orders" element={<RouteGuardAuthRequired children={<AllOrdersPage/>}/>}/>
                     <Route path="/orders/:orderNumber" element={<RouteGuardAuthRequired children={<OrderPage/>}/>}/>
                     <Route path="/orders/create-new" element={<RouteGuardAuthRequired children={<CreateOrderPage/>}/>}/>
-                    <Route path="/" element={<MainPage/>}></Route>
-                    <Route path="*" element={<NotFoundPage/>}></Route>
+                    <Route path="/" element={<RouteGuardAuthRequired children={<MainPage/>}/>}/>
+                    <Route path="*" element={<NotFoundPage/>}/>
                 </Route>
             </Routes>
         </div>

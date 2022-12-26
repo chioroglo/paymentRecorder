@@ -43,6 +43,8 @@ const AppHeader = () => {
                         <HeaderNavLink to="/banks">BANKS</HeaderNavLink>
 
                         <HeaderNavLink to="/economic-agents">AGENTS</HeaderNavLink>
+
+                        <HeaderNavLink to={"/accounts"}>ACCOUNTS</HeaderNavLink>
                     </Box>
                 }
 

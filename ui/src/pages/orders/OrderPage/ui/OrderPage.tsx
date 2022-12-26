@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import {OrderModel} from 'entities/order/model/types';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {getOrderByOrderNumber} from "../../../../entities/order/model/api";
 import OrderCard from "../../../../entities/order/ui/OrderCard/OrderCard";
@@ -14,20 +14,20 @@ export const OrderPage = () => {
     const [error, setError] = useState<boolean>(false);
     const [isLoading, setLoading] = useState<boolean>(true);
 
-    const fetchAndSetOrder = async () => {
+    const fetchAndSetOrder = useCallback(async () => {
         if (orderNumber) {
             const response = await getOrderByOrderNumber(parseInt(orderNumber));
             setOrder(response);
         }
-    }
+    },[orderNumber]);
 
     useEffect(() => {
-        fetchAndSetOrder().catch((err) => {
+        fetchAndSetOrder().catch(() => {
             setError(true);
         }).finally(() => {
             setLoading(false);
         });
-    }, []);
+    }, [fetchAndSetOrder]);
 
     return (
         <div>

@@ -45,14 +45,13 @@ export const AllOrdersPage = () => {
                 }
                 setError(true);
             });
-        }
-        else {
+        } else {
             setError(true);
             setErrorMessage("Error has occurred. Please introduce correct time period");
         }
 
         setLoading(false);
-    }, [startDate,endDate]);
+    }, [startDate, endDate]);
 
 
     return (
@@ -63,7 +62,7 @@ export const AllOrdersPage = () => {
                     :
                     <>
                         <div>
-                            <Paper className="order-list-timespan-selector" sx={{width:pageWidth}}>
+                            <Paper className="order-list-timespan-selector" sx={{width: pageWidth}}>
                                 <Typography className="timespan-selector-headline">Order selection menu</Typography>
                                 <Box className="timespan-inputs-container">
                                     <DateTimePicker label="Start date" renderInput={(params) =>
@@ -88,7 +87,8 @@ export const AllOrdersPage = () => {
 
                             </Paper>
 
-                            {error ? <ErrorBannerWithMessage message={errorMessage}/> : <OrderTable width={pageWidth} items={orders}/>}
+                            {error ? <ErrorBannerWithMessage message={errorMessage}/> :
+                                <OrderTable width={pageWidth} items={orders}/>}
                         </div>
                     </>
             }
