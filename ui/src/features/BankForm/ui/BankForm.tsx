@@ -37,7 +37,8 @@ const BankForm = ({
 
     return (
         <form style={{display: "block"}} onSubmit={formik.handleSubmit}>
-            <Paper sx={{width: width, display: "flex", flexDirection: "column", padding: "20px",margin:"0 auto"}} elevation={12}>
+            <Paper sx={{width: width, display: "flex", flexDirection: "column", padding: "20px", margin: "0 auto"}}
+                   elevation={12}>
                 <Typography textAlign={"center"}>{caption}</Typography>
                 <FormControl>
                     <TextField style={{margin: "20px"}} label="Swift Code" error={!!(formik.errors.code)}

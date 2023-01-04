@@ -43,7 +43,7 @@ const BankPage = ({width = '30%'}: BankPageProps) => { // preferrably use percen
             });
             setLoading(false);
         }
-    }, [enqueueSnackbar,closeSnackbar]);
+    }, [enqueueSnackbar, closeSnackbar]);
 
     const editBankCallback = async (dto: BankDto) => {
 
@@ -55,7 +55,7 @@ const BankPage = ({width = '30%'}: BankPageProps) => { // preferrably use percen
             setBank(response);
             message = "Successfully edited bank information";
             type = "success";
-            navigate(`../${response.code}`,{replace: true});
+            navigate(`../${response.code}`, {replace: true});
         } catch (e) {
             message = e as string || CLIENT_ERROR_OCCURRED;
             type = "error";
@@ -71,16 +71,16 @@ const BankPage = ({width = '30%'}: BankPageProps) => { // preferrably use percen
 
     }
 
-    const deleteBankCallback = async (concurrencyToken: string,bankId: number) => {
+    const deleteBankCallback = async (concurrencyToken: string, bankId: number) => {
 
         let message: string;
         let type: VariantType;
 
         try {
-            await deleteBank(concurrencyToken,bankId);
+            await deleteBank(concurrencyToken, bankId);
             message = "Successfully deleted bank from the register";
             type = "success";
-            navigate(`../menu`,{replace: true});
+            navigate(`../menu`, {replace: true});
         } catch (e) {
             message = e as string || CLIENT_ERROR_OCCURRED;
             type = "error";
@@ -95,18 +95,17 @@ const BankPage = ({width = '30%'}: BankPageProps) => { // preferrably use percen
         })
 
     }
-
 
 
     useEffect(() => {
 
         fetchBank(bankCode || "");
 
-    }, [fetchBank,bankCode]);
+    }, [fetchBank, bankCode]);
 
 
     return (
-        <div style={{display: "flex", justifyContent: "space-between",flexDirection:"column"}}>
+        <div style={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
             {
                 loading
                     ?
@@ -118,7 +117,9 @@ const BankPage = ({width = '30%'}: BankPageProps) => { // preferrably use percen
                             <>
                                 <BankForm initialValue={{...bank, ifMatch: bank.entityTag}} width={width}
                                           caption={"Edit bank"} formActionCallback={editBankCallback}/>
-                                <Button onClick={() => deleteBankCallback(bank?.entityTag,bank?.id)} style={{width:width,margin: "20px auto"}} variant="contained">DELETE ENTITY</Button>
+                                <Button onClick={() => deleteBankCallback(bank?.entityTag, bank?.id)}
+                                        style={{width: width, margin: "20px auto"}} variant="contained">DELETE
+                                    ENTITY</Button>
                             </>
                             :
                             <ErrorBannerWithMessage message={errorMessage}/>

@@ -23,7 +23,7 @@ const BankMenuPage = () => {
 
         try {
             const response = await addNewBank(dto);
-            setBanks([...banks,response]);
+            setBanks([...banks, response]);
             enqueueSnackbar("Bank added successfully")
         } catch (errorMessage) {
             enqueueSnackbar(errorMessage as string || CLIENT_ERROR_OCCURRED);
