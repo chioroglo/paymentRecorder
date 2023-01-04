@@ -82,7 +82,7 @@ public class OrderService : BaseEntityService<Order>, IOrderService
             Version = Guid.NewGuid(),
             Number = dto.Number,
             Amount = dto.Amount,
-            CurrencyCode = dto.CurrencyCode,
+            CurrencyCode = dto.CurrencyCode, 
             Destination = dto.Destination,
             IssuerAccount = issuerAccount,
             IssuerAccountId = issuerAccount.Id,
