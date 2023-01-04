@@ -4,6 +4,7 @@ import {useFormik} from "formik";
 import {BankDto} from 'entities/bank/model/types';
 import {BankFormProps} from "./BankFormProps";
 import * as Yup from "yup";
+import {bankValidationConstraints} from "../../../entities/bank/model/config";
 
 const BankForm = ({
                       formActionCallback, width = "100%", caption, initialValue = {
@@ -24,7 +25,9 @@ const BankForm = ({
             name: Yup.string()
                 .required(),
             code: Yup.string()
-                .required(),
+                .required()
+                .length(bankValidationConstraints.swiftCodeLength)
+                .matches(bankValidationConstraints.bankCodeRegex),
             id: Yup.number()
                 .optional(),
             ifMatch: Yup.string()
@@ -33,8 +36,8 @@ const BankForm = ({
     });
 
     return (
-        <form style={{display: "inline-block"}} onSubmit={formik.handleSubmit}>
-            <Paper sx={{width: width, display: "flex", flexDirection: "column", padding: "20px"}} elevation={12}>
+        <form style={{display: "block"}} onSubmit={formik.handleSubmit}>
+            <Paper sx={{width: width, display: "flex", flexDirection: "column", padding: "20px",margin:"0 auto"}} elevation={12}>
                 <Typography textAlign={"center"}>{caption}</Typography>
                 <FormControl>
                     <TextField style={{margin: "20px"}} label="Swift Code" error={!!(formik.errors.code)}

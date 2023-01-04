@@ -46,7 +46,7 @@ const AppHeader = () => {
 
                         <HeaderNavLink to="/economic-agents/menu">AGENTS</HeaderNavLink>
 
-                        <HeaderNavLink to={"/accounts"}>ACCOUNTS</HeaderNavLink>
+                        <HeaderNavLink to="/accounts">ACCOUNTS</HeaderNavLink>
                     </Box>
                 }
 

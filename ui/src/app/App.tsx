@@ -8,6 +8,7 @@ import {AllOrdersPage, CreateOrderPage, OrderPage} from "../pages/orders";
 import MainPage from "../pages/main/MainPage";
 import {NotFoundPage} from "../pages/not-found";
 import {BankMenuPage} from 'pages/banks/BankMenu';
+import {BankPage} from "../pages/banks/BankPage";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
 
                     <Route path="banks">
                         <Route path="menu" element={<RouteGuardAuthRequired children={<BankMenuPage/>}/>}/>
+                        <Route path=":bankCode" element={<RouteGuardAuthRequired children={<BankPage/>}/>}/>
                     </Route>
 
                     <Route path="economic-agents">

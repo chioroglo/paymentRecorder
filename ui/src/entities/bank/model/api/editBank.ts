@@ -4,12 +4,12 @@ import {AxiosError} from "axios";
 import {ErrorResponse} from "../../../../shared/api/types";
 import {EntityTagHeader} from "shared/lib";
 
-export const editBank = async (dto: BankDto, concurrencyToken: string): Promise<BankModel> => {
+export const editBank = async (dto: BankDto): Promise<BankModel> => {
     try {
 
-        const response = await axiosHttpClient.put<BankModel>("bank", dto, {
+        const response = await axiosHttpClient.put<BankModel>(`bank/${dto.id}`, dto, {
             headers: {
-                "If-Match": concurrencyToken
+                "If-Match": dto.ifMatch
             }
         });
 
