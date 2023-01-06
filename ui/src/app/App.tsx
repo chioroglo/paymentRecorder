@@ -9,6 +9,8 @@ import MainPage from "../pages/main/MainPage";
 import {NotFoundPage} from "../pages/not-found";
 import {BankMenuPage} from 'pages/banks/BankMenu';
 import {BankPage} from "../pages/banks/BankPage";
+import {AgentMenuPage} from "../pages/agents/AgentMenu/ui";
+import {AgentPage} from "../pages/agents/AgentPage/ui";
 
 function App() {
 
@@ -31,7 +33,8 @@ function App() {
                     </Route>
 
                     <Route path="economic-agents">
-                        <Route path="menu"></Route>
+                        <Route path="menu" element={<RouteGuardAuthRequired children={<AgentMenuPage/>}/>}/>
+                        <Route path=":fiscalCode" element={<RouteGuardAuthRequired children={<AgentPage/>}/>}/>
                     </Route>
 
                     <Route path="/" element={<RouteGuardAuthRequired children={<MainPage/>}/>}/>

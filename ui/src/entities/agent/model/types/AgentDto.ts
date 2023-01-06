@@ -5,5 +5,5 @@ export interface AgentDto extends DtoConcurrencyTokenInterface {
     id: number,
     name: string,
     fiscalCode: number,
-    type : LegalAgentType
+    type: LegalAgentType
 }
