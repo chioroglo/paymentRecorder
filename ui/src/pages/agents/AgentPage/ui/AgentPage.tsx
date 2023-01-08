@@ -11,7 +11,8 @@ import {CenteredLoader, ErrorBannerWithMessage} from "../../../../shared/ui/comp
 import {AgentForm} from 'features/AgentForm/ui';
 import {AgentPageProps} from "../lib";
 
-const AgentPage = ({width = "30%"}:AgentPageProps) => {
+
+const AgentPage = ({width = "30%"}: AgentPageProps) => {
 
     const {agentFiscalCode} = useParams();
     const navigate = useNavigate();
@@ -58,7 +59,7 @@ const AgentPage = ({width = "30%"}:AgentPageProps) => {
             notifySnackbar(e as string || CLIENT_ERROR_OCCURRED, "error");
         }
         setLoading(false);
-    }, [navigate,notifySnackbar, setLoading]);
+    }, [navigate, notifySnackbar, setLoading]);
 
     const deleteAgentCallback = useCallback(async (concurrencyToken: string, agentId: number) => {
         setLoading(true);
@@ -70,7 +71,7 @@ const AgentPage = ({width = "30%"}:AgentPageProps) => {
             notifySnackbar(e as string || CLIENT_ERROR_OCCURRED, "error");
         }
         setLoading(false);
-    }, [navigate,notifySnackbar, setLoading]);
+    }, [navigate, notifySnackbar, setLoading]);
 
     useEffect(() => {
         setLoading(true);
@@ -78,7 +79,7 @@ const AgentPage = ({width = "30%"}:AgentPageProps) => {
             let fiscalCodeAsInt = parseInt(agentFiscalCode || "0");
 
             if (isNaN(fiscalCodeAsInt)) {
-                notifySnackbar("Incorrect fiscal code introduced","error");
+                notifySnackbar("Incorrect fiscal code introduced", "error");
                 navigate("../menu");
             } else {
                 fetchAgent(fiscalCodeAsInt);
@@ -89,7 +90,7 @@ const AgentPage = ({width = "30%"}:AgentPageProps) => {
         }
         setLoading(false);
 
-    },[fetchAgent,navigate,notifySnackbar,agentFiscalCode]);
+    }, [fetchAgent, navigate, notifySnackbar, agentFiscalCode]);
 
     return (
         <div className="page-wrapper">
@@ -102,13 +103,16 @@ const AgentPage = ({width = "30%"}:AgentPageProps) => {
                         (agent && !errorMessage)
                             ?
                             <>
-                            <AgentForm
-                                initialValue={{...agent,
-                                    type: agent.typeId,
-                                    ifMatch: agent.entityTag}}
-                                width={width}
-                                formActionCallback={editAgentCallback} caption={"Edit agent"}/>
-                                <Button className={"button-style"} style={{width:width}} variant="contained" onClick={() => deleteAgentCallback(agent?.entityTag,agent?.id)}>
+                                <AgentForm
+                                    initialValue={{
+                                        ...agent,
+                                        type: agent.typeId,
+                                        ifMatch: agent.entityTag
+                                    }}
+                                    width={width}
+                                    formActionCallback={editAgentCallback} caption={"Edit agent"}/>
+                                <Button sx={{margin: "20px auto", width: width}} variant="contained"
+                                        onClick={() => deleteAgentCallback(agent?.entityTag, agent?.id)}>
                                     DELETE ENTITY
                                 </Button>
                             </>

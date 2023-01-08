@@ -24,7 +24,7 @@ const AgentTable = ({width = "100%", items}: AgentTableProps) => {
                                 <TableCell>{row.fiscalCode}</TableCell>
                                 <TableCell>
                                     <Link to={`/economic-agents/${row.fiscalCode}`}>
-                                        <Button variant="outlined">GO TO</Button>
+                                        <Button variant="contained">GO TO</Button>
                                     </Link>
                                 </TableCell>
                             </TableRow>)}

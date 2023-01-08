@@ -37,6 +37,12 @@ function App() {
                         <Route path=":agentFiscalCode" element={<RouteGuardAuthRequired children={<AgentPage/>}/>}/>
                     </Route>
 
+                    <Route path="accounts">
+                        <Route path="menu" element={<RouteGuardAuthRequired children={<></>}/>}/>
+                        <Route path=":accountId" element={<RouteGuardAuthRequired children={<></>}/>}/>
+                    </Route>
+
+
                     <Route path="/" element={<RouteGuardAuthRequired children={<MainPage/>}/>}/>
 
                     <Route path="*" element={<NotFoundPage/>}/>

@@ -55,7 +55,7 @@ const AgentMenuPage = () => {
             notifySnackbar(errorMessage, "error");
         }
         setLoading(false);
-    }, [agents,notifySnackbar]);
+    }, [agents, notifySnackbar]);
 
     useEffect(() => {
         fetchAgents();
