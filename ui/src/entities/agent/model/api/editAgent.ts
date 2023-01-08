@@ -7,7 +7,7 @@ import {EntityTagHeader} from "shared/lib";
 export const editAgent = async (dto: AgentDto): Promise<AgentModel> => {
     try {
 
-        const response = await axiosHttpClient.put<AgentModel>(`bank/${dto.id}`, dto, {
+        const response = await axiosHttpClient.put<AgentModel>(`agent/${dto.id}`, dto, {
             headers: {
                 "If-Match": dto.ifMatch
             }

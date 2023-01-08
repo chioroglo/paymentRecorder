@@ -1,0 +1,16 @@
+.agent-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    margin: 0 auto;
+    height: 500px;
+}
+
+.text-input-field {
+    margin: 20px;
+}
+
+.dropdown {
+    max-height: 400px;
+}

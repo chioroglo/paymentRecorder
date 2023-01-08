@@ -46,7 +46,7 @@ const BankMenuPage = () => {
                 });
             })
             .finally(() => setLoading(false));
-    }, []);
+    });
 
     return (
         <div>

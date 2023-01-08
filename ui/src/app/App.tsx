@@ -34,7 +34,7 @@ function App() {
 
                     <Route path="economic-agents">
                         <Route path="menu" element={<RouteGuardAuthRequired children={<AgentMenuPage/>}/>}/>
-                        <Route path=":fiscalCode" element={<RouteGuardAuthRequired children={<AgentPage/>}/>}/>
+                        <Route path=":agentFiscalCode" element={<RouteGuardAuthRequired children={<AgentPage/>}/>}/>
                     </Route>
 
                     <Route path="/" element={<RouteGuardAuthRequired children={<MainPage/>}/>}/>

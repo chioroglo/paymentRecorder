@@ -5,7 +5,7 @@ import {ErrorResponse} from "../../../../shared/api/types";
 export const deleteAgent = async (concurrencyToken: string, agentId: number): Promise<void> => {
     try {
 
-        await axiosHttpClient.delete(`bank/${agentId}`, {
+        await axiosHttpClient.delete(`agent/${agentId}`, {
             headers: {
                 "If-Match": concurrencyToken
             }

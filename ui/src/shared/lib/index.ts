@@ -12,3 +12,5 @@ export * from "./ApiHeaderClaims";
 export * from "./transformUtcToLocalDateMonthHoursMinutes";
 
 export * from "./changeTimezone";
+
+export * from "./regex/fiscalCodeRegex";
